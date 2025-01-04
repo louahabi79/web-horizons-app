@@ -2,47 +2,51 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
     protected $fillable = [
-        'name',
+        'nom',
         'email',
         'password',
+        'role',
+        'date_inscription',
+        'statut'
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    // User can have many articles
+    public function articles(): HasMany
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->hasMany(Article::class);
+    }
+
+    // User can be subscribed to many themes
+    public function subscribedThemes(): BelongsToMany
+    {
+        return $this->belongsToMany(Theme::class, 'subscriptions')
+                    ->withPivot('date_abonnement')
+                    ->withTimestamps();
+    }
+
+    // User's navigation history
+    public function navigationHistory(): HasMany
+    {
+        return $this->hasMany(NavigationHistory::class);
+    }
+
+    // User's article notes
+    public function articleNotes(): HasMany
+    {
+        return $this->hasMany(ArticleNote::class);
+    }
+
+    // User's conversations
+    public function conversations(): HasMany
+    {
+        return $this->hasMany(Conversation::class);
     }
 }
+

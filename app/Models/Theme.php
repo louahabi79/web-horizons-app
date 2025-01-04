@@ -2,16 +2,28 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Theme extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'nom_theme',
+        'description'
+    ];
 
-    // Define the relationship with the Article model
-    public function articles()
+    // Theme can have many articles
+    public function articles(): HasMany
     {
-        return $this->hasMany(Article::class, 'theme_id');
+        return $this->hasMany(Article::class);
+    }
+
+    // Theme can have many subscribers (users)
+    public function subscribers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'subscriptions')
+                    ->withPivot('date_abonnement')
+                    ->withTimestamps();
     }
 }
