@@ -4,12 +4,12 @@
     padding: 0;
     box-sizing: border-box;
   }
-  
+
   body {
     font-family: Arial, sans-serif;
     background: rgb(236, 230, 224);
   }
-  
+
   .header {
     display: flex;
     justify-content: space-between;
@@ -25,7 +25,7 @@
   li{
     padding: 0 8px;
   }
-  
+
   .logo a {
     font-family: Palatino , URW Palladio L , serif ;
     text-decoration: none;
@@ -33,21 +33,21 @@
     font-weight: bold;
     color: #000;
   }
-  
+
   .nav-links ul {
     display: flex;
     gap: 15px;
     margin-top: 6px;
     list-style: none;
   }
-  
+
   .nav-links ul li a {
     text-decoration: none;
     font-size: 14px;
     color: #000;
     transition: color 0.3s;
   }
-  
+
   .nav-links ul li a:hover {
     color: #8197b0;
   }
@@ -57,13 +57,13 @@
     list-style: none;
     justify-content: center;
   }
-  
+
   .search-login {
     display: flex;
     align-items: center;
     gap: 10px;
   }
-  
+
   .signup-btn:hover{
     background-color: #595959;
   }
@@ -75,19 +75,19 @@
     cursor: pointer;
     font-size: 18px;
   }
-  
-  
+
+
   .search-bar {
     display: none;
   }
-  
+
   .search-bar input {
     padding: 5px;
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 5px;
   }
-  
+
   .btn {
     text-decoration: none;
     font-size: 14px;
@@ -98,8 +98,8 @@
     background-color: #000000;
     transition: background-color 0.3s;
   }
-  
-  
+
+
   .hamburger {
     display: none;
     border: none;
@@ -107,7 +107,7 @@
     font-size: 24px;
     cursor: pointer;
   }
-  
+
   @media (max-width: 768px) {
     .nav-links ul {
       display: none;
@@ -119,13 +119,58 @@
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       padding: 10px;
     }
-  
+
     .nav-links ul.show {
       display: flex;
     }
-  
+
     .hamburger {
       display: block;
     }
   }
-  
+  .bodyContent{
+    height: 60vh;
+    margin-top: 4%;
+    margin-left: 8%;
+  }
+  .TitlePage{
+    font-family: Palatino , URW Palladio L , serif ;
+    font-size: 120px;
+    padding-bottom: 14px;
+  }
+  #parag{
+    font-size: 20px;
+    padding-bottom: 50px;
+  }
+  .secbtn{
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px 28px;
+    border: 1px solid #000000;
+    border-radius: 20px;
+    color: white;
+    background-color: #000000;
+    transition: background-color 0.3s;
+  }
+  footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    border-top: 1px solid black;
+    margin-top: 100px;
+  }
+  .listFooter{
+    margin: 27px;
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    font-size: small;
+  }
+  .listFooter>li{
+    padding: 0 10px;
+  }
+  .listFooter>li>a{
+    color: #595959;
+    text-decoration: none;
+    font-family: sans-serif;
+  }

@@ -8,15 +8,22 @@
     <body>
         <div class="container">
             <h1>Sign Up</h1>
-            <form id="SignUpForm" method="POST" action="{{route("register")}}">
+            @if ($errors->any())
+                <div style="color: red;">
+                    @foreach ($errors->all() as $error)
+                        <p>{{ $error }}</p>
+                    @endforeach
+                </div>
+            @endif
+            <form id="SignUpForm" method="POST" action="{{route("register.submit")}}">
                 @csrf
                 <div class="InputPassGroup">
                     <label for="">First name</label>
-                    <input type="text" id="FN" placeholder="Enter your first name" required>
+                    <input type="text" id="FN" placeholder="Enter your first name" required name="first_name">
                 </div>
                 <div class="InputPassGroup">
                     <label for="">Last name</label>
-                    <input type="text" id="LN" placeholder="Enter your Last name" name="name" required>
+                    <input type="text" id="LN" placeholder="Enter your Last name" name="last_name" required>
                 </div>
                 <div class="InputPassGroup">
                     <label for="">Date of birth</label>
@@ -32,7 +39,7 @@
                 </div>
                 <div class="InputPassGroup">
                     <label for="password">Confirm your Password</label>
-                    <input type="password" name="password_confirmation" id="Confpassword" placeholder="Enter your password" required>
+                    <input type="password"  id="Confpassword" name="password_confirmation" placeholder="Enter your password" required>
                 </div>
                 <button type="submit" class="btn">Sign Up</button>
                 <p>Already have an account ? <a href="{{route("login.form")}}">Sign In</a></p>

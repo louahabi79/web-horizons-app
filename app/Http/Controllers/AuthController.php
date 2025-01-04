@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -44,8 +45,36 @@ class AuthController extends Controller
 
 
     }
-    function logout(Request $request)
-{
+    public function register(Request $request)
+    {
+        // Validate the request
+        $request->validate([
+            'first_name' => 'required|string|max:255', // Validate first name
+            'last_name' => 'required|string|max:255',  // Validate last name
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        // Combine first name and last name into 'nom'
+        $nom = $request->first_name . ' ' . $request->last_name;
+
+        // Create the user
+        $user = User::create([
+            'nom' => $nom, // Use the combined name
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'Abonné', // Default role
+            'date_inscription' => now(), // Current timestamp
+        ]);
+
+        // Log the user in
+        auth()->login($user);
+
+        // Redirect to the user dashboard
+        return redirect()->route('user.dashboard')->with('success', 'Welcome, ' . $user->nom . '!');
+    }
+
+    function logout(Request $request){
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
