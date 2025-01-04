@@ -7,6 +7,11 @@
 </head>
 <body>
     <h1>Welcome to the Admin Dashboard</h1>
+    @if (session('success'))
+        <div style="color: green;">
+            {{ session('success') }}
+        </div>
+    @endif
     <p>You are logged in as an admin.</p>
     <form action="{{ route('logout') }}" method="POST">
         @csrf

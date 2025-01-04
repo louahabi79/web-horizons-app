@@ -1,0 +1,131 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background: rgb(236, 230, 224);
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background-color: rgb(236, 230, 224);
+    border-bottom: 1px solid #000000;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow:  0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  li{
+    padding: 0 8px;
+  }
+  
+  .logo a {
+    font-family: Palatino , URW Palladio L , serif ;
+    text-decoration: none;
+    font-size: 30px;
+    font-weight: bold;
+    color: #000;
+  }
+  
+  .nav-links ul {
+    display: flex;
+    gap: 15px;
+    margin-top: 6px;
+    list-style: none;
+  }
+  
+  .nav-links ul li a {
+    text-decoration: none;
+    font-size: 14px;
+    color: #000;
+    transition: color 0.3s;
+  }
+  
+  .nav-links ul li a:hover {
+    color: #8197b0;
+  }
+  .rightside{
+    display: flex;
+    gap: 15px;
+    list-style: none;
+    justify-content: center;
+  }
+  
+  .search-login {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .signup-btn:hover{
+    background-color: #595959;
+  }
+
+
+  .search-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  
+  
+  .search-bar {
+    display: none;
+  }
+  
+  .search-bar input {
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .btn {
+    text-decoration: none;
+    font-size: 14px;
+    padding: 8px 12px;
+    border: 1px solid #000000;
+    border-radius: 20px;
+    color: white;
+    background-color: #000000;
+    transition: background-color 0.3s;
+  }
+  
+  
+  .hamburger {
+    display: none;
+    border: none;
+    background: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  @media (max-width: 768px) {
+    .nav-links ul {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      background-color: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+    }
+  
+    .nav-links ul.show {
+      display: flex;
+    }
+  
+    .hamburger {
+      display: block;
+    }
+  }
+  

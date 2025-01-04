@@ -26,8 +26,10 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Show the registration form
 Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
-Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
 
+Route::get('/', function(){
+    return view('home');
+})
 
 
 

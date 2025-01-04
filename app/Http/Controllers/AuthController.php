@@ -11,11 +11,12 @@ class AuthController extends Controller
     function showLoginForm(){
         return view("auth.login");
     }
+
     function showRegistrationForm(){
         return view("auth.register");
     }
-    public function login(Request $request)
-    {
+
+    public function login(Request $request){
         // Validate the request
         $request->validate([
             'email' => 'required|email',
@@ -29,11 +30,11 @@ class AuthController extends Controller
 
             // Redirect based on the user's role
             if ($user->role === 'admin') {
-                return redirect()->route('admin.dashboard'); // Redirect to admin dashboard
+                return redirect()->route('admin.dashboard')->with('success', 'Welcome, ' . $user->first_name . '!');
             } elseif ($user->role === 'user') {
-                return redirect()->route('user.dashboard'); // Redirect to user dashboard
+                return redirect()->route('user.dashboard')->with('success', 'Welcome, ' . $user->first_name . '!');
             } else {
-                return redirect()->route('home'); // Default redirect
+                return redirect()->route('home')->with('success', 'Welcome, ' . $user->first_name . '!');
             }
         }
 
@@ -44,7 +45,7 @@ class AuthController extends Controller
 
     }
     function logout(Request $request)
-    {
+{
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();

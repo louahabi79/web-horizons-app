@@ -9,13 +9,30 @@ class UserSeeder extends Seeder
 {
     public function run()
     {
+
+
         User::create([
-            'first_name' => 'John', // Prenom
-            'last_name' => 'Doe', // Nom
-            'email' => 'john.doe@example.com',
+            'first_name' => 'Farouk', // Prenom
+            'last_name' => 'Elouassif', // Nom
+            'email' => 'elouassiffarouk@gmail.com',
             'email_verified_at' => now(),
             'password' => Hash::make('password'), // MotDePasse
             'role' => 'admin', // Type_Utilisateur
+            'subscriber_count' => 100, // NombreAbonnes
+            'article_count' => 10, // NombreArticles
+            'average_rating' => 4.5, // MoyenneNotes
+            'theme_id' => 1, // ID_Theme
+            'registration_date' => now(), // DateInscription
+            'remember_token' => \Str::random(10),
+        ]);
+
+        User::create([
+            'first_name' => 'Zakaria', // Prenom
+            'last_name' => 'Ouhchouch', // Nom
+            'email' => 'ouchouchzakaria@gmail.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('password'), // MotDePasse
+            'role' => 'user', // Type_Utilisateur
             'subscriber_count' => 100, // NombreAbonnes
             'article_count' => 10, // NombreArticles
             'average_rating' => 4.5, // MoyenneNotes
