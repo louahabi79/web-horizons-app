@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <title>Sign Up</title>
         <link rel="stylesheet" href="{{ asset('css/LoginUp.css') }}">
+        <link rel="icon" type="image/jpeg" href="{{ asset('favicon.jpeg') }}">
     </head>
     <body>
         <div class="container">
@@ -42,7 +43,7 @@
                     <input type="password"  id="Confpassword" name="password_confirmation" placeholder="Enter your password" required>
                 </div>
                 <button type="submit" class="btn">Sign Up</button>
-                <p>Already have an account ? <a href="{{route("login.form")}}">Sign In</a></p>
+                <p>Already have an account ? <a href="{{route("login")}}">Sign In</a></p>
             </form>
         </div>
     </body>

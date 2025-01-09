@@ -5,14 +5,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Sign In</title>
         <link rel="stylesheet" href="{{ asset('css/LoginUp.css') }}">
+        <link rel="icon" type="image/jpeg" href="{{ asset('favicon.jpeg') }}">
     </head>
     <body>
         <div class="container">
             <h1>Sign In</h1>
                 @if ($errors->any())
-                <div style="color: red;">
+                <div>
                     @foreach ($errors->all() as $error)
-                        <p>{{ $error }}</p>
+                        <p style="color: red;">{{ $error }}.</p>
                     @endforeach
                 </div>
             @endif

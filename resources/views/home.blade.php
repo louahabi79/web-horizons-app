@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medium-like Header</title>
-    <link rel="stylesheet" href="{{asset("css/Edit.css")}}">
+    <title>Tech Horizons</title>
+    <link rel="icon" type="image/jpeg" href="{{ asset('favicon.jpeg') }}">
+    <link rel="stylesheet" href="{{asset("css/home.css")}}">
 </head>
 <body>
     <header class="header">
@@ -16,7 +17,7 @@
                 <ul>
                     <li><a href="#">Topics</a></li>
                     <li><a href="#">About</a></li>
-                    <li><a href="{{route("login.form")}}" class="login-btn">Sign In</a></li>
+                    <li><a href="{{route("login")}}" class="login-btn">Sign In</a></li>
                 </ul>
             </nav>
             <div class="search-login">
@@ -38,7 +39,7 @@
     </div>
     <footer>
         <ul class="listFooter">
-            <li><a href="#">Help</a></li>
+            <li><a href="">Help</a></li>
             <li><a href="#">About</a></li>
             <li><a href="#">Team</a></li>
             <li><a href="#">Github</a></li>
