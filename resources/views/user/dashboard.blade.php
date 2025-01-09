@@ -9,9 +9,10 @@
     <h1>Welcome to the User Dashboard</h1>
     <p>You are logged in as a user.</p>
 
-    <<form action="{{ route('logout') }}" method="POST">
+    <form action="{{ route('logout') }}" method="POST">
     @csrf
     <button type="submit">Logout</button>
+    <a href="{{route("createPoste.submit")}}"></a>
 </form>
 </body>
 </html>

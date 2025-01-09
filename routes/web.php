@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CreatePosteControlle;
+
 
 // Show the login form
 // Show the login form
@@ -36,8 +38,20 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/', function(){
     return view('home');
-})
+});
 
+// Route::get('/createPoste', [CreatePosteControlle::class, 'showCreatePoste'])->name('createPost');
+// Route::post('/createPoste', [CreatePosteControlle::class, 'CreatePoste'])->name('createPost');
+
+
+// Protect the routes with the 'auth' middleware
+Route::middleware('auth')->group(function () {
+    // Show the form to create a post
+    Route::get('/createPoste', [CreatePosteControlle::class, 'showCreatePoste'])->name('createPoste.form');
+
+    // Handle the form submission to create a post
+    Route::post('/createPoste', [CreatePosteControlle::class, 'createPoste'])->name('createPoste.submit');
+});
 
 
 

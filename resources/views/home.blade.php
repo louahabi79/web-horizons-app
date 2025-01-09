@@ -39,10 +39,10 @@
     </div>
     <footer>
         <ul class="listFooter">
-            <li><a href="">Help</a></li>
+            <li><a href="mailto:elouassiffarouk@gmail.com" target="_blank">Help</a></li>
             <li><a href="#">About</a></li>
             <li><a href="#">Team</a></li>
-            <li><a href="#">Github</a></li>
+            <li><a href="https://github.com/Farouk-elouassif/web-horizons-app.git" target="_blank">Github</a></li>
         </ul>
     </footer>
     </div>
