@@ -18,18 +18,15 @@ class AuthController extends Controller
     }
 
     public function login(Request $request){
-        // Validate the request
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        // Attempt to log the user in
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            // Get the authenticated user
+            $request->session()->regenerate();
             $user = Auth::user();
-
-            // Redirect based on the user's role
+            
             if ($user->role === 'Éditeur') {
                 return redirect()->route('admin.dashboard')->with('success', 'Welcome, ' . $user->first_name . '!');
             } elseif ($user->role === 'Abonné') {
@@ -39,12 +36,11 @@ class AuthController extends Controller
             }
         }
 
-        // If login fails, redirect back with errors
-        return redirect()->back()->withErrors(['email' => 'Invalid credentials']);
-
-
-
+        return back()->withErrors([
+            'email' => 'Les identifiants fournis ne correspondent pas à nos enregistrements.',
+        ]);
     }
+
     public function register(Request $request)
     {
         // Validate the request
