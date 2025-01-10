@@ -15,7 +15,10 @@ return new class extends Migration
             $table->string('password');
             $table->enum('role', ['Invité', 'Abonné', 'Responsable de thème', 'Éditeur']);
             $table->date('date_inscription');
-            $table->enum('statut', ['Actif', 'Inactif']);
+            $table->enum('statut', ['Actif', 'Inactif'])->default('Actif');
+            $table->string('avatar')->nullable();
+            $table->text('bio')->nullable();
+            $table->rememberToken();
             $table->timestamps();
         });
     }

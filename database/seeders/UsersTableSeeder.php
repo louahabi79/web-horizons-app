@@ -15,26 +15,26 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('users')->insert([
-            [
-                'nom' => 'Test User 1',
-                'email' => 'test1@example.com',
-                'password' => Hash::make('password'),
-                'role' => 'Invité',
-                'date_inscription' => now(),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'nom' => 'Test User 2',
-                'email' => 'test2@example.com',
-                'password' => Hash::make('password'),
-                'role' => 'Abonné',
-                'date_inscription' => now(),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
+        // DB::table('users')->insert([
+        //     [
+        //         'nom' => 'Test User 1',
+        //         'email' => 'test1@example.com',
+        //         'password' => Hash::make('password'),
+        //         'role' => 'Invité',
+        //         'date_inscription' => now(),
+        //         'created_at' => now(),
+        //         'updated_at' => now(),
+        //     ],
+        //     [
+        //         'nom' => 'Test User 2',
+        //         'email' => 'test2@example.com',
+        //         'password' => Hash::make('password'),
+        //         'role' => 'Abonné',
+        //         'date_inscription' => now(),
+        //         'created_at' => now(),
+        //         'updated_at' => now(),
+        //     ],
 
-        ]);
+        // ]);
     }
 }
