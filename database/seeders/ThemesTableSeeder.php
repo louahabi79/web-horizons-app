@@ -2,34 +2,30 @@
 
 namespace Database\Seeders;
 
-use App\Models\Theme;
 use Illuminate\Database\Seeder;
+use App\Models\Theme;
 
 class ThemesTableSeeder extends Seeder
 {
     public function run()
     {
         $themes = [
-            [
-                'nom_theme' => 'Intelligence Artificielle',
-                'description' => 'Tout sur l\'IA et le machine learning'
-            ],
-            [
-                'nom_theme' => 'Cybersécurité',
-                'description' => 'Sécurité informatique et protection des données'
-            ],
-            [
-                'nom_theme' => 'Internet des Objets',
-                'description' => 'IoT et objets connectés'
-            ],
-            [
-                'nom_theme' => 'Réalité Virtuelle',
-                'description' => 'VR, AR et technologies immersives'
-            ]
+            'Intelligence Artificielle',
+            'Développement Web',
+            'Cybersécurité',
+            'Cloud Computing',
+            'Blockchain',
+            'IoT',
+            'Mobile Development',
+            'Data Science'
         ];
 
-        // foreach ($themes as $theme) {
-        //     Theme::create($theme);
-        // }
+        foreach ($themes as $theme) {
+            Theme::create([
+                'nom_theme' => $theme,
+                'description' => "Articles sur $theme",
+                'responsable_id' => 1, // L'éditeur créé dans UsersTableSeeder
+            ]);
+        }
     }
 } 

@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('nom_theme');
             $table->text('description');
+            $table->foreignId('responsable_id')->constrained('users');
             $table->timestamps();
         });
     }
