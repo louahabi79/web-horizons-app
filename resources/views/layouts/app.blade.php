@@ -31,7 +31,7 @@
                         <li><a href="{{ route('theme.dashboard') }}" class="{{ request()->routeIs('theme.dashboard') ? 'active' : '' }}">Dashboard</a></li>
                         <li><a href="{{ route('theme.articles') }}" class="{{ request()->routeIs('theme.articles') ? 'active' : '' }}">Articles</a></li>
                         <li><a href="{{ route('theme.subscribers') }}" class="{{ request()->routeIs('theme.subscribers') ? 'active' : '' }}">Abonnés</a></li>
-                        <li><a href="{{ route('theme.stats') }}" class="{{ request()->routeIs('theme.stats') ? 'active' : '' }}">Statistiques</a></li>
+                        <!-- <li><a href="{{ route('theme.stats') }}" class="{{ request()->routeIs('theme.stats') ? 'active' : '' }}">Statistiques</a></li> -->
                     </ul>
                     @elseif(Auth::user()->role === 'Éditeur')
                     <ul class="nav-links">

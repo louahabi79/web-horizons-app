@@ -117,7 +117,7 @@
                 <h4>Contact</h4>
                 <ul>
                     <li><a href="mailto:contact@techhorizons.com">Email Us</a></li>
-                    <li><a href="https://github.com/Farouk-elouassif/web-horizons-app.git">GitHub</a></li>
+                    <li><a href="">GitHub</a></li>
                 </ul>
             </div>
         </div>

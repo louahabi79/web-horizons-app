@@ -89,6 +89,66 @@
         display: inline-flex;
         margin: 0;
     }
+
+    .comments-section {
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid #e2e8f0;
+    }
+
+    .comments-header {
+        margin-bottom: 1.5rem;
+    }
+
+    .comment-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .comment-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 0.5rem;
+    }
+
+    .comment-author {
+        font-weight: 500;
+        color: #2d3748;
+    }
+
+    .comment-date {
+        font-size: 0.875rem;
+        color: #718096;
+    }
+
+    .comment-content {
+        color: #4a5568;
+        margin-bottom: 1rem;
+    }
+
+    .comment-actions {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .btn-delete {
+        background: #dc2626;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 0.375rem;
+        font-size: 0.875rem;
+        border: none;
+        cursor: pointer;
+        transition: opacity 0.2s;
+    }
+
+    .btn-delete:hover {
+        opacity: 0.9;
+    }
 </style>
 @endsection
 
@@ -146,6 +206,37 @@
             </form>
         </div>
     @endif
+
+    <div class="comments-section">
+        <div class="comments-header">
+            <h2>Commentaires ({{ $article->conversations->count() }})</h2>
+        </div>
+
+        @forelse($article->conversations as $comment)
+            <div class="comment-card">
+                <div class="comment-header">
+                    <span class="comment-author">{{ $comment->user->nom }}</span>
+                    <span class="comment-date">{{ $comment->created_at->format('d/m/Y H:i') }}</span>
+                </div>
+                <div class="comment-content">
+                    {{ $comment->message }}
+                </div>
+                <div class="comment-actions">
+                    <form action="{{ route('theme.moderation.delete', $comment) }}" 
+                          method="POST" 
+                          onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn-delete">
+                            Supprimer
+                        </button>
+                    </form>
+                </div>
+            </div>
+        @empty
+            <p>Aucun commentaire pour cet article.</p>
+        @endforelse
+    </div>
 </div>
 @endsection
 

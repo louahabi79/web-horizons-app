@@ -33,12 +33,12 @@ class ArticleController extends Controller
     {
         // Vérifier si l'article appartient au thème géré par le responsable
         if ($article->theme_id !== Auth::user()->managedTheme->id) {
-            abort(403, 'Vous n\'êtes pas autorisé à voir cet article.');
+            return back()->with('error', 'Vous n\'êtes pas autorisé à voir cet article.');
         }
 
-        return view('theme.articles.show', [
-            'article' => $article->load(['auteur', 'theme'])
-        ]);
+        $article->load(['auteur', 'conversations.user']);  // Charger les conversations et leurs auteurs
+
+        return view('theme.articles.show', compact('article'));
     }
 
     

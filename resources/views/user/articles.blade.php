@@ -38,7 +38,7 @@
                     <h3>{{ $article->titre }}</h3>
                     <div class="article-meta">
                         <span>Par {{ $article->auteur->nom }}</span>
-                        <span>{{ $article->date_publication->format('d/m/Y') }}</span>
+                        <span>{{ $article->date_publication }}</span>
                     </div>
                     <p>{{ Str::limit($article->contenu, 150) }}</p>
                     <a href="{{ route('user.articles.show', $article) }}" class="read-more">
