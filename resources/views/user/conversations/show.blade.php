@@ -3,7 +3,7 @@
 @section('title', 'Conversation - ' . $article->titre)
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('css/conversation.css') }}">
+<link rel="stylesheet" href="{{ asset('css/user/conversation.css') }}">
 @endsection
 
 @section('content')

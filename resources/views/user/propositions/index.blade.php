@@ -3,7 +3,7 @@
 @section('title', 'Mes Articles Proposés - Tech Horizons')
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('css/propositions.css') }}">
+<link rel="stylesheet" href="{{ asset('css/user/propositions.css') }}">
 @endsection
 
 @section('content')

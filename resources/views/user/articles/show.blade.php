@@ -3,7 +3,7 @@
 @section('title', $article->titre . ' - Tech Horizons')
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('css/article-detail.css') }}">
+<link rel="stylesheet" href="{{ asset('css/user/article-detail.css') }}">
 @endsection
 
 @section('content')

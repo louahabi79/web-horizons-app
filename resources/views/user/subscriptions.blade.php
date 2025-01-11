@@ -3,7 +3,7 @@
 @section('title', 'Mes Abonnements - Tech Horizons')
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('css/subscriptions.css') }}">
+<link rel="stylesheet" href="{{ asset('css/user/subscriptions.css') }}">
 @endsection
 
 @section('content')

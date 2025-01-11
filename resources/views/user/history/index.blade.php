@@ -3,7 +3,7 @@
 @section('title', 'Historique de Navigation - Tech Horizons')
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('css/history.css') }}">
+<link rel="stylesheet" href="{{ asset('css/user/history.css') }}">
 @endsection
 
 @section('content')

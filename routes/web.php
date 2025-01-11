@@ -32,21 +32,31 @@ Route::middleware(['auth'])->group(function () {
     })->name('admin.dashboard')->middleware('role:Éditeur');
 
     // Routes pour l'abonné
-    Route::middleware(['auth'])->prefix('user')->name('user.')->group(function () {
+    Route::prefix('user')->name('user.')->middleware(['auth'])->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        
+        // Articles
         Route::get('/articles', [ArticleController::class, 'index'])->name('articles');
         Route::get('/articles/{article}', [ArticleController::class, 'show'])->name('articles.show');
+        Route::post('/articles/{article}/rate', [ArticleController::class, 'rate'])->name('articles.rate');
+        
+        // Propositions d'articles
         Route::get('/create-article', [CreateArticleController::class, 'showCreatePoste'])->name('createPoste');
         Route::post('/create-article', [CreateArticleController::class, 'createPoste'])->name('createPoste.submit');
-        Route::get('/history', [HistoryController::class, 'index'])->name('history');
+        Route::get('/propositions', [ArticlePropositionController::class, 'index'])->name('propositions');
+        Route::delete('/propositions/{article}', [ArticlePropositionController::class, 'retirer'])->name('propositions.retirer');
+        
+        // Conversations
+        Route::get('/articles/{article}/conversation', [ConversationController::class, 'show'])->name('conversations.show');
+        Route::post('/articles/{article}/conversation', [ConversationController::class, 'store'])->name('conversations.store');
+        
+        // Abonnements
         Route::get('/subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions');
         Route::post('/themes/{theme}/subscribe', [SubscriptionController::class, 'subscribe'])->name('theme.subscribe');
         Route::post('/themes/{theme}/unsubscribe', [SubscriptionController::class, 'unsubscribe'])->name('theme.unsubscribe');
-        Route::post('/articles/{article}/rate', [ArticleController::class, 'rate'])->name('articles.rate');
-        Route::get('/articles/{article}/conversation', [ConversationController::class, 'show'])->name('conversations.show');
-        Route::post('/articles/{article}/conversation', [ConversationController::class, 'store'])->name('conversations.store');
-        Route::get('/propositions', [ArticlePropositionController::class, 'index'])->name('propositions');
-        Route::delete('/propositions/{article}', [ArticlePropositionController::class, 'retirer'])->name('propositions.retirer');
+        
+        // Historique
+        Route::get('/history', [HistoryController::class, 'index'])->name('history');
     });
 });
 
