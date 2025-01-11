@@ -31,4 +31,5 @@ class Theme extends Model
             ->withTimestamps()
             ->withPivot('date_abonnement');
     }
+    
 }

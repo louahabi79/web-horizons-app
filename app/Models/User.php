@@ -48,5 +48,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Conversation::class);
     }
+
+    /**
+     * Get the theme managed by the user.
+     */
+    public function managedTheme()
+    {
+        return $this->hasOne(Theme::class, 'responsable_id');
+    }
 }
 
