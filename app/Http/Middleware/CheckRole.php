@@ -8,12 +8,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CheckRole
 {
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next, ...$roles): Response
     {
-        if (!$request->user() || $request->user()->role !== 'Abonné') {
-            abort(403, 'Accès non autorisé.');
+        if (!$request->user() || !in_array($request->user()->role, $roles)) {
+            abort(403, 'Unauthorized action.');
         }
 
         return $next($request);
     }
-} 
+}

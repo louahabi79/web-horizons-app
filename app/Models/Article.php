@@ -17,17 +17,20 @@ class Article extends Model
         'contenu',
         'statut',
         'date_proposition',
-        // 'date_publication', i should come back here later
+        'date_proposition_editeur',
+        'date_publication',
         'image_couverture',
         'temps_lecture',
         'vues',
         'theme_id',
-        'user_id'
+        'user_id',
+        'motif_rejet'
     ];
 
     protected $casts = [
         'date_publication' => 'datetime',
         'date_proposition' => 'datetime',
+        'date_proposition_editeur' => 'datetime',
     ];
 
     // Article belongs to a theme

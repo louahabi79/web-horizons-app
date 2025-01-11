@@ -17,6 +17,7 @@ use App\Http\Controllers\Theme\StatisticsController as ThemeStatisticsController
 use App\Http\Controllers\Theme\ModerationController as ThemeModerationController;
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -65,21 +66,25 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Routes pour le responsable de thème
-    Route::prefix('theme')->name('theme.')->group(function () {
+    Route::prefix('theme')->name('theme.')->middleware(['auth'])->group(function () {
         Route::get('/dashboard', [ThemeDashboardController::class, 'index'])->name('dashboard');
 
         // Gestion des articles
-        Route::get('/articles', [ThemeArticleController::class, 'index'])->name('articles.index');
+        Route::get('/articles', [ThemeArticleController::class, 'index'])->name('articles');
         Route::get('/articles/{article}', [ThemeArticleController::class, 'show'])->name('articles.show');
-        Route::post('/articles/{article}/propose', [ThemeArticleController::class, 'proposeForPublication'])->name('articles.propose');
-        Route::post('/articles/{article}/reject', [ThemeArticleController::class, 'reject'])->name('articles.reject');
+        Route::post('/articles/{article}/propose', [ThemeArticleController::class, 'proposeForPublication'])
+            ->name('articles.propose')
+            ->middleware('web');
+        Route::post('/articles/{article}/reject', [ThemeArticleController::class, 'reject'])
+            ->name('articles.reject')
+            ->middleware('web');
 
         // Gestion des abonnements
-        Route::get('/subscriptions', [ThemeSubscriptionController::class, 'index'])->name('subscriptions.index');
+        Route::get('/subscriptions', [ThemeSubscriptionController::class, 'index'])->name('subscribers');
         Route::delete('/subscriptions/{subscription}', [ThemeSubscriptionController::class, 'remove'])->name('subscriptions.remove');
 
         // Statistiques
-        Route::get('/statistics', [ThemeStatisticsController::class, 'index'])->name('statistics');
+        Route::get('/statistics', [ThemeStatisticsController::class, 'index'])->name('stats');
 
         // Modération
         Route::get('/moderation', [ThemeModerationController::class, 'index'])->name('moderation.index');
@@ -93,6 +98,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/users', [AdminDashboardController::class, 'users'])->name('users');
         Route::get('/themes', [AdminDashboardController::class, 'themes'])->name('themes');
         Route::get('/stats', [AdminDashboardController::class, 'stats'])->name('stats');
+        Route::get('/articles', [AdminArticleController::class, 'index'])->name('articles.index');
+        Route::get('/articles/{article}', [AdminArticleController::class, 'show'])->name('articles.show');
+        Route::post('/articles/{article}/publish', [AdminArticleController::class, 'publish'])->name('articles.publish');
+        Route::post('/articles/{article}/reject', [AdminArticleController::class, 'reject'])->name('articles.reject');
     });
 });
 

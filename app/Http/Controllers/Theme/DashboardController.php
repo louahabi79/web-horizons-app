@@ -13,7 +13,7 @@ class DashboardController extends Controller
 {
     public function __construct()
     {
-        if (auth()->user() && auth()->user()->role !== 'Responsable') {
+        if (auth()->user() && auth()->user()->role !== 'Responsable de thème') {
             abort(403, 'Accès non autorisé.');
         }
     }

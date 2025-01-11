@@ -9,6 +9,13 @@ use Exception;
 
 class DashboardController extends Controller
 {
+    public function __construct()
+    {
+        if (auth()->user() && auth()->user()->role !== 'Abonné') {
+            abort(403, 'Accès non autorisé.');
+        }
+    }
+
     public function index()
     {
         try {
