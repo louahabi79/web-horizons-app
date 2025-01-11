@@ -3,27 +3,25 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ArticleNote extends Model
 {
+    protected $table = 'notes_des_articles';
+
     protected $fillable = [
-        'note',
-        'date_note',
+        'article_id',
         'user_id',
-        'article_id'
+        'note'
     ];
 
-    // Note belongs to a user
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    // Note belongs to an article
-    public function article(): BelongsTo
+    public function article()
     {
         return $this->belongsTo(Article::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
 
