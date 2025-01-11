@@ -1,0 +1,133 @@
+.articles-wrapper {
+    padding: 2rem;
+    margin-top: 4rem;
+}
+
+.articles-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.articles-header h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.theme-filter select {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--white);
+    font-size: 1rem;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.article-card {
+    background: var(--white);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.article-card:hover {
+    transform: translateY(-3px);
+}
+
+.article-image {
+    height: 200px;
+    overflow: hidden;
+}
+
+.article-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.article-content {
+    padding: 1.5rem;
+}
+
+.article-theme {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border-radius: 1rem;
+    font-size: 0.875rem;
+    margin-bottom: 0.75rem;
+}
+
+.article-content h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--text-color);
+}
+
+.article-meta {
+    display: flex;
+    gap: 1rem;
+    color: var(--light-text);
+    font-size: 0.875rem;
+    margin-bottom: 0.75rem;
+}
+
+.article-content p {
+    color: var(--light-text);
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.read-more {
+    display: inline-block;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.read-more:hover {
+    text-decoration: underline;
+}
+
+.no-articles {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+    background: var(--white);
+    border-radius: 0.75rem;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .articles-wrapper {
+        padding: 1rem;
+    }
+
+    .articles-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+
+    .theme-filter select {
+        width: 100%;
+    }
+} 

@@ -6,9 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Article extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'titre',
         'contenu',
@@ -22,6 +25,11 @@ class Article extends Model
         'user_id'
     ];
 
+    protected $casts = [
+        'date_publication' => 'datetime',
+        'date_proposition' => 'datetime',
+    ];
+
     // Article belongs to a theme
     public function theme(): BelongsTo
     {
@@ -29,7 +37,7 @@ class Article extends Model
     }
 
     // Article belongs to a user (author)
-    public function author(): BelongsTo
+    public function auteur(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
@@ -68,5 +76,12 @@ class Article extends Model
     public function averageRating()
     {
         return $this->notes()->avg('note');
+    }
+
+    public function lecteurs()
+    {
+        return $this->belongsToMany(User::class, 'navigation_history')
+            ->withPivot('date_consultation')
+            ->withTimestamps();
     }
 }
