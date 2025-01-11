@@ -31,7 +31,7 @@
         @forelse($articles as $article)
             <div class="article-card">
                 <div class="article-image">
-                    <img src="{{ asset('storage/' . $article->image_couverture) }}" alt="{{ $article->titre }}">
+                    <img src="{{ asset('storage/articles/' . $article->image_couverture) }}" alt="{{ $article->titre }}">
                 </div>
                 <div class="article-content">
                     <div class="article-theme">{{ $article->theme->nom_theme }}</div>

@@ -13,7 +13,9 @@
             <a href="{{ route('user.articles', ['theme' => $article->theme->id]) }}" class="theme-badge">
                 {{ $article->theme->nom_theme }}
             </a>
-            <span class="date">{{ $article->date_publication->format('d M Y') }}</span>
+            @if($article->date_publication)
+                <span class="date">{{ $article->date_publication->format('d M Y') }}</span>
+            @endif
         </div>
         <h1>{{ $article->titre }}</h1>
         <div class="author-info">
