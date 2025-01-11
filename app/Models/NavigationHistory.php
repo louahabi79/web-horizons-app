@@ -3,24 +3,27 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class NavigationHistory extends Model
 {
+    protected $table = 'navigation_history';
+
     protected $fillable = [
-        'date_consultation',
         'user_id',
-        'article_id'
+        'article_id',
+        'date_consultation'
     ];
 
-    // Navigation history belongs to a user
-    public function user(): BelongsTo
+    protected $casts = [
+        'date_consultation' => 'datetime'
+    ];
+
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // Navigation history belongs to an article
-    public function article(): BelongsTo
+    public function article()
     {
         return $this->belongsTo(Article::class);
     }

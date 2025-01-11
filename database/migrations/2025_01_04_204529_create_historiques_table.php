@@ -8,11 +8,11 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('navigation_histories', function (Blueprint $table) {
+        Schema::create('navigation_history', function (Blueprint $table) {
             $table->id();
-            $table->date('date_consultation');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('article_id')->constrained()->onDelete('cascade');
+            $table->timestamp('date_consultation');
             $table->timestamps();
         });
     }
