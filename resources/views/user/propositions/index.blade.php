@@ -28,7 +28,7 @@
         @forelse($propositions as $statut => $articles)
             <div class="status-section" data-status="{{ $statut }}">
                 @foreach($articles as $article)
-                    <div class="proposition-card">
+                    <div class="proposition-card" data-article-id="{{ $article->id }}">
                         <div class="proposition-header">
                             <h3>{{ $article->titre }}</h3>
                             <span class="status-badge status-{{ strtolower($article->statut) }}">
@@ -52,9 +52,9 @@
                             <a href="{{ route('user.articles.show', $article) }}" class="btn btn-secondary">
                                 Voir l'article
                             </a>
-                            @if($article->statut === 'En cours')
+                            @if($article->user_id === Auth::id())
                                 <button class="btn btn-danger" onclick="retirerArticle({{ $article->id }})">
-                                    Retirer
+                                    Supprimer
                                 </button>
                             @endif
                         </div>
@@ -75,8 +75,35 @@
 
 @section('scripts')
 <script>
+function retirerArticle(articleId) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer cet article ? Cette action est irréversible.')) {
+        fetch(`/user/propositions/${articleId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Supprimer la carte de l'article du DOM
+                document.querySelector(`[data-article-id="${articleId}"]`).remove();
+                alert(data.message);
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            alert('Une erreur est survenue lors de la suppression de l\'article');
+        });
+    }
+}
+
+// Gestion des onglets
 document.addEventListener('DOMContentLoaded', function() {
-    // Gestion des onglets
     const tabs = document.querySelectorAll('.tab-btn');
     const sections = document.querySelectorAll('.status-section');
 
@@ -99,11 +126,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-
-function retirerArticle(articleId) {
-    if (confirm('Êtes-vous sûr de vouloir retirer cet article ?')) {
-        // Ajouter la logique pour retirer l'article
-    }
-}
 </script>
-@endsection 
+@endsection

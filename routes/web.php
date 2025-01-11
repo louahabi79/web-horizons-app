@@ -46,6 +46,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/articles/{article}/conversation', [ConversationController::class, 'show'])->name('conversations.show');
         Route::post('/articles/{article}/conversation', [ConversationController::class, 'store'])->name('conversations.store');
         Route::get('/propositions', [ArticlePropositionController::class, 'index'])->name('propositions');
+        Route::delete('/propositions/{article}', [ArticlePropositionController::class, 'retirer'])->name('propositions.retirer');
     });
 });
 

@@ -28,12 +28,20 @@ class ArticlePropositionController extends Controller
     {
         $user = Auth::user();
         
-        if ($article->user_id !== $user->id || $article->statut !== 'En cours') {
-            return back()->with('error', 'Action non autorisée');
+        // Vérifier si l'article appartient à l'utilisateur
+        if ($article->user_id !== $user->id) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Vous n\'êtes pas autorisé à supprimer cet article'
+            ]);
         }
 
-        $article->update(['statut' => 'Retiré']);
+        // Supprimer l'article
+        $article->delete();
         
-        return back()->with('success', 'Article retiré avec succès');
+        return response()->json([
+            'success' => true,
+            'message' => 'Article supprimé avec succès'
+        ]);
     }
 } 
