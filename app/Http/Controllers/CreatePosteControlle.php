@@ -34,9 +34,10 @@ class CreatePosteControlle extends Controller
             'theme_id' => 1,  // You can update this to dynamically assign a theme
             'user_id' => $user->id, // Associate the article with the logged-in user
             'date_proposition' => now(),
-        ]);
+        ]); 
 
         // Redirect back with a success message
         return redirect()->route('createPoste.form')->with('success', 'Article created successfully!');
     }
 }
+
