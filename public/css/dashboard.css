@@ -412,4 +412,111 @@ body {
     .stat-card {
         padding: 1rem;
     }
+}
+
+/* Quick Access Section */
+.quick-access {
+    margin-bottom: 2rem;
+}
+
+.quick-access h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+}
+
+.quick-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.quick-link-card {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: var(--white);
+    border-radius: 0.75rem;
+    text-decoration: none;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.quick-link-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary-color);
+}
+
+.quick-link-icon {
+    font-size: 2rem;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--background-color);
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.quick-link-content {
+    flex: 1;
+}
+
+.quick-link-content h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+}
+
+.quick-link-content p {
+    color: var(--light-text);
+    font-size: 0.875rem;
+}
+
+/* Animation au survol */
+.quick-link-card:hover .quick-link-icon {
+    background-color: var(--primary-color);
+    color: var(--white);
+    transform: scale(1.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .quick-links {
+        grid-template-columns: 1fr;
+    }
+
+    .quick-link-card {
+        padding: 1rem;
+    }
+
+    .quick-link-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+}
+
+/* Dark Mode Support */
+.dark-mode .quick-link-card {
+    background-color: #1f2937;
+    border-color: #374151;
+}
+
+.dark-mode .quick-link-icon {
+    background-color: #111827;
+}
+
+.dark-mode .quick-link-content h3 {
+    color: var(--white);
+}
+
+.dark-mode .quick-link-content p {
+    color: #9ca3af;
 } 

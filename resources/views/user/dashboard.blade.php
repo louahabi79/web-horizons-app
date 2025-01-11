@@ -45,6 +45,35 @@
     </div>
 
     <div class="dashboard-sections">
+        <section class="quick-access">
+            <h2>Accès Rapide</h2>
+            <div class="quick-links">
+                <a href="{{ route('user.subscriptions') }}" class="quick-link-card">
+                    <div class="quick-link-icon">🔔</div>
+                    <div class="quick-link-content">
+                        <h3>Gérer mes Abonnements</h3>
+                        <p>Gérez vos thèmes préférés</p>
+                    </div>
+                </a>
+                
+                <a href="{{ route('user.articles') }}" class="quick-link-card">
+                    <div class="quick-link-icon">📝</div>
+                    <div class="quick-link-content">
+                        <h3>Mes Articles</h3>
+                        <p>Consultez vos articles proposés</p>
+                    </div>
+                </a>
+                
+                <a href="{{ route('user.history') }}" class="quick-link-card">
+                    <div class="quick-link-icon">📚</div>
+                    <div class="quick-link-content">
+                        <h3>Historique de Lecture</h3>
+                        <p>Voir votre historique de lecture</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
         <section class="recent-activity">
             <h2>Activité Récente</h2>
             <div class="activity-list">
@@ -59,24 +88,6 @@
                 @empty
                     <p class="no-activity">Aucune activité récente</p>
                 @endforelse
-            </div>
-        </section>
-
-        <section class="quick-access">
-            <h2>Accès Rapide</h2>
-            <div class="quick-links">
-                <a href="{{ route('user.subscriptions') }}" class="quick-link-card">
-                    <span class="icon">🔔</span>
-                    <h3>Gérer mes Abonnements</h3>
-                </a>
-                <a href="{{ route('user.articles') }}" class="quick-link-card">
-                    <span class="icon">📝</span>
-                    <h3>Mes Articles</h3>
-                </a>
-                <a href="{{ route('user.history') }}" class="quick-link-card">
-                    <span class="icon">📖</span>
-                    <h3>Historique de Lecture</h3>
-                </a>
             </div>
         </section>
     </div>
