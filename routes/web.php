@@ -6,6 +6,8 @@ use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\SubscriptionController;
 use App\Http\Controllers\User\HistoryController;
 use App\Http\Controllers\User\CreateArticleController;
+use App\Http\Controllers\User\ConversationController;
+use App\Http\Controllers\User\ArticlePropositionController;
 use Illuminate\Support\Facades\Route;
 
 // use App\Http\Middleware\CheckRole;
@@ -34,12 +36,16 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/articles', [ArticleController::class, 'index'])->name('articles');
         Route::get('/articles/{article}', [ArticleController::class, 'show'])->name('articles.show');
-        Route::get('/createPoste', [CreateArticleController::class, 'showCreatePoste'])->name('createPoste.form');
-        Route::post('/createPoste', [CreateArticleController::class, 'createPoste'])->name('createPoste.submit');
+        Route::get('/create-article', [CreateArticleController::class, 'showCreatePoste'])->name('createPoste');
+        Route::post('/create-article', [CreateArticleController::class, 'createPoste'])->name('createPoste.submit');
         Route::get('/history', [HistoryController::class, 'index'])->name('history');
         Route::get('/subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions');
         Route::post('/themes/{theme}/subscribe', [SubscriptionController::class, 'subscribe'])->name('theme.subscribe');
         Route::post('/themes/{theme}/unsubscribe', [SubscriptionController::class, 'unsubscribe'])->name('theme.unsubscribe');
+        Route::post('/articles/{article}/rate', [ArticleController::class, 'rate'])->name('articles.rate');
+        Route::get('/articles/{article}/conversation', [ConversationController::class, 'show'])->name('conversations.show');
+        Route::post('/articles/{article}/conversation', [ConversationController::class, 'store'])->name('conversations.store');
+        Route::get('/propositions', [ArticlePropositionController::class, 'index'])->name('propositions');
     });
 });
 
