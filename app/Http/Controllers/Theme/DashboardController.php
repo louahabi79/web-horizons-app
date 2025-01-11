@@ -20,24 +20,25 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $user = Auth::user();
-        $theme = $user->managedTheme;
+        $theme = Auth::user()->managedTheme;
+        if (!$theme) {
+            return back()->with('error', 'Vous n\'êtes pas responsable d\'un thème.');
+        }
 
-        // Statistiques rapides
         $stats = [
-            'total_subscribers' => $theme->abonnes()->count(),
+            'total_subscribers' => $theme->subscribers()->count(),
             'pending_articles' => $theme->articles()->where('statut', 'En cours')->count(),
             'published_articles' => $theme->articles()->where('statut', 'Publié')->count(),
             'total_views' => $theme->articles()->sum('vues'),
-            'recent_subscriptions' => $theme->abonnes()
-                                         ->orderBy('created_at', 'desc')
-                                         ->take(5)
-                                         ->get(),
+            'recent_subscriptions' => $theme->subscribers()
+                ->orderBy('subscriptions.created_at', 'desc')
+                ->take(5)
+                ->get(),
             'recent_articles' => $theme->articles()
-                                    ->with('auteur')
-                                    ->orderBy('created_at', 'desc')
-                                    ->take(5)
-                                    ->get(),
+                ->with('auteur')
+                ->orderBy('created_at', 'desc')
+                ->take(5)
+                ->get()
         ];
 
         return view('theme.dashboard', compact('theme', 'stats'));

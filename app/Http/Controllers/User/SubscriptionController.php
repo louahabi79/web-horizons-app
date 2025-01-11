@@ -13,56 +13,50 @@ class SubscriptionController extends Controller
     public function index()
     {
         $user = Auth::user();
-        
-        // Récupérer tous les thèmes
-        $allThemes = Theme::all();
-        
-        // Récupérer les IDs des thèmes auxquels l'utilisateur est abonné
-        $subscribedThemeIds = $user->subscribedThemes()->pluck('themes.id')->toArray();
-        
-        return view('user.subscriptions', [
-            'themes' => $allThemes,
-            'subscribedThemeIds' => $subscribedThemeIds
-        ]);
+        $subscribedThemes = $user->subscribedThemes;
+        $availableThemes = Theme::whereNotIn('id', $subscribedThemes->pluck('id'))->get();
+
+        return view('user.subscriptions.index', compact('subscribedThemes', 'availableThemes'));
     }
 
-    public function subscribe(Request $request, Theme $theme)
+    public function subscribe(Theme $theme)
     {
-        $user = Auth::user();
-        
-        if (!$user->subscribedThemes()->where('theme_id', $theme->id)->exists()) {
-            $user->subscribedThemes()->attach($theme->id, [
+        try {
+            // Vérifier si l'utilisateur n'est pas déjà abonné
+            $existingSubscription = Subscription::where('user_id', Auth::id())
+                ->where('theme_id', $theme->id)
+                ->exists();
+
+            if ($existingSubscription) {
+                return back()->with('error', 'Vous êtes déjà abonné à ce thème.');
+            }
+
+            // Créer l'abonnement
+            Subscription::create([
+                'user_id' => Auth::id(),
+                'theme_id' => $theme->id,
                 'date_abonnement' => now()
             ]);
-            
-            return response()->json([
-                'success' => true,
-                'message' => "Vous êtes maintenant abonné au thème : {$theme->nom_theme}"
-            ]);
+
+            return back()->with('success', 'Vous êtes maintenant abonné à ce thème.');
+        } catch (\Exception $e) {
+            \Log::error('Erreur lors de l\'abonnement: ' . $e->getMessage());
+            return back()->with('error', 'Une erreur est survenue lors de l\'abonnement.');
         }
-        
-        return response()->json([
-            'success' => false,
-            'message' => 'Vous êtes déjà abonné à ce thème'
-        ]);
     }
 
-    public function unsubscribe(Request $request, Theme $theme)
+    public function unsubscribe(Theme $theme)
     {
-        $user = Auth::user();
-        
-        if ($user->subscribedThemes()->where('theme_id', $theme->id)->exists()) {
-            $user->subscribedThemes()->detach($theme->id);
-            
-            return response()->json([
-                'success' => true,
-                'message' => "Vous êtes maintenant désabonné du thème : {$theme->nom_theme}"
-            ]);
+        try {
+            // Supprimer l'abonnement
+            Subscription::where('user_id', Auth::id())
+                ->where('theme_id', $theme->id)
+                ->delete();
+
+            return back()->with('success', 'Vous êtes maintenant désabonné de ce thème.');
+        } catch (\Exception $e) {
+            \Log::error('Erreur lors du désabonnement: ' . $e->getMessage());
+            return back()->with('error', 'Une erreur est survenue lors du désabonnement.');
         }
-        
-        return response()->json([
-            'success' => false,
-            'message' => "Vous n'êtes pas abonné à ce thème"
-        ]);
     }
 } 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Theme extends Model
 {
@@ -25,11 +26,10 @@ class Theme extends Model
         return $this->hasMany(Article::class);
     }
 
-    public function abonnes()
+    public function subscribers(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'subscriptions', 'theme_id', 'user_id')
-            ->withTimestamps()
-            ->withPivot('date_abonnement');
+        return $this->belongsToMany(User::class, 'subscriptions')
+                    ->withPivot('date_abonnement')
+                    ->withTimestamps();
     }
-    
 }

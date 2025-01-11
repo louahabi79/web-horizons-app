@@ -82,7 +82,9 @@ Route::middleware(['auth'])->group(function () {
 
         // Gestion des abonnements
         Route::get('/subscriptions', [ThemeSubscriptionController::class, 'index'])->name('subscribers');
-        Route::delete('/subscriptions/{subscription}', [ThemeSubscriptionController::class, 'remove'])->name('subscriptions.remove');
+        Route::delete('/subscriptions/{subscriptionId}', [ThemeSubscriptionController::class, 'remove'])
+            ->name('subscriptions.remove')
+            ->middleware('web');
 
         // Statistiques
         Route::get('/statistics', [ThemeStatisticsController::class, 'index'])->name('stats');
