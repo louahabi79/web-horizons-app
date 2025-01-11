@@ -17,7 +17,7 @@ class Article extends Model
         'contenu',
         'statut',
         'date_proposition',
-        'date_publication',
+        // 'date_publication', i should come back here later
         'image_couverture',
         'temps_lecture',
         'vues',

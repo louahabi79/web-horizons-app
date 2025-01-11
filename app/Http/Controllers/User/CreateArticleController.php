@@ -3,42 +3,58 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Article;
+use App\Models\Theme;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class CreateArticleController extends Controller
 {
-    // Show the form to create a post
     public function showCreatePoste()
     {
-        return view("user.createPoste");
+        // Récupérer tous les thèmes pour le formulaire
+        $themes = Theme::all();
+        
+        return view('user.articles.create', [
+            'themes' => $themes
+        ]);
     }
 
-    // Handle the form submission to create a post
     public function createPoste(Request $request)
     {
-        // Validate the request
-        $request->validate([
-            'title' => 'required|string|max:255', // Validate title
-            'article' => 'required|string',       // Validate article content
+        // Valider la requête
+        $validated = $request->validate([
+            'titre' => 'required|string|max:255',
+            'theme_id' => 'required|exists:themes,id',
+            'contenu' => 'required|string',
+            'temps_lecture' => 'required|integer|min:1',
+            'image_couverture' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
-        // Get the currently authenticated user
-        $user = Auth::user();
+        // Gérer l'upload de l'image
+        $imagePath = null;
+        if ($request->hasFile('image_couverture')) {
+            // Stocker uniquement le chemin relatif
+            $imagePath = $request->file('image_couverture')->store('articles', 'public');
+        }
 
-        // Create the article and associate it with the user
+        // Créer l'article
         $article = Article::create([
-            'titre' => $request->title,
-            'contenu' => $request->article,
-            'statut' => 'En cours', // Default status
-            'theme_id' => 1,  // You can update this to dynamically assign a theme
-            'user_id' => $user->id, // Associate the article with the logged-in user
+            'titre' => $validated['titre'],
+            'contenu' => $validated['contenu'],
+            'theme_id' => $validated['theme_id'],
+            'temps_lecture' => $validated['temps_lecture'],
+            'image_couverture' => $imagePath,
+            'statut' => 'En cours',
+            'user_id' => Auth::id(),
             'date_proposition' => now(),
-        ]); 
+            'vues' => 0
+        ]);
 
-        // Redirect back with a success message
-        return redirect()->route('user.createPoste.submit')->with('success', 'Article created successfully!');
+        return redirect()
+            ->route('user.propositions')
+            ->with('success', 'Votre article a été soumis avec succès et est en attente de validation.');
     }
 }
 

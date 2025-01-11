@@ -29,13 +29,19 @@
 
     @if($article->image_couverture)
         <div class="article-cover">
-            <img src="{{ asset('storage/articles/' . $article->image_couverture) }}" 
+            <img src="{{ asset('storage/' . $article->image_couverture) }}" 
                  alt="Image de couverture de {{ $article->titre }}">
         </div>
     @endif
 
     <div class="article-content">
         {!! nl2br(e($article->contenu)) !!}
+    </div>
+
+    <div class="article-actions">
+        <a href="{{ route('user.conversations.show', $article) }}" class="btn btn-primary">
+            Participer à la conversation
+        </a>
     </div>
 
     @if($similarArticles->count() > 0)
