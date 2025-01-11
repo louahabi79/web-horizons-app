@@ -11,7 +11,7 @@
     <div class="dashboard-header">
         <h1>Tableau de bord</h1>
         <div class="quick-actions">
-            <a href="{{ route('createPoste.form') }}" class="btn btn-primary">
+            <a href="{{ route('user.createPoste') }}" class="btn btn-primary">
                 <span class="icon">✏️</span>
                 Proposer un Article
             </a>
@@ -59,8 +59,8 @@
                 <a href="{{ route('user.articles') }}" class="quick-link-card">
                     <div class="quick-link-icon">📝</div>
                     <div class="quick-link-content">
-                        <h3>Mes Articles</h3>
-                        <p>Consultez vos articles proposés</p>
+                        <h3>Articles</h3>
+                        <p>Consultez les articles disponibles</p>
                     </div>
                 </a>
                 
@@ -69,6 +69,14 @@
                     <div class="quick-link-content">
                         <h3>Historique de Lecture</h3>
                         <p>Voir votre historique de lecture</p>
+                    </div>
+                </a>
+                
+                <a href="{{ route('user.propositions') }}" class="quick-link-card">
+                    <div class="quick-link-icon">📋</div>
+                    <div class="quick-link-content">
+                        <h3>Mes Propositions</h3>
+                        <p>Suivez vos articles proposés</p>
                     </div>
                 </a>
             </div>

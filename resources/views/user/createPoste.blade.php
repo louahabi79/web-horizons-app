@@ -13,7 +13,7 @@
         <div style="color: green;">{{ session('success') }}</div>
     @endif
 
-    <form action="{{ route('createPoste.submit') }}" method="POST">
+    <form action="{{ route('user.createPoste.submit') }}" method="POST">
         @csrf
         Title: <input type="text" name="title"><br>
         Article: <textarea name="article"></textarea><br>
