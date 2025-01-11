@@ -47,6 +47,7 @@
         border-top: 1px solid #e2e8f0;
         display: flex;
         gap: 1rem;
+        align-items: center;
     }
 
     .btn {
@@ -54,8 +55,20 @@
         border-radius: 0.375rem;
         font-size: 0.875rem;
         font-weight: 500;
-        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.2s;
+        height: 38px;
+        line-height: 1.2;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         border: none;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background: #3b82f6;
+        color: white;
     }
 
     .btn-success {
@@ -70,6 +83,11 @@
 
     .btn:hover {
         opacity: 0.9;
+    }
+
+    .article-actions form {
+        display: inline-flex;
+        margin: 0;
     }
 </style>
 @endsection
@@ -97,16 +115,35 @@
         {!! nl2br(e($article->contenu)) !!}
     </div>
 
+    @if($article->statut === 'En cours')
+        <div class="article-actions">
+            <form action="{{ route('theme.articles.accept', $article) }}" method="POST" style="display: inline;">
+                @csrf
+                <button type="submit" class="btn btn-success"
+                    onclick="return confirm('Voulez-vous vraiment accepter cet article ?')">
+                    Accepter
+                </button>
+            </form>
+
+            <form action="{{ route('theme.articles.reject', $article) }}" method="POST" style="display: inline;">
+                @csrf
+                <input type="hidden" name="motif_rejet" id="motif_rejet">
+                <button type="button" class="btn btn-danger" onclick="rejectArticle()">
+                    Rejeter
+                </button>
+            </form>
+        </div>
+    @endif
+
     @if($article->statut === 'En cours' || $article->statut === 'Publié')
         <div class="article-actions">
-            <button onclick="proposeToEditor()" class="btn btn-primary">
-                Proposer à l'éditeur
-            </button>
-            @if($article->statut === 'En cours')
-                <button onclick="rejectArticle()" class="btn btn-danger">
-                    Rejeter l'article
+            <form action="{{ route('theme.articles.propose', $article) }}" method="POST" style="display: inline;">
+                @csrf
+                <button type="submit" class="btn btn-primary"
+                    onclick="return confirm('Voulez-vous vraiment proposer cet article à l\'éditeur ?')">
+                    Proposer à l'éditeur
                 </button>
-            @endif
+            </form>
         </div>
     @endif
 </div>
@@ -114,72 +151,12 @@
 
 @section('scripts')
 <script>
-function proposeToEditor() {
-    if (!confirm('Voulez-vous vraiment proposer cet article à l\'éditeur ?')) return;
-
-    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-    fetch('{{ route("theme.articles.propose", $article) }}', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': token,
-            'Accept': 'application/json'
-        },
-        credentials: 'same-origin'
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Erreur réseau');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.success) {
-            window.location.reload();
-        } else {
-            alert(data.message || 'Une erreur est survenue');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Une erreur est survenue lors de la communication avec le serveur');
-    });
-}
-
 function rejectArticle() {
     const motif = prompt('Motif du rejet :');
-    if (!motif) return;
-
-    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-    fetch('{{ route("theme.articles.reject", $article) }}', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': token,
-            'Accept': 'application/json'
-        },
-        credentials: 'same-origin',
-        body: JSON.stringify({ motif_rejet: motif })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Erreur réseau');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.success) {
-            window.location.reload();
-        } else {
-            alert(data.message || 'Une erreur est survenue');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Une erreur est survenue lors de la communication avec le serveur');
-    });
+    if (motif) {
+        document.getElementById('motif_rejet').value = motif;
+        document.getElementById('motif_rejet').closest('form').submit();
+    }
 }
 </script>
 @endsection 

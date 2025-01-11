@@ -78,6 +78,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/articles/{article}/reject', [ThemeArticleController::class, 'reject'])
             ->name('articles.reject')
             ->middleware('web');
+        Route::post('/articles/{article}/accept', [ThemeArticleController::class, 'accept'])->name('articles.accept');
 
         // Gestion des abonnements
         Route::get('/subscriptions', [ThemeSubscriptionController::class, 'index'])->name('subscribers');

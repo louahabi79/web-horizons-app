@@ -27,6 +27,8 @@ class ArticleController extends Controller
         return view('theme.articles.index', compact('articles'));
     }
 
+
+
     public function show(Article $article)
     {
         // Vérifier si l'article appartient au thème géré par le responsable
@@ -39,23 +41,18 @@ class ArticleController extends Controller
         ]);
     }
 
+    
     public function proposeForPublication(Article $article)
     {
         try {
             // Vérifier si l'article appartient au thème géré par le responsable
             if ($article->theme_id !== Auth::user()->managedTheme->id) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Vous n\'êtes pas autorisé à gérer cet article.'
-                ], 403);
+                return back()->with('error', 'Vous n\'êtes pas autorisé à gérer cet article.');
             }
 
-            // Vérifier si l'article peut être proposé (En cours ou Publié)
+            // Vérifier si l'article peut être proposé
             if ($article->statut !== 'En cours' && $article->statut !== 'Publié') {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Cet article ne peut pas être proposé dans son état actuel.'
-                ], 400);
+                return back()->with('error', 'Cet article ne peut pas être proposé dans son état actuel.');
             }
 
             // Mettre à jour le statut de l'article
@@ -64,17 +61,11 @@ class ArticleController extends Controller
                 'date_proposition_editeur' => now()
             ]);
 
-            return response()->json([
-                'success' => true,
-                'message' => 'L\'article a été proposé à l\'éditeur pour validation.'
-            ]);
+            return back()->with('success', 'L\'article a été proposé à l\'éditeur pour validation.');
 
         } catch (\Exception $e) {
             \Log::error('Erreur lors de la proposition d\'article: ' . $e->getMessage());
-            return response()->json([
-                'success' => false,
-                'message' => 'Une erreur est survenue lors du traitement de votre demande.'
-            ], 500);
+            return back()->with('error', 'Une erreur est survenue lors du traitement de votre demande.');
         }
     }
 
@@ -82,18 +73,12 @@ class ArticleController extends Controller
     {
         // Vérifier si l'article appartient au thème géré par le responsable
         if ($article->theme_id !== Auth::user()->managedTheme->id) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Vous n\'êtes pas autorisé à gérer cet article.'
-            ], 403);
+            return back()->with('error', 'Vous n\'êtes pas autorisé à gérer cet article.');
         }
 
-        // Vérifier si l'article est en attente
-        if ($article->statut !== 'En cours') {
-            return response()->json([
-                'success' => false,
-                'message' => 'Cet article n\'est pas en attente de validation.'
-            ], 400);
+        // Vérifier si l'article peut être rejeté
+        if ($article->statut !== 'En cours' && $article->statut !== 'Retenu') {
+            return back()->with('error', 'Cet article ne peut pas être rejeté dans son état actuel.');
         }
 
         $request->validate([
@@ -106,9 +91,33 @@ class ArticleController extends Controller
             'motif_rejet' => $request->motif_rejet
         ]);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'L\'article a été refusé.'
-        ]);
+        return back()->with('success', 'L\'article a été refusé.');
+    }
+
+    public function accept(Article $article)
+    {
+        try {
+            // Vérifier si l'article appartient au thème géré par le responsable
+            if ($article->theme_id !== Auth::user()->managedTheme->id) {
+                return back()->with('error', 'Vous n\'êtes pas autorisé à gérer cet article.');
+            }
+
+            // Vérifier si l'article peut être accepté
+            if ($article->statut !== 'En cours') {
+                return back()->with('error', 'Cet article ne peut pas être accepté dans son état actuel.');
+            }
+
+            // Mettre à jour le statut de l'article
+            $article->update([
+                'statut' => 'Publié',
+                'date_publication' => now()
+            ]);
+
+            return back()->with('success', 'L\'article a été accepté.');
+
+        } catch (\Exception $e) {
+            \Log::error('Erreur lors de l\'acceptation d\'article: ' . $e->getMessage());
+            return back()->with('error', 'Une erreur est survenue lors du traitement de votre demande.');
+        }
     }
 } 

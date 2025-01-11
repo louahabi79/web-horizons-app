@@ -73,6 +73,7 @@
         display: flex;
         gap: 0.5rem;
         margin-top: 1rem;
+        align-items: center;
     }
 
     .btn {
@@ -82,6 +83,13 @@
         font-weight: 500;
         text-decoration: none;
         transition: all 0.2s;
+        height: 38px;
+        line-height: 1.2;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        cursor: pointer;
     }
 
     .btn-primary {
@@ -89,8 +97,23 @@
         color: white;
     }
 
-    .btn-primary:hover {
-        background: #2563eb;
+    .btn-success {
+        background: #059669;
+        color: white;
+    }
+
+    .btn-danger {
+        background: #dc2626;
+        color: white;
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+    }
+
+    .article-actions form {
+        display: inline-flex;
+        margin: 0;
     }
 
     .pagination {
@@ -129,19 +152,32 @@
                     <a href="{{ route('theme.articles.show', $article) }}" class="btn btn-primary">
                         Voir l'article
                     </a>
-                    @if($article->statut === 'En cours' || $article->statut === 'Publié')
-                        <button 
-                            onclick="proposeToEditor({{ $article->id }})" 
-                            class="btn btn-primary">
-                            Proposer à l'éditeur
-                        </button>
-                    @endif
                     @if($article->statut === 'En cours')
-                        <button 
-                            onclick="rejectArticle({{ $article->id }})" 
-                            class="btn btn-danger">
-                            Rejeter
-                        </button>
+                        <form action="{{ route('theme.articles.accept', $article) }}" method="POST" style="display: inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-success" 
+                                onclick="return confirm('Voulez-vous vraiment accepter cet article ?')">
+                                Accepter
+                            </button>
+                        </form>
+
+                        <form action="{{ route('theme.articles.reject', $article) }}" method="POST" style="display: inline;">
+                            @csrf
+                            <input type="hidden" name="motif_rejet" id="motif_{{ $article->id }}">
+                            <button type="button" class="btn btn-danger" 
+                                onclick="rejectArticle({{ $article->id }})">
+                                Rejeter
+                            </button>
+                        </form>
+                    @endif
+                    @if($article->statut === 'En cours' || $article->statut === 'Publié')
+                        <form action="{{ route('theme.articles.propose', $article) }}" method="POST" style="display: inline;">
+                            @csrf
+                            <button type="submit" class="btn btn-primary" 
+                                onclick="return confirm('Voulez-vous vraiment proposer cet article à l\'éditeur ?')">
+                                Proposer à l'éditeur
+                            </button>
+                        </form>
                     @endif
                 </div>
             </div>
@@ -160,72 +196,12 @@
 
 @section('scripts')
 <script>
-function proposeToEditor(articleId) {
-    if (!confirm('Voulez-vous vraiment proposer cet article à l\'éditeur ?')) return;
-
-    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-    fetch(`/theme/articles/${articleId}/propose`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': token,
-            'Accept': 'application/json'
-        },
-        credentials: 'same-origin'
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Erreur réseau');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.success) {
-            window.location.reload();
-        } else {
-            alert(data.message || 'Une erreur est survenue');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Une erreur est survenue lors de la communication avec le serveur');
-    });
-}
-
 function rejectArticle(articleId) {
     const motif = prompt('Motif du rejet :');
-    if (!motif) return;
-
-    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-    fetch(`/theme/articles/${articleId}/reject`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': token,
-            'Accept': 'application/json'
-        },
-        credentials: 'same-origin',
-        body: JSON.stringify({ motif_rejet: motif })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Erreur réseau');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.success) {
-            window.location.reload();
-        } else {
-            alert(data.message || 'Une erreur est survenue');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Une erreur est survenue lors de la communication avec le serveur');
-    });
+    if (motif) {
+        document.getElementById('motif_' + articleId).value = motif;
+        document.getElementById('motif_' + articleId).closest('form').submit();
+    }
 }
 </script>
 @endsection 
