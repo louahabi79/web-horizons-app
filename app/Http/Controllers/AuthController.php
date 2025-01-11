@@ -27,13 +27,13 @@ class AuthController extends Controller
             $request->session()->regenerate();
             $user = Auth::user();
             
-            if ($user->role === 'Éditeur') {
-                return redirect()->route('admin.dashboard')->with('success', 'Welcome, ' . $user->first_name . '!');
-            } elseif ($user->role === 'Abonné') {
-                return redirect()->route('user.dashboard')->with('success', 'Welcome, ' . $user->first_name . '!');
-            } else {
-                return redirect()->route('home')->with('success', 'Welcome, ' . $user->first_name . '!');
-            }
+            // Redirect based on role
+            return match($user->role) {
+                'Éditeur' => redirect()->route('admin.dashboard'),
+                'Responsable de thème' => redirect()->route('theme.dashboard'),
+                'Abonné' => redirect()->route('user.dashboard'),
+                default => redirect()->route('home'),
+            };
         }
 
         return back()->withErrors([

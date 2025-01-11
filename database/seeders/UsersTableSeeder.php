@@ -25,6 +25,13 @@ class UsersTableSeeder extends Seeder
             'role' => 'Abonné',
             'date_inscription' => now(),
         ]);
+        User::create([
+            'nom' => 'responsable 1 ',
+            'email' => 'Responsable@gmail.com',
+            'password' => Hash::make('12345678'),
+            'role' => 'Responsable de thème',
+            'date_inscription' => now(),
+        ]);
 
         // Créer quelques abonnés
         for ($i = 1; $i <= 5; $i++) {
