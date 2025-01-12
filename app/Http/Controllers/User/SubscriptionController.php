@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Theme;
 use App\Models\Subscription;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,10 +14,12 @@ class SubscriptionController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $subscribedThemes = $user->subscribedThemes;
-        $availableThemes = Theme::whereNotIn('id', $subscribedThemes->pluck('id'))->get();
+        $themes = Theme::all();
+        $subscribedThemeIds = $user->subscribedThemes()
+            ->pluck('theme_id')
+            ->toArray();
 
-        return view('user.subscriptions.index', compact('subscribedThemes', 'availableThemes'));
+        return view('user.subscriptions', compact('themes', 'subscribedThemeIds'));
     }
 
     public function subscribe(Theme $theme)
