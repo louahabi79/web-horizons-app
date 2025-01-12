@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('titre');
             $table->text('contenu');
-            $table->enum('statut', ['Refusé', 'En cours', 'Retenu', 'Publié']);
+            $table->enum('statut', ['Brouillon', 'En cours', 'Retenu', 'Publié', 'Refusé', 'Désactivé']);
             $table->date('date_proposition');
             $table->date('date_proposition_editeur')->nullable();
             $table->date('date_publication')->nullable();

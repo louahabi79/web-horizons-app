@@ -2,29 +2,64 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Article;
+use App\Models\Theme;
+use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class ArticlesTableSeeder extends Seeder
 {
     public function run()
     {
-        // Créer quelques articles pour chaque thème
-        for ($theme_id = 1; $theme_id <= 8; $theme_id++) {
-            for ($i = 1; $i <= 3; $i++) {
+        // Récupérer quelques utilisateurs et thèmes pour les articles
+        $users = User::where('role', 'Abonné')->take(3)->get();
+        $themes = Theme::all();
+
+        foreach ($themes as $theme) {
+            // Créer 2-3 articles publiés par thème
+            for ($i = 1; $i <= rand(2, 3); $i++) {
                 Article::create([
-                    'titre' => "Article $i du thème $theme_id",
-                    'contenu' => "Contenu de l'article $i du thème $theme_id...",
+                    'titre' => "Article $i du thème {$theme->nom_theme}",
+                    'contenu' => "Contenu de l'article $i du thème {$theme->nom_theme}...",
+                    'statut' => 'Publié',
+                    'date_proposition' => now(),
+                    'date_proposition_editeur' => now(),
                     'date_publication' => now(),
-                    'date_proposition' => now(), 
-                    'statut' => 'publié',
-                    'image_couverture' => 'image.jpg', // ImageCouverture
-                    'temps_lecture' => 10, // TempsLecture
-                    'vues' => 100, // Vues
-                    'theme_id' => $theme_id,
-                    'user_id' => rand(2, 6), // ID des abonnés
+                    'image_couverture' => 'articles/IOT.png',
+                    'temps_lecture' => rand(5, 15),
+                    'vues' => rand(50, 200),
+                    'theme_id' => $theme->id,
+                    'user_id' => $users->random()->id
                 ]);
             }
+
+            // Créer 1-2 articles en cours
+            for ($i = 1; $i <= rand(1, 2); $i++) {
+                Article::create([
+                    'titre' => "Article en cours $i du thème {$theme->nom_theme}",
+                    'contenu' => "Contenu de l'article en cours $i du thème {$theme->nom_theme}...",
+                    'statut' => 'En cours',
+                    'date_proposition' => now(),
+                    'date_proposition_editeur' => now(),
+                    'image_couverture' => 'articles/default.jpg',
+                    'temps_lecture' => rand(5, 15),
+                    'theme_id' => $theme->id,
+                    'user_id' => $users->random()->id
+                ]);
+            }
+
+            // Créer 1 article retenu (proposé)
+            Article::create([
+                'titre' => "Article proposé du thème {$theme->nom_theme}",
+                'contenu' => "Contenu de l'article proposé du thème {$theme->nom_theme}...",
+                'statut' => 'Retenu',
+                'date_proposition' => now(),
+                'date_proposition_editeur' => now(),
+                'image_couverture' => 'articles/default.jpg',
+                'temps_lecture' => rand(5, 15),
+                'theme_id' => $theme->id,
+                'user_id' => $users->random()->id
+            ]);
         }
     }
 } 
