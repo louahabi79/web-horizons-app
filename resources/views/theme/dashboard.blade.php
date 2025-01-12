@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-<div class="theme-dashboard-wrapper">
+<div class="page-container theme-dashboard-wrapper">
     <div class="dashboard-header">
         <h1>Tableau de bord - {{ $theme->nom_theme }}</h1>
     </div>

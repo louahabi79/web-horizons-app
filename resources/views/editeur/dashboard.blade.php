@@ -74,7 +74,7 @@
 
 @section('content')
 <br> <br><br>
-<div class="dashboard-container">
+<div class="page-container dashboard-container">
     <!-- <h1>Dashboard Éditeur</h1> -->
 
     <div class="stats-grid">

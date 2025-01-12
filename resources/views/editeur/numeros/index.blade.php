@@ -156,7 +156,7 @@
 @endsection
 
 @section('content')
-<div class="numeros-container">
+<div class="page-container numeros-container">
     @if(session('success'))
         <div class="alert alert-success">
             {{ session('success') }}

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @yield('styles')
     <link rel="icon" type="image/jpeg" href="{{ asset('favicon.jpeg') }}">
+    <link href="{{ asset('css/layout.css') }}" rel="stylesheet">
 </head>
 <body>
     <header class="header">

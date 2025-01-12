@@ -33,10 +33,15 @@ Route::get('/', function() {
     return view('home');
 })->name('home');
 
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
-Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
-Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
+// Routes d'authentification
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+    Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
+    Route::post('/register', [AuthController::class, 'register'])->name('register.submit');
+    // Ajouter la route pour la page d'attente
+    Route::get('/pending', [AuthController::class, 'showPendingPage'])->name('auth.pending');
+});
 
 // Routes protégées
 Route::middleware(['auth'])->group(function () {
@@ -71,7 +76,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Routes pour le responsable de thème
-    Route::prefix('theme')->name('theme.')->middleware(['auth'])->group(function () {
+    Route::prefix('theme')->name('theme.')->group(function () {
         Route::get('/dashboard', [ThemeDashboardController::class, 'index'])->name('dashboard');
 
         // Gestion des articles
@@ -100,17 +105,6 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/moderation/messages/{message}/warn', [ThemeModerationController::class, 'warnUser'])->name('moderation.warn');
     });
 
-    // Routes pour l'admin
-    // Route::prefix('admin')->name('admin.')->group(function () {
-    //     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
-    //     Route::get('/users', [AdminDashboardController::class, 'users'])->name('users');
-    //     Route::get('/themes', [AdminDashboardController::class, 'themes'])->name('themes');
-    //     Route::get('/stats', [AdminDashboardController::class, 'stats'])->name('stats');
-    //     Route::get('/articles', [AdminArticleController::class, 'index'])->name('articles.index');
-    //     Route::get('/articles/{article}', [AdminArticleController::class, 'show'])->name('articles.show');
-    //     Route::post('/articles/{article}/publish', [AdminArticleController::class, 'publish'])->name('articles.publish');
-    //     Route::post('/articles/{article}/reject', [AdminArticleController::class, 'reject'])->name('articles.reject');
-    // });
 
 
 
@@ -147,7 +141,6 @@ Route::middleware(['auth'])->group(function () {
 
     });
 });
-
 
 
 

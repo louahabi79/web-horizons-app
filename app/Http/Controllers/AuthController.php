@@ -23,11 +23,39 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
+        // Récupérer l'utilisateur par email
+        $user = User::where('email', $request->email)->first();
+
+        // Debug pour voir le rôle de l'utilisateur
+        \Log::info('User role: ' . ($user->role ?? 'no user found'));
+
+        // Vérifier si l'utilisateur existe et son statut
+        if (!$user) {
+            return back()->withErrors([
+                'email' => 'Les identifiants fournis ne correspondent pas à nos enregistrements.',
+            ]);
+        }
+
+        // Vérifier le statut de l'utilisateur
+        if ($user->statut === 'en attente') {
+            return redirect()->route('auth.pending')
+                ->with('message', 'Votre compte est en attente de validation.');
+        }
+
+        if ($user->statut === 'inactif') {
+            return back()->withErrors([
+                'email' => 'Votre compte a été désactivé. Veuillez contacter l\'administrateur.',
+            ]);
+        }
+
+        // Tenter la connexion
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $request->session()->regenerate();
-            $user = Auth::user();
             
-            // Redirect based on role
+            // Debug pour vérifier le rôle après connexion
+            \Log::info('Authenticated user role: ' . Auth::user()->role);
+            
+            // Redirection selon le rôle
             return match($user->role) {
                 'Éditeur' => redirect()->route('editeur.dashboard'),
                 'Responsable de thème' => redirect()->route('theme.dashboard'),
@@ -43,31 +71,25 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        // Validate the request
         $request->validate([
-            'first_name' => 'required|string|max:255', // Validate first name
-            'last_name' => 'required|string|max:255',  // Validate last name
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        // Combine first name and last name into 'nom'
         $nom = $request->first_name . ' ' . $request->last_name;
 
-        // Create the user
         $user = User::create([
-            'nom' => $nom, // Use the combined name
+            'nom' => $nom,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'en attente', // Default role
-            'date_inscription' => now(), // Current timestamp
+            'role' => 'Abonné',
+            'statut' => 'en attente',
+            'date_inscription' => now(),
         ]);
 
-        // Log the user in
-        auth()->login($user);
-
-        // Redirect to the user dashboard
-        return redirect()->route('user.dashboard')->with('success', 'Welcome, ' . $user->nom . '!');
+        return redirect()->route('auth.pending')->with('message', 'Votre inscription est en attente de validation.');
     }
 
     function logout(Request $request){
@@ -75,5 +97,10 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect(route("login"));
+    }
+
+    public function showPendingPage()
+    {
+        return view('auth.pending');
     }
 }

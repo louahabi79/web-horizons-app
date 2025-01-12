@@ -23,8 +23,11 @@
                 
                 <div class="auth-buttons">
                     @auth
-                        <a href="{{ auth()->user()->role === 'Éditeur' ? route('editeur.dashboard') : route('user.dashboard') }}" 
-                           class="btn dashboard-btn">Dashboard</a>
+                        <a href="{{ match(auth()->user()->role) {
+                            'Éditeur' => route('editeur.dashboard'),
+                            'Responsable de thème' => route('theme.dashboard'),
+                            default => route('user.dashboard')
+                        } }}" class="btn dashboard-btn">Dashboard</a>
                         <form action="{{ route('logout') }}" method="POST" class="logout-form">
                             @csrf
                             <button type="submit" class="btn logout-btn">Logout</button>

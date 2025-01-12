@@ -26,10 +26,11 @@ class UsersTableSeeder extends Seeder
             'date_inscription' => now(),
         ]);
         User::create([
-            'nom' => 'responsable 1 ',
-            'email' => 'Responsable@gmail.com',
-            'password' => Hash::make('12345678'),
+            'nom' => 'Responsable Test',
+            'email' => 'responsable@test.com',
+            'password' => Hash::make('password'),
             'role' => 'Responsable de thème',
+            'statut' => 'actif',
             'date_inscription' => now(),
         ]);
 

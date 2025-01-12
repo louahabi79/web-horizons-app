@@ -11,13 +11,13 @@ class UserController extends Controller
     public function index()
     {
         $users = User::orderBy('created_at', 'desc')->paginate(10);
-        $pendingUsers = User::where('statut', 'en_attente')->count();
+        $pendingUsers = User::where('statut', 'en attente')->count();
         return view('editeur.users.index', compact('users', 'pendingUsers'));
     }
 
     public function pendingRequests()
     {
-        $users = User::where('statut', 'en_attente')
+        $users = User::where('statut', 'en attente')
                     ->orderBy('created_at', 'desc')
                     ->paginate(10);
         return view('editeur.users.pending', compact('users'));
