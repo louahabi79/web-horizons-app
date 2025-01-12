@@ -35,10 +35,9 @@
                     </ul>
                     @elseif(Auth::user()->role === 'Éditeur')
                     <ul class="nav-links">
-                        <li><a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Dashboard</a></li>
-                        <li><a href="{{ route('admin.users') }}" class="{{ request()->routeIs('admin.users') ? 'active' : '' }}">Utilisateurs</a></li>
-                        <li><a href="{{ route('admin.themes') }}" class="{{ request()->routeIs('admin.themes') ? 'active' : '' }}">Thèmes</a></li>
-                        <li><a href="{{ route('admin.stats') }}" class="{{ request()->routeIs('admin.stats') ? 'active' : '' }}">Statistiques</a></li>
+                        <li><a href="{{ route('editeur.dashboard') }}" class="{{ request()->routeIs('editeur.dashboard') ? 'active' : '' }}">Dashboard</a></li>
+                        <li><a href="{{ route('editeur.numeros.index') }}" class="{{ request()->routeIs('editeur.numeros.*') ? 'active' : '' }}">Numéros</a></li>
+                        <li><a href="{{ route('editeur.users.index') }}" class="{{ request()->routeIs('editeur.users.*') ? 'active' : '' }}">Utilisateurs</a></li>
                     </ul>
                     @endif
 

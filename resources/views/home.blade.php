@@ -23,7 +23,7 @@
                 
                 <div class="auth-buttons">
                     @auth
-                        <a href="{{ auth()->user()->role === 'Éditeur' ? route('admin.dashboard') : route('user.dashboard') }}" 
+                        <a href="{{ auth()->user()->role === 'Éditeur' ? route('editeur.dashboard') : route('user.dashboard') }}" 
                            class="btn dashboard-btn">Dashboard</a>
                         <form action="{{ route('logout') }}" method="POST" class="logout-form">
                             @csrf
@@ -99,7 +99,7 @@
         </section>
     </main>
 
-    <footer class="footer">
+    <footer class="footer" id="about">
         <div class="footer-content">
             <div class="footer-section">
                 <h4>About Tech Horizons</h4>

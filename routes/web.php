@@ -16,8 +16,13 @@ use App\Http\Controllers\Theme\SubscriptionController as ThemeSubscriptionContro
 use App\Http\Controllers\Theme\StatisticsController as ThemeStatisticsController;
 use App\Http\Controllers\Theme\ModerationController as ThemeModerationController;
 
-use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
+// use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+// use App\Http\Controllers\Admin\ArticleController as AdminArticleController;
+
+use App\Http\Controllers\Editeur\DashboardController as EditeurDashboardController;
+use App\Http\Controllers\Editeur\NumeroController;
+use App\Http\Controllers\Editeur\UserController;
+use App\Http\Controllers\Editeur\StatisticsController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -96,15 +101,50 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Routes pour l'admin
-    Route::prefix('admin')->name('admin.')->group(function () {
-        Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
-        Route::get('/users', [AdminDashboardController::class, 'users'])->name('users');
-        Route::get('/themes', [AdminDashboardController::class, 'themes'])->name('themes');
-        Route::get('/stats', [AdminDashboardController::class, 'stats'])->name('stats');
-        Route::get('/articles', [AdminArticleController::class, 'index'])->name('articles.index');
-        Route::get('/articles/{article}', [AdminArticleController::class, 'show'])->name('articles.show');
-        Route::post('/articles/{article}/publish', [AdminArticleController::class, 'publish'])->name('articles.publish');
-        Route::post('/articles/{article}/reject', [AdminArticleController::class, 'reject'])->name('articles.reject');
+    // Route::prefix('admin')->name('admin.')->group(function () {
+    //     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    //     Route::get('/users', [AdminDashboardController::class, 'users'])->name('users');
+    //     Route::get('/themes', [AdminDashboardController::class, 'themes'])->name('themes');
+    //     Route::get('/stats', [AdminDashboardController::class, 'stats'])->name('stats');
+    //     Route::get('/articles', [AdminArticleController::class, 'index'])->name('articles.index');
+    //     Route::get('/articles/{article}', [AdminArticleController::class, 'show'])->name('articles.show');
+    //     Route::post('/articles/{article}/publish', [AdminArticleController::class, 'publish'])->name('articles.publish');
+    //     Route::post('/articles/{article}/reject', [AdminArticleController::class, 'reject'])->name('articles.reject');
+    // });
+
+
+
+    // Routes pour l'éditeur
+    Route::prefix('editeur')->name('editeur.')->middleware(['auth'])->group(function () {
+        Route::get('/dashboard', [EditeurDashboardController::class, 'index'])->name('dashboard');
+
+        // Gestion des numéros
+        Route::get('/numeros', [NumeroController::class, 'index'])->name('numeros.index');
+        Route::get('/numeros/create', [NumeroController::class, 'create'])->name('numeros.create');
+        Route::post('/numeros', [NumeroController::class, 'store'])->name('numeros.store');
+        Route::get('/numeros/{numero}/edit', [NumeroController::class, 'edit'])->name('numeros.edit');
+        Route::put('/numeros/{numero}', [NumeroController::class, 'update'])->name('numeros.update');
+        Route::delete('/numeros/{numero}', [NumeroController::class, 'destroy'])->name('numeros.destroy');
+        Route::post('/numeros/{numero}/publish', [NumeroController::class, 'publish'])->name('numeros.publish');
+        Route::post('/numeros/{numero}/unpublish', [NumeroController::class, 'unpublish'])->name('numeros.unpublish');
+        Route::post('/numeros/{numero}/toggle-visibility', [NumeroController::class, 'toggleVisibility'])->name('numeros.toggleVisibility');
+        
+        // Gestion des articles dans un numéro
+        Route::get('/numeros/{numero}/articles', [NumeroController::class, 'manageArticles'])->name('numeros.articles');
+        Route::post('/numeros/{numero}/articles', [NumeroController::class, 'addArticle'])->name('numeros.articles.add');
+        Route::delete('/numeros/{numero}/articles/{article}', [NumeroController::class, 'removeArticle'])->name('numeros.articles.remove');
+
+        // Gestion des utilisateurs
+        Route::get('/users', [UserController::class, 'index'])->name('users.index');
+        Route::get('/users/pending', [UserController::class, 'pendingRequests'])->name('users.pending');
+        Route::post('/users/{user}/approve', [UserController::class, 'approveUser'])->name('users.approve');
+        Route::delete('/users/{user}/reject', [UserController::class, 'rejectUser'])->name('users.reject');
+        Route::post('/users/{user}/block', [UserController::class, 'block'])->name('users.block');
+        Route::post('/users/{user}/unblock', [UserController::class, 'unblock'])->name('users.unblock');
+        Route::put('/users/{user}/role', [UserController::class, 'updateRole'])->name('users.updateRole');
+        Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+
+
     });
 });
 
