@@ -199,12 +199,11 @@
                             <span class="status-badge {{ $numero->is_published ? 'status-publie' : 'status-non-publie' }}">
                                 {{ $numero->is_published ? 'Publié' : 'Non publié' }}
                             </span>
-                        </div>
-                        <div class="visibility-status">
                             <span class="visibility-badge visibility-{{ strtolower($numero->visibilite) }}">
                                 {{ $numero->visibilite }}
                             </span>
                         </div>
+                        
                     </div>
 
                     <p class="numero-description">{{ Str::limit($numero->description, 100) }}</p>

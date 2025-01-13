@@ -38,6 +38,7 @@
                     <ul class="nav-links">
                         <li><a href="{{ route('editeur.dashboard') }}" class="{{ request()->routeIs('editeur.dashboard') ? 'active' : '' }}">Dashboard</a></li>
                         <li><a href="{{ route('editeur.numeros.index') }}" class="{{ request()->routeIs('editeur.numeros.*') ? 'active' : '' }}">Numéros</a></li>
+                        <li><a href="{{ route('editeur.articles.index') }}" class="{{ request()->routeIs('editeur.articles.*') ? 'active' : '' }}">Articles</a></li>
                         <li><a href="{{ route('editeur.users.index') }}" class="{{ request()->routeIs('editeur.users.*') ? 'active' : '' }}">Utilisateurs</a></li>
                     </ul>
                     @endif

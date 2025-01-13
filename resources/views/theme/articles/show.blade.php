@@ -170,6 +170,11 @@
             <span>{{ $article->temps_lecture }} min de lecture</span>
         </div>
     </div>
+    <div class="article-cover">
+            <img src="{{ asset('storage/' . $article->image_couverture) }}" 
+                 alt="Image de couverture n'existe pas pour {{ $article->titre }}"
+                 width="100%" height="auto">
+    </div>
 
     <div class="article-content">
         {!! nl2br(e($article->contenu)) !!}
