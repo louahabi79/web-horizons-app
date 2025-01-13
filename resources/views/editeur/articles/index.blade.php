@@ -275,7 +275,7 @@
         <h5 class="modal-title">Publier dans un numéro</h5>
         <button type="button" class="modal-close" onclick="closeModal('assignModal')">&times;</button>
     </div>
-    <form id="assignForm" method="POST">
+    <form id="assignForm" method="POST" onsubmit="return validateAssignForm()">
         @csrf
         <div class="modal-body">
             <div class="article-info">
@@ -290,7 +290,7 @@
                 <select name="numero_id" id="numero_id" class="form-control" required>
                     <option value="">Sélectionner un numéro</option>
                     @foreach($numeros as $numero)
-                        <option value="{{ $numero->id }}">
+                        <option value="{{ $numero->Id_numero }}">
                             {{ $numero->titre_numero }} 
                             ({{ $numero->articles->count() }} articles)
                         </option>
@@ -313,6 +313,11 @@
 
 @section('scripts')
 <script>
+// Définir la base URL pour les actions
+const ROUTES = {
+    assign: articleId => `{{ url('editeur/articles') }}/${articleId}/assign`
+};
+
 function showModal(modalId) {
     document.getElementById(modalId + 'Overlay').style.display = 'block';
     document.getElementById(modalId).style.display = 'block';
@@ -333,18 +338,25 @@ function showRejectModal(articleId) {
 
 function showAssignModal(articleId, titre, theme) {
     const form = document.getElementById('assignForm');
-    form.action = `/editeur/articles/${articleId}/assign`;
+    form.action = ROUTES.assign(articleId);
     
     // Mettre à jour les informations de l'article dans le modal
     document.getElementById('modalArticleTitle').textContent = titre;
     document.getElementById('modalArticleTheme').textContent = theme;
     
-    // Vérifier s'il y a des numéros disponibles
-    const select = document.getElementById('numero_id');
-    const submitBtn = form.querySelector('button[type="submit"]');
-    submitBtn.disabled = select.options.length <= 1;
+    // Réinitialiser le select
+    document.getElementById('numero_id').value = '';
     
     showModal('assignModal');
+}
+
+function validateAssignForm() {
+    const numeroId = document.getElementById('numero_id').value;
+    if (!numeroId) {
+        alert('Veuillez sélectionner un numéro');
+        return false;
+    }
+    return true;
 }
 
 // Fermer le modal en cliquant sur l'overlay
