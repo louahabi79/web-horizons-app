@@ -85,19 +85,35 @@
         </section>
 
         <section id="latest" class="latest-articles">
-            <h2>Latest Articles</h2>
+            <h2>Derniers Articles</h2>
             <div class="articles-grid">
-                <!-- Cette partie sera dynamique avec les vrais articles -->
-                @foreach(range(1, 3) as $index)
-                <article class="article-card">
-                    <div class="article-image"></div>
-                    <div class="article-content">
-                        <h3>Sample Article Title</h3>
-                        <p>Brief description of the article content goes here...</p>
-                        <a href="#" class="read-more">Read More →</a>
+                @forelse($latestArticles as $article)
+                    <article class="article-card">
+                        @if($article->image_couverture)
+                            <div class="article-image">
+                                <img src="{{ asset('storage/' . $article->image_couverture) }}" 
+                                     alt="Image de couverture de {{ $article->titre }}"
+                                     style="width: 100%; height: 200px;">
+                            </div>
+                        @endif
+                        <div class="article-content">
+                            <div class="article-meta">
+                                <span class="theme-badge">{{ $article->theme->nom_theme }}</span>
+                                <span class="numero-badge">{{ $article->numero->titre_numero }}</span>
+                            </div>
+                            <h3>{{ $article->titre }}</h3>
+                            <p>{{ Str::limit($article->contenu, 150) }}</p>
+                            <div class="article-footer">
+                                <span class="author">Par {{ $article->auteur->nom }}</span>
+                                <a href="{{ route('public.articles.show', $article) }}" class="read-more">Lire la suite →</a>
+                            </div>
+                        </div>
+                    </article>
+                @empty
+                    <div class="no-articles">
+                        <p>Aucun article publié pour le moment.</p>
                     </div>
-                </article>
-                @endforeach
+                @endforelse
             </div>
         </section>
     </main>

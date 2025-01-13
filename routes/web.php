@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\User\ArticleController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\SubscriptionController;
@@ -30,9 +31,8 @@ use Illuminate\Support\Facades\Route;
 // use App\Http\Middleware\CheckRole;
 
 // Routes publiques
-Route::get('/', function() {
-    return view('home');
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/articles/{article}', [HomeController::class, 'showArticle'])->name('public.articles.show');
 
 // Routes d'authentification
 Route::middleware('guest')->group(function () {
