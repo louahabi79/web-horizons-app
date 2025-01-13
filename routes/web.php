@@ -23,6 +23,7 @@ use App\Http\Controllers\Editeur\DashboardController as EditeurDashboardControll
 use App\Http\Controllers\Editeur\NumeroController;
 use App\Http\Controllers\Editeur\UserController;
 use App\Http\Controllers\Editeur\StatisticsController;
+use App\Http\Controllers\Editeur\ArticleController as EditeurArticleController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -138,7 +139,13 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/users/{user}/role', [UserController::class, 'updateRole'])->name('users.updateRole');
         Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
 
-
+        // Gestion des articles
+        Route::get('/articles', [EditeurArticleController::class, 'index'])->name('articles.index');
+        Route::post('/articles/{article}/approve', [EditeurArticleController::class, 'approve'])->name('articles.approve');
+        Route::post('/articles/{article}/reject', [EditeurArticleController::class, 'reject'])->name('articles.reject');
+        Route::post('/articles/{article}/assign', [EditeurArticleController::class, 'assignToNumero'])->name('articles.assign');
+        Route::post('/articles/{article}/toggle-status', [EditeurArticleController::class, 'toggleStatus'])->name('articles.toggle-status');
+        Route::delete('/articles/{article}', [EditeurArticleController::class, 'destroy'])->name('articles.destroy');
     });
 });
 
