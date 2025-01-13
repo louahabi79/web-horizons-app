@@ -179,11 +179,15 @@
     <div class="numero-grid">
         @forelse($numeros as $numero)
             <div class="numero-card">
-                @if($numero->image_couverture)
-                    <img src="{{ asset('storage/' . $numero->image_couverture) }}" 
-                         alt="Couverture {{ $numero->titre_numero }}"
-                         class="numero-image">
-                @endif
+                <div style="width: 100%; height: 180px;">
+                    @if($numero->image_couverture)
+                        <img src="{{ asset('storage/' . $numero->image_couverture) }}" 
+                            alt="Couverture {{ $numero->titre_numero }}"
+                            class="numero-image"
+                            >
+                    @endif
+                </div>
+                
                 
                 <div class="numero-content">
                     <h2 class="numero-title">{{ $numero->titre_numero }}</h2>

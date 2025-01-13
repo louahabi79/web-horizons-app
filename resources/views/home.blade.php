@@ -6,6 +6,89 @@
     <title>Tech Horizons - Technology Magazine</title>
     <link rel="icon" type="image/jpeg" href="{{ asset('favicon.jpeg') }}">
     <link rel="stylesheet" href="{{asset('css/home.css')}}">
+    <style>
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%; /* Hauteur uniforme */
+        }
+
+        .article-image {
+            height: 200px; /* Hauteur fixe pour les images */
+            overflow: hidden;
+        }
+
+        .article-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .article-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1; /* Prend l'espace restant */
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .theme-badge, .numero-badge {
+            font-size: 0.875rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+        }
+
+        .article-content h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .article-content p {
+            flex: 1; /* Le texte prend l'espace disponible */
+            margin-bottom: 1rem;
+        }
+
+        .article-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+            margin-top: auto; /* Pousse le footer en bas */
+        }
+
+        .author {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .read-more {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <header class="header">
@@ -92,8 +175,7 @@
                         @if($article->image_couverture)
                             <div class="article-image">
                                 <img src="{{ asset('storage/' . $article->image_couverture) }}" 
-                                     alt="Image de couverture de {{ $article->titre }}"
-                                     style="width: 100%; height: 200px;">
+                                     alt="Image de couverture de {{ $article->titre }}">
                             </div>
                         @endif
                         <div class="article-content">
