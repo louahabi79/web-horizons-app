@@ -30,6 +30,8 @@
     border-radius: 0.5rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .article-header {
@@ -50,14 +52,26 @@
 
 .article-content {
     padding: 1rem;
+    flex: 1;
 }
 
 .article-actions {
     padding: 1rem;
     border-top: 1px solid #e5e7eb;
     display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
+    gap: 0.25rem;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+}
+
+.article-actions button {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+.article-actions form {
+    display: inline-flex;
 }
 
 .status-badge {
