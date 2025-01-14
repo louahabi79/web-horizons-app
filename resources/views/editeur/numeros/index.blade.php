@@ -22,38 +22,74 @@
 }
 
 .numero-card {
-    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 300px; /* ou ajustez selon vos besoins */
+    border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    background: #fff;
 }
 
-.numero-image {
+.numero-card > div {
+    padding: 5px;
+}
+
+.numero-card img.numero-image {
     width: 100%;
-    height: 200px;
-    object-fit: cover;
+    height: 180px; /* Assurez une hauteur fixe pour les images */
+    object-fit: cover; /* Garde les proportions tout en remplissant la zone */
+    background-color: #f0f0f0; /* Couleur de fond par défaut */
 }
 
 .numero-content {
-    padding: 1.5rem;
+    flex-grow: 1; /* Permet au contenu de remplir l'espace vertical */
 }
 
 .numero-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
 
 .numero-meta {
-    font-size: 0.875rem;
-    color: #666;
-    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.status-container {
+    margin-bottom: 10px;
 }
 
 .numero-description {
-    margin-bottom: 1rem;
-    color: #444;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    margin-bottom: 10px;
+    min-height: 60px; /* Fixe une hauteur minimale pour les descriptions */
 }
+
+.numero-stats {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+.numero-actions {
+    margin-top: auto; /* Force les actions à rester en bas */
+    display: flex;
+    gap: 10px;
+}
+
+.numero-actions .btn {
+    flex-grow: 1; /* Uniformise la taille des boutons */
+}
+
+
+
+
+
+
 
 .status-badge {
     display: inline-block;
@@ -178,73 +214,71 @@
 
     <div class="numero-grid">
         @forelse($numeros as $numero)
-            <div class="numero-card">
-                <div style="width: 100%; height: 180px;">
-                    @if($numero->image_couverture)
-                        <img src="{{ asset('storage/' . $numero->image_couverture) }}" 
-                            alt="Couverture {{ $numero->titre_numero }}"
-                            class="numero-image"
-                            >
-                    @endif
+        <div class="numero-card">
+            <div style="width: 100%; height: 180px;">
+                @if($numero->image_couverture)
+                    <img src="{{ asset('storage/' . $numero->image_couverture) }}" 
+                        alt="Couverture {{ $numero->titre_numero }}"
+                        class="numero-image">
+                @endif
+            </div>
+
+            <div class="numero-content">
+                <h2 class="numero-title">{{ $numero->titre_numero }}</h2>
+                
+                <div class="numero-meta">
+                    <span>Édition #{{ $numero->numero_edition }}</span>
+                    <span>•</span>
+                    <span>{{ $numero->date_publication }}</span>
                 </div>
-                
-                
-                <div class="numero-content">
-                    <h2 class="numero-title">{{ $numero->titre_numero }}</h2>
+
+                <div class="status-container">
+                    <div class="publication-status">
+                        <span class="status-badge {{ $numero->is_published ? 'status-publie' : 'status-non-publie' }}">
+                            {{ $numero->is_published ? 'Publié' : 'Non publié' }}
+                        </span>
+                        <span class="visibility-badge visibility-{{ strtolower($numero->visibilite) }}">
+                            {{ $numero->visibilite }}
+                        </span>
+                    </div>
+                </div>
+
+                <p class="numero-description">{{ Str::limit($numero->description, 100) }}</p>
+
+                <div>
+                    <strong>Thème central :</strong> {{ $numero->theme_central }}
+                </div>
+
+                <div class="numero-stats">
+                    <strong>Articles :</strong> {{ $numero->totalArticles() }}
+                    ({{ $numero->publishedArticles()->count() }} publiés)
+                </div>
+
+                <div class="numero-actions">
+                    <a href="{{ route('editeur.numeros.edit', $numero) }}" 
+                    class="btn btn-secondary">Modifier</a>
                     
-                    <div class="numero-meta">
-                        <span>Édition #{{ $numero->numero_edition }}</span>
-                        <span>•</span>
-                        <span>{{ $numero->date_publication }}</span>
-                    </div>
+                    <form action="{{ $numero->is_published ? route('editeur.numeros.unpublish', $numero) : route('editeur.numeros.publish', $numero) }}" 
+                        method="POST" 
+                        style="display: inline;">
+                        @csrf
+                        <button type="submit" class="btn {{ $numero->is_published ? 'btn-warning' : 'btn-success' }}">
+                            {{ $numero->is_published ? 'Dépublier' : 'Publier' }}
+                        </button>
+                    </form>
 
-                    <div class="status-container">
-                        <div class="publication-status">
-                            <span class="status-badge {{ $numero->is_published ? 'status-publie' : 'status-non-publie' }}">
-                                {{ $numero->is_published ? 'Publié' : 'Non publié' }}
-                            </span>
-                            <span class="visibility-badge visibility-{{ strtolower($numero->visibilite) }}">
-                                {{ $numero->visibilite }}
-                            </span>
-                        </div>
-                        
-                    </div>
-
-                    <p class="numero-description">{{ Str::limit($numero->description, 100) }}</p>
-
-                    <div>
-                        <strong>Thème central :</strong> {{ $numero->theme_central }}
-                    </div>
-
-                    <div class="numero-stats">
-                        <strong>Articles :</strong> {{ $numero->totalArticles() }}
-                        ({{ $numero->publishedArticles()->count() }} publiés)
-                    </div>
-
-                    <div class="numero-actions">
-                        <a href="{{ route('editeur.numeros.edit', $numero) }}" 
-                           class="btn btn-secondary">Modifier</a>
-                        
-                        <form action="{{ $numero->is_published ? route('editeur.numeros.unpublish', $numero) : route('editeur.numeros.publish', $numero) }}" 
-                              method="POST" 
-                              style="display: inline;">
-                            @csrf
-                            <button type="submit" class="btn {{ $numero->is_published ? 'btn-warning' : 'btn-success' }}">
-                                {{ $numero->is_published ? 'Dépublier' : 'Publier' }}
-                            </button>
-                        </form>
-
-                        <form action="{{ route('editeur.numeros.toggleVisibility', $numero) }}" 
-                              method="POST" 
-                              style="display: inline;">
-                            @csrf
-                            <button type="submit" class="btn {{ $numero->visibilite === 'Public' ? 'btn-private' : 'btn-public' }}">
-                                {{ $numero->visibilite === 'Public' ? 'Rendre Privé' : 'Rendre Public' }}
-                            </button>
-                        </form>
-                    </div>
+                    <form action="{{ route('editeur.numeros.toggleVisibility', $numero) }}" 
+                        method="POST" 
+                        style="display: inline;">
+                        @csrf
+                        <button type="submit" class="btn {{ $numero->visibilite === 'Public' ? 'btn-private' : 'btn-public' }}">
+                            {{ $numero->visibilite === 'Public' ? 'Rendre Privé' : 'Rendre Public' }}
+                        </button>
+                    </form>
                 </div>
             </div>
+        </div>
+
         @empty
             <div class="empty-state">
                 <p>Aucun numéro disponible.</p>
