@@ -183,7 +183,7 @@
                     </td>
                     <td>{{ $user->created_at->format('d/m/Y') }}</td>
                     <td class="actions-cell">
-                        @if($user->statut === 'actif')
+                        @if($user->statut === 'Actif')
                             <form action="{{ route('editeur.users.block', $user) }}" method="POST">
                                 @csrf
                                 <button type="submit" class="btn btn-block">Bloquer</button>
