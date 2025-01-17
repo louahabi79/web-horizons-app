@@ -59,7 +59,7 @@ class AuthController extends Controller
             return match($user->role) {
                 'Éditeur' => redirect()->route('editeur.dashboard'),
                 'Responsable de thème' => redirect()->route('theme.dashboard'),
-                'Abonné' => redirect()->route('user.dashboard'),
+                'Abonné' => redirect()->route('member.dashboard'),
                 default => redirect()->route('home'),
             };
         }

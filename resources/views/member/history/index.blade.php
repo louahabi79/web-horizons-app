@@ -89,7 +89,7 @@
     </div>
 
     <div class="pagination">
-        {{ $history->links() }}
+        {{ $history->links('vendor.pagination.custom') }}
     </div>
 </div>
 @endsection 
