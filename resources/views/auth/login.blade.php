@@ -1,85 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
+        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Sign In - Tech Horizons</title>
-        <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
-        <link rel="icon" type="image/jpeg" href="{{ asset('favicon.jpeg') }}">
+        <title>Connexion - Tech Horizons</title>
+        <link href="{{ asset('css/auth.css') }}" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     </head>
     <body>
         <div class="auth-container">
-           
-            
-            <div class="auth-right">
-                <div class="auth-form-container">
-                    <h1>Welcome Back</h1>
-                    <p class="auth-subtitle">Please sign in to continue</p>
+            <div class="auth-card">
+                <div class="auth-header">
+                    <a href="/" class="logo">
+                        <span class="logo-icon">⚡</span>
+                        Tech Horizons
+                    </a>
+                    <h1>Connexion</h1>
+                    <p>Bienvenue ! Connectez-vous pour continuer</p>
+                </div>
 
-                    @if ($errors->any())
-                        <div class="auth-errors">
-                            @foreach ($errors->all() as $error)
-                                <p>{{ $error }}</p>
-                            @endforeach
-                        </div>
-                    @endif
+                <form method="POST" action="{{ route('login') }}" class="auth-form">
+                    @csrf
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" 
+                               id="email" 
+                               name="email" 
+                               value="{{ old('email') }}" 
+                               required 
+                               class="form-control @error('email') is-invalid @enderror">
+                        @error('email')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
+                    </div>
 
-                    <form class="auth-form" method="POST" action="{{route('login.submit')}}">
-                        @csrf
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" required 
-                                   placeholder="Enter your email"
-                                   value="{{ old('email') }}">
-                        </div>
+                    <div class="form-group">
+                        <label for="password">Mot de passe</label>
+                        <input type="password" 
+                               id="password" 
+                               name="password" 
+                               required 
+                               class="form-control @error('password') is-invalid @enderror">
+                        @error('password')
+                            <span class="error-message">{{ $message }}</span>
+                        @enderror
+                    </div>
 
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <div class="password-input">
-                                <input type="password" id="password" name="password" required
-                                       placeholder="Enter your password">
-                                <button type="button" class="toggle-password" onclick="togglePassword()">
-                                    <span class="eye-icon">👁️</span>
-                                </button>
-                            </div>
-                        </div>
+                    <div class="form-group remember-me">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="remember" id="remember">
+                            <span>Se souvenir de moi</span>
+                        </label>
+                    </div>
 
-                        <!-- <div class="form-options">
-                            <label class="remember-me">
-                                <input type="checkbox" name="remember">
-                                <span>Remember me</span>
-                            </label>
-                            <a href="#" class="forgot-password">Forgot password?</a>
-                        </div> -->
+                    <button type="submit" class="btn btn-primary">
+                        Se connecter
+                    </button>
+                </form>
 
-                        <button type="submit" class="auth-button">Sign In</button>
-                    </form>
-
-                    <p class="auth-redirect">
-                        Don't have an account? 
-                        <a href="{{route('register')}}">Sign Up</a>
-                    </p>
-                    <p class="auth-redirect">
-                         
-                        <a href="{{route('home')}}">return to home page</a>
+                <div class="auth-footer">
+                    <p>Pas encore de compte ? <a href="{{ route('register') }}">S'inscrire</a></p>
+                    <p class="home-link">
+                        <a href="{{ route('home') }}">
+                            <span>←</span> Retour à l'accueil
+                        </a>
                     </p>
                 </div>
             </div>
         </div>
-
-        <script>
-            function togglePassword() {
-                const passwordInput = document.getElementById('password');
-                const eyeIcon = document.querySelector('.eye-icon');
-                
-                if (passwordInput.type === 'password') {
-                    passwordInput.type = 'text';
-                    eyeIcon.textContent = '👁️‍🗨️';
-                } else {
-                    passwordInput.type = 'password';
-                    eyeIcon.textContent = '👁️';
-                }
-            }
-        </script>
     </body>
 </html>
