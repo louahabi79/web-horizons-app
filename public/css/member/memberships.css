@@ -1,0 +1,73 @@
+.memberships-container {
+    padding: 1rem;
+}
+
+.themes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.theme-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.theme-content {
+    flex-grow: 1;
+}
+
+.theme-content h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
+
+.theme-content p {
+    color: #6b7280;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+.theme-meta {
+    margin-bottom: 1.5rem;
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+.theme-actions {
+    margin-top: auto;
+}
+
+.btn-subscribe, .btn-unsubscribe {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-subscribe {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+}
+
+.btn-subscribe:hover {
+    background: #5b52ff;
+}
+
+.btn-unsubscribe {
+    background: #fee2e2;
+    color: #dc2626;
+    border: 1px solid #dc2626;
+}
+
+.btn-unsubscribe:hover {
+    background: #fecaca;
+} 
