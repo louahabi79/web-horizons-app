@@ -1,84 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
     <title>@yield('title', 'Tech Horizons')</title>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    
+    <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @yield('styles')
-    <link rel="icon" type="image/jpeg" href="{{ asset('favicon.jpeg') }}">
-    <link href="{{ asset('css/layout.css') }}" rel="stylesheet">
 </head>
 <body>
-    <header class="header">
-        <nav class="nav-container">
-            <div class="logo">
-                <a href="/">Tech Horizons</a>
-            </div>
-            
-            <div class="nav-menu">
-                @auth
-                    @if(Auth::user()->role === 'Abonné')
-                    <ul class="nav-links">
-                        <li><a href="{{ route('user.dashboard') }}" class="{{ request()->routeIs('user.dashboard') ? 'active' : '' }}">Dashboard</a></li>
-                        <li><a href="{{ route('user.articles') }}" class="{{ request()->routeIs('user.articles') ? 'active' : '' }}">Articles</a></li>
-                        <li><a href="{{ route('user.propositions') }}" class="{{ request()->routeIs('user.propositions') ? 'active' : '' }}">Propositions</a></li>
-                        <li><a href="{{ route('user.subscriptions') }}" class="{{ request()->routeIs('user.subscriptions') ? 'active' : '' }}">Abonnements</a></li>
-                        <li><a href="{{ route('user.history') }}" class="{{ request()->routeIs('user.history') ? 'active' : '' }}">Historique</a></li>
-                    </ul>
-                    @elseif(Auth::user()->role === 'Responsable de thème')
-                    <ul class="nav-links">
-                        <li><a href="{{ route('theme.dashboard') }}" class="{{ request()->routeIs('theme.dashboard') ? 'active' : '' }}">Dashboard</a></li>
-                        <li><a href="{{ route('theme.articles') }}" class="{{ request()->routeIs('theme.articles') ? 'active' : '' }}">Articles</a></li>
-                        <li><a href="{{ route('theme.subscribers') }}" class="{{ request()->routeIs('theme.subscribers') ? 'active' : '' }}">Abonnés</a></li>
-                        <!-- <li><a href="{{ route('theme.stats') }}" class="{{ request()->routeIs('theme.stats') ? 'active' : '' }}">Statistiques</a></li> -->
-                    </ul>
-                    @elseif(Auth::user()->role === 'Éditeur')
-                    <ul class="nav-links">
-                        <li><a href="{{ route('editeur.dashboard') }}" class="{{ request()->routeIs('editeur.dashboard') ? 'active' : '' }}">Dashboard</a></li>
-                        <li><a href="{{ route('editeur.numeros.index') }}" class="{{ request()->routeIs('editeur.numeros.*') ? 'active' : '' }}">Numéros</a></li>
-                        <li><a href="{{ route('editeur.articles.index') }}" class="{{ request()->routeIs('editeur.articles.*') ? 'active' : '' }}">Articles</a></li>
-                        <li><a href="{{ route('editeur.users.index') }}" class="{{ request()->routeIs('editeur.users.*') ? 'active' : '' }}">Utilisateurs</a></li>
-                    </ul>
-                    @endif
-
-                    <div class="user-menu">
-                        <div class="user-info">
-                            <span class="user-name">{{ Auth::user()->nom }}</span>
-                            <span class="user-role">{{ Auth::user()->role }}</span>
-                        </div>
-                        <form action="{{ route('logout') }}" method="POST" class="logout-form">
+    <div class="app-container">
+        <nav class="main-nav">
+            <div class="nav-container">
+                <div class="logo">
+                    <a href="/">
+                        <span class="logo-icon">⚡</span>
+                        Tech Horizons
+                    </a>
+                </div>
+                <div class="nav-links">
+                    @auth
+                        <a href="{{ route('member.dashboard') }}">Mon Espace</a>
+                        <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                             @csrf
-                            <button type="submit" class="logout-btn">Déconnexion</button>
+                            <button type="submit">Déconnexion</button>
                         </form>
-                    </div>
-                @endauth
+                    @else
+                        <a href="{{ route('login') }}">Connexion</a>
+                        <a href="{{ route('register') }}">Inscription</a>
+                    @endauth
+                </div>
             </div>
-
-            <button class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
         </nav>
-    </header>
 
-    @if(session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
+        <main class="main-content">
+            @yield('content')
+        </main>
 
-    @if(session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
+        <footer class="main-footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>À Propos</h4>
+                    <ul>
+                        <li><a href="">Notre Histoire</a></li>
+                        <li><a href="">L'Équipe</a></li>
+                        <li><a href="">Carrières</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Ressources</h4>
+                    <ul>
+                        <li><a href="">Documentation</a></li>
+                        <li><a href="">Guide de Publication</a></li>
+                        <li><a href="">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:contact@techhorizons.com">Email</a></li>
+                        <li><a href="">Twitter</a></li>
+                        <li><a href="">LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; {{ date('Y') }} Tech Horizons. Tous droits réservés.</p>
+            </div>
+        </footer>
+    </div>
 
-    @yield('content')
-
-    <script src="{{ asset('js/app.js') }}"></script>
     @yield('scripts')
 </body>
 </html> 
