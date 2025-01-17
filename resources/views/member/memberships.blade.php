@@ -20,23 +20,26 @@
                 <div class="theme-content">
                     <h2>{{ $theme->nom_theme }}</h2>
                     <p>{{ $theme->description }}</p>
-                    
                     <div class="theme-meta">
-                        <span class="articles-count">
-                            {{ $theme->articles()->where('statut', 'Publié')->count() }} articles publiés
-                        </span>
+                        <span>{{ $theme->articles_count }} articles</span>
+                        <span>{{ $theme->subscribers_count }} abonnés</span>
                     </div>
                 </div>
-                
                 <div class="theme-actions">
                     @if(in_array($theme->id, $subscribedThemeIds))
-                        <button onclick="toggleSubscription({{ $theme->id }}, false)" 
-                                class="btn-unsubscribe">
+                        <button 
+                            class="btn btn-danger unsubscribe-btn" 
+                            data-theme-id="{{ $theme->id }}"
+                            onclick="unsubscribeFromTheme({{ $theme->id }})"
+                        >
                             Se désabonner
                         </button>
                     @else
-                        <button onclick="toggleSubscription({{ $theme->id }}, true)" 
-                                class="btn-subscribe">
+                        <button 
+                            class="btn btn-primary subscribe-btn" 
+                            data-theme-id="{{ $theme->id }}"
+                            onclick="subscribeToTheme({{ $theme->id }})"
+                        >
                             S'abonner
                         </button>
                     @endif
@@ -45,36 +48,66 @@
         @endforeach
     </div>
 </div>
-
 @endsection
 
 @section('scripts')
 <script>
-function toggleSubscription(themeId, subscribe) {
-    const method = subscribe ? 'POST' : 'DELETE';
-    const message = subscribe ? 'abonner' : 'désabonner';
+function subscribeToTheme(themeId) {
+    fetch(`/member/memberships/${themeId}`, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Mettre à jour l'interface sans recharger la page
+            const button = document.querySelector(`[data-theme-id="${themeId}"]`);
+            button.classList.remove('btn-primary', 'subscribe-btn');
+            button.classList.add('btn-danger', 'unsubscribe-btn');
+            button.textContent = 'Se désabonner';
+            button.onclick = () => unsubscribeFromTheme(themeId);
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Erreur:', error);
+        alert('Une erreur est survenue lors de l\'abonnement');
+    });
+}
+
+function unsubscribeFromTheme(themeId) {
     
-    if (confirm(`Êtes-vous sûr de vouloir vous ${message} de ce thème ?`)) {
         fetch(`/member/memberships/${themeId}`, {
-            method: method,
+            method: 'DELETE',
             headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                'Accept': 'application/json'
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             }
         })
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                location.reload();
+                // Mettre à jour l'interface sans recharger la page
+                const button = document.querySelector(`[data-theme-id="${themeId}"]`);
+                button.classList.remove('btn-danger', 'unsubscribe-btn');
+                button.classList.add('btn-primary', 'subscribe-btn');
+                button.textContent = 'S\'abonner';
+                button.onclick = () => subscribeToTheme(themeId);
             } else {
                 alert(data.message);
             }
         })
         .catch(error => {
-            console.error('Error:', error);
-            alert('Une erreur est survenue');
+            console.error('Erreur:', error);
+            alert('Une erreur est survenue lors du désabonnement');
         });
     }
-}
+
 </script>
 @endsection 
