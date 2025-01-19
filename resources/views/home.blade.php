@@ -33,7 +33,7 @@
                     @else
                         <a href="{{ route('login') }}" class="btn btn-outline">Connexion</a>
                         <a href="{{ route('register') }}" class="btn btn-solid">Inscription</a>
-                    @endauth
+                @endauth
                 </div>
             </div>
         </div>

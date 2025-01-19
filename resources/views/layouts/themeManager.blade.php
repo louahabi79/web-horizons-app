@@ -36,10 +36,7 @@
                     <span class="nav-icon">👥</span>
                     Abonnés
                 </a>
-                <a href="{{ route('theme-manager.moderation.index') }}" class="nav-item {{ request()->routeIs('theme-manager.moderation*') ? 'active' : '' }}">
-                    <span class="nav-icon">👮</span>
-                    Modérateurs
-                </a>
+                
             </nav>
 
             <div class="sidebar-footer">
