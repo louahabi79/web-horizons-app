@@ -28,15 +28,15 @@
                     <span class="nav-icon">📊</span>
                     Dashboard
                 </a>
-                <a href="{{ route('theme-manager.content') }}" class="nav-item {{ request()->routeIs('theme-manager.content*') ? 'active' : '' }}">
+                <a href="{{ route('theme-manager.content.index') }}" class="nav-item {{ request()->routeIs('theme-manager.content*') ? 'active' : '' }}">
                     <span class="nav-icon">📝</span>
                     Articles à Modérer
                 </a>
-                <a href="{{ route('theme-manager.members') }}" class="nav-item {{ request()->routeIs('theme-manager.members*') ? 'active' : '' }}">
+                <a href="{{ route('theme-manager.members.index') }}" class="nav-item {{ request()->routeIs('theme-manager.members*') ? 'active' : '' }}">
                     <span class="nav-icon">👥</span>
                     Abonnés
                 </a>
-                <a href="{{ route('theme-manager.moderation') }}" class="nav-item {{ request()->routeIs('theme-manager.moderation*') ? 'active' : '' }}">
+                <a href="{{ route('theme-manager.moderation.index') }}" class="nav-item {{ request()->routeIs('theme-manager.moderation*') ? 'active' : '' }}">
                     <span class="nav-icon">👮</span>
                     Modérateurs
                 </a>

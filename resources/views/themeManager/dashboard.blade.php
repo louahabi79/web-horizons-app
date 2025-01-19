@@ -55,7 +55,9 @@
                             <h4>{{ $article->titre }}</h4>
                             <p>Par {{ $article->auteur->nom }} - {{ $article->created_at->format('d/m/Y') }}</p>
                         </div>
-                        <!-- -->
+                        <a href="{{ route('theme-manager.content.show', $article) }}" class="btn-review">
+                            Examiner
+                        </a>
                     </div>
                 @empty
                     <p class="no-activity">Aucun article en attente de modération</p>

@@ -14,11 +14,11 @@ use App\Http\Controllers\ThemeManager\ContentController as ThemeManagerContentCo
 use App\Http\Controllers\ThemeManager\MembershipController as ThemeManagerMembershipController;
 use App\Http\Controllers\ThemeManager\ModeratorController;
 
-use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
-use App\Http\Controllers\Admin\IssueController;
-use App\Http\Controllers\Admin\UserManagementController;
-use App\Http\Controllers\Admin\AnalyticsController;
-use App\Http\Controllers\Admin\ArticleManagementController;
+// use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+// use App\Http\Controllers\Admin\IssueController;
+// use App\Http\Controllers\Admin\UserManagementController;
+// use App\Http\Controllers\Admin\AnalyticsController;
+// use App\Http\Controllers\Admin\ArticleManagementController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -69,11 +69,33 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // Theme Manager routes
-    Route::prefix('theme-manager')->name('theme-manager.')->group(function () {
+    Route::prefix('theme-manager')->name('theme-manager.')->middleware(['auth'])->group(function () {
+        // Dashboard
         Route::get('/dashboard', [ThemeManagerDashboardController::class, 'index'])->name('dashboard');
-        Route::get('/content', [ThemeManagerContentController::class, 'index'])->name('content');
-        Route::get('/members', [ThemeManagerMembershipController::class, 'index'])->name('members');
-        Route::get('/moderation', [ModeratorController::class, 'index'])->name('moderation');
+        
+        // Gestion du contenu/articles
+        Route::prefix('content')->name('content.')->group(function () {
+            Route::get('/', [ThemeManagerContentController::class, 'index'])->name('index');
+            Route::get('/show/{article}', [ThemeManagerContentController::class, 'show'])->name('show');
+            Route::post('/accept/{article}', [ThemeManagerContentController::class, 'accept'])->name('accept');
+            Route::post('/reject/{article}', [ThemeManagerContentController::class, 'reject'])->name('reject');
+            Route::post('/propose/{article}', [ThemeManagerContentController::class, 'proposeForPublication'])->name('propose');
+        });
+        
+        // Gestion des abonnés
+        Route::prefix('members')->name('members.')->group(function () {
+            Route::get('/', [ThemeManagerMembershipController::class, 'index'])->name('index');
+            Route::get('/export', [ThemeManagerMembershipController::class, 'export'])->name('export');
+            Route::delete('/{user}', [ThemeManagerMembershipController::class, 'remove'])->name('remove');
+        });
+        
+        // Gestion de la modération
+        Route::prefix('moderation')->name('moderation.')->group(function () {
+            Route::get('/', [ModeratorController::class, 'index'])->name('index');
+            Route::post('/add', [ModeratorController::class, 'add'])->name('add');
+            Route::delete('/{user}', [ModeratorController::class, 'remove'])->name('remove');
+            Route::put('/{user}/status', [ModeratorController::class, 'updateStatus'])->name('update-status');
+        });
     });
 
     // Admin routes
