@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Theme;
+namespace App\Http\Controllers\ThemeManager;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -41,6 +41,6 @@ class DashboardController extends Controller
                 ->get()
         ];
 
-        return view('theme.dashboard', compact('theme', 'stats'));
+        return view('themeManager.dashboard', compact('theme', 'stats'));
     }
 } 

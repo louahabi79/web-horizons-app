@@ -35,7 +35,7 @@ Route::middleware('guest')->group(function () {
     Route::get('/pending', [AuthController::class, 'showPendingPage'])->name('auth.pending');
 });
 
-// Protected routes
+
 Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
