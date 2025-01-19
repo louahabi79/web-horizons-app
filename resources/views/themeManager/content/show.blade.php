@@ -86,6 +86,49 @@
             </div>
         @endif
     </div>
+
+    <div class="conversations-section">
+       <h2>Conversations</h2>
+       
+       <form action="{{ route('theme-manager.moderation.comment', $article) }}" method="POST" class="comment-form">
+           @csrf
+           <div class="form-group">
+               <label for="message">Votre commentaire</label>
+               <textarea name="message" id="message" rows="3" required class="form-control"></textarea>
+           </div>
+           <button type="submit" class="btn-submit">Envoyer</button>
+       </form>
+
+       <div class="conversations-list">
+           @forelse($article->conversations as $message)
+               <div class="conversation-item">
+                   <div class="message-header">
+                       <div class="message-info">
+                           <span class="author">{{ $message->user->nom }}</span>
+                           <span class="date">{{ $message->created_at->format('d/m/Y H:i') }}</span>
+                       </div>
+                       @if(Auth::user()->role === 'Responsable de thème')
+                           <form action="{{ route('theme-manager.moderation.delete-message', $message) }}" 
+                                 method="POST" 
+                                 class="delete-form"
+                                 onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce message ?')">
+                               @csrf
+                               @method('DELETE')
+                               <button type="submit" class="btn-delete">
+                                   <span class="icon">🗑️</span>
+                               </button>
+                           </form>
+                       @endif
+                   </div>
+                   <div class="message-content">
+                       {{ $message->message }}
+                   </div>
+               </div>
+           @empty
+               <p class="no-conversations">Aucune conversation pour le moment</p>
+           @endforelse
+       </div>
+   </div>
 </div>
 
 <!-- Modal de rejet -->

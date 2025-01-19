@@ -92,9 +92,8 @@ Route::middleware(['auth'])->group(function () {
         // Gestion de la modération
         Route::prefix('moderation')->name('moderation.')->group(function () {
             Route::get('/', [ModeratorController::class, 'index'])->name('index');
-            Route::post('/add', [ModeratorController::class, 'add'])->name('add');
-            Route::delete('/{user}', [ModeratorController::class, 'remove'])->name('remove');
-            Route::put('/{user}/status', [ModeratorController::class, 'updateStatus'])->name('update-status');
+            Route::post('/comment/{article}', [ModeratorController::class, 'addComment'])->name('comment');
+            Route::delete('/message/{message}', [ModeratorController::class, 'deleteMessage'])->name('delete-message');
         });
     });
 
