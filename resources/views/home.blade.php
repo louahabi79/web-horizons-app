@@ -20,11 +20,15 @@
                     <a href="#about">À propos</a>
                 </div>
                 <div class="auth-buttons">
-                    @auth
-                        <a href="{{ route('member.dashboard') }}" class="btn btn-outline">Mon Espace</a>
-                        <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                @auth
+                        <a href="{{ match(auth()->user()->role) {
+                            'Éditeur' => route('admin.dashboard'),
+                            'Responsable de thème' => route('theme-manager.dashboard'),
+                            default => route('member.dashboard')
+                        } }}" class="btn dashboard-btn">Dashboard</a>
+                        <form action="{{ route('logout') }}" method="POST" class="logout-form">
                             @csrf
-                            <button type="submit" class="btn btn-text">Déconnexion</button>
+                            <button type="submit" class="btn logout-btn">Logout</button>
                         </form>
                     @else
                         <a href="{{ route('login') }}" class="btn btn-outline">Connexion</a>

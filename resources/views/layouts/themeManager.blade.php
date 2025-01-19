@@ -24,19 +24,19 @@
             </div>
             
             <nav class="sidebar-nav">
-                <a href="{{ route('themeManager.dashboard') }}" class="nav-item {{ request()->routeIs('themeManager.dashboard') ? 'active' : '' }}">
+                <a href="{{ route('theme-manager.dashboard') }}" class="nav-item {{ request()->routeIs('theme-manager.dashboard') ? 'active' : '' }}">
                     <span class="nav-icon">📊</span>
                     Dashboard
                 </a>
-                <a href="{{ route('themeManager.articles') }}" class="nav-item {{ request()->routeIs('themeManager.articles*') ? 'active' : '' }}">
+                <a href="{{ route('theme-manager.content') }}" class="nav-item {{ request()->routeIs('theme-manager.content*') ? 'active' : '' }}">
                     <span class="nav-icon">📝</span>
                     Articles à Modérer
                 </a>
-                <a href="{{ route('themeManager.subscribers') }}" class="nav-item {{ request()->routeIs('themeManager.subscribers*') ? 'active' : '' }}">
+                <a href="{{ route('theme-manager.members') }}" class="nav-item {{ request()->routeIs('theme-manager.members*') ? 'active' : '' }}">
                     <span class="nav-icon">👥</span>
                     Abonnés
                 </a>
-                <a href="{{ route('themeManager.moderators') }}" class="nav-item {{ request()->routeIs('themeManager.moderators*') ? 'active' : '' }}">
+                <a href="{{ route('theme-manager.moderation') }}" class="nav-item {{ request()->routeIs('theme-manager.moderation*') ? 'active' : '' }}">
                     <span class="nav-icon">👮</span>
                     Modérateurs
                 </a>
