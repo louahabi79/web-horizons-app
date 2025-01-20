@@ -36,7 +36,10 @@
                     <span class="nav-icon">🎯</span>
                     Numéros
                 </a>
-                
+                <a href="{{ route('editor.users.index') }}" class="nav-item {{ request()->routeIs('editor.users*') ? 'active' : '' }}">
+                    <span class="nav-icon">👥</span>
+                    Utilisateurs
+                </a>
             </nav>
 
             <div class="sidebar-footer">

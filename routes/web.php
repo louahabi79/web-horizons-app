@@ -127,10 +127,14 @@ Route::middleware(['auth'])->group(function () {
         // Gestion des utilisateurs
         Route::prefix('users')->name('users.')->group(function () {
             Route::get('/', [UserController::class, 'index'])->name('index');
+            Route::get('/pending', [UserController::class, 'pendingRequests'])->name('pending');
+            Route::post('/{user}/approve', [UserController::class, 'approveUser'])->name('approve');
+            Route::post('/{user}/reject', [UserController::class, 'rejectUser'])->name('reject');
             Route::post('/{user}/block', [UserController::class, 'block'])->name('block');
             Route::post('/{user}/unblock', [UserController::class, 'unblock'])->name('unblock');
             Route::post('/{user}/update-role', [UserController::class, 'updateRole'])->name('update-role');
             Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
+            
         });
     });
 });
