@@ -23,15 +23,8 @@
                 </select>
             </div>
 
-            <div class="filter-group">
-                <label for="search">Recherche</label>
-                <input type="text" 
-                       name="search" 
-                       id="search" 
-                       value="{{ request('search') }}" 
-                       placeholder="Rechercher un article..."
-                       class="form-control">
-            </div>
+            <div class="filter-group"></div>
+
 
             <div class="filter-actions">
                 <button type="submit" class="btn-filter">Filtrer</button>
