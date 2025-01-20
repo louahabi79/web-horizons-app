@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\Numero;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
@@ -19,52 +20,18 @@ class ArticleController extends Controller
             ->groupBy('statut');
 
         $numeros = Numero::where('is_published', false)->get();
-        \Log::info('numeros récupérés', ['numeros' => $numeros]);
 
-        return view('editeur.articles.index', compact('articles', 'numeros'));
+        return view('editor.articles.index', compact('articles', 'numeros'));
     }
 
-    public function approve(Article $article)
+    public function show(Article $article)
     {
-        if ($article->statut !== 'Proposé') {
-            return back()->with('error', 'Cet article ne peut pas être approuvé.');
-        }
-
-        $article->update([
-            'statut' => 'Publié',
-            'date_publication' => now()
-        ]);
-
-        return back()->with('success', 'Article approuvé avec succès.');
-    }
-
-    public function reject(Request $request, Article $article)
-    {
-        $request->validate([
-            'motif_rejet' => 'required|string|max:500'
-        ]);
-
-        if ($article->statut !== 'Proposé') {
-            return back()->with('error', 'Cet article ne peut pas être rejeté.');
-        }
-
-        $article->update([
-            'statut' => 'Refusé',
-            'motif_rejet' => $request->motif_rejet
-        ]);
-
-        return back()->with('success', 'Article rejeté.');
+        $article->load(['auteur', 'theme', 'numero','conversations.user']);
+        return view('editor.articles.show', compact('article'));
     }
 
     public function assignToNumero(Request $request, Article $article)
     {
-        \Log::info('Tentative d\'affectation', [
-            'article_id' => $article->id,
-            'numero_id' => $request->numero_id,
-            'statut_actuel' => $article->statut,
-            'request_all' => $request->all()
-        ]);
-
         $validated = $request->validate([
             'numero_id' => 'required|exists:numeros,Id_numero'
         ], [
@@ -72,24 +39,13 @@ class ArticleController extends Controller
             'numero_id.exists' => 'Le numéro sélectionné n\'existe pas'
         ]);
 
-        if ($article->statut !== 'Retenu') {
-            return back()->with('error', 'Seuls les articles retenus peuvent être affectés à un numéro.');
-        }
-
         try {
             $article->update([
                 'numero_id' => $validated['numero_id'],
-                'statut' => 'Publié',
-                'date_publication' => now()
             ]);
 
-            return back()->with('success', 'Article affecté au numéro et publié avec succès.');
+            return back()->with('success', 'Article affecté au numéro avec succès.');
         } catch (\Exception $e) {
-            \Log::error('Erreur lors de l\'affectation', [
-                'error' => $e->getMessage(),
-                'article_id' => $article->id,
-                'numero_id' => $validated['numero_id']
-            ]);
             return back()->with('error', 'Une erreur est survenue lors de l\'affectation de l\'article.');
         }
     }
