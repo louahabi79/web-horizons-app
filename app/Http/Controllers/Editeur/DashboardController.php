@@ -75,6 +75,6 @@ class DashboardController extends Controller
             'abonnements_mois' => Subscription::whereMonth('created_at', now()->month)->count(),
         ];
 
-        return view('editeur.dashboard', compact('stats'));
+        return view('editor.dashboard', compact('stats'));
     }
 } 

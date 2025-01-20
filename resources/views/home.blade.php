@@ -22,7 +22,7 @@
                 <div class="auth-buttons">
                 @auth
                         <a href="{{ match(auth()->user()->role) {
-                            'Éditeur' => route('admin.dashboard'),
+                            'Éditeur' => route('editor.dashboard'),
                             'Responsable de thème' => route('theme-manager.dashboard'),
                             default => route('member.dashboard')
                         } }}" class="btn dashboard-btn">Dashboard</a>

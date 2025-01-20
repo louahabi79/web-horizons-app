@@ -14,11 +14,10 @@ use App\Http\Controllers\ThemeManager\ContentController as ThemeManagerContentCo
 use App\Http\Controllers\ThemeManager\MembershipController as ThemeManagerMembershipController;
 use App\Http\Controllers\ThemeManager\ModeratorController;
 
-// use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
-// use App\Http\Controllers\Admin\IssueController;
-// use App\Http\Controllers\Admin\UserManagementController;
-// use App\Http\Controllers\Admin\AnalyticsController;
-// use App\Http\Controllers\Admin\ArticleManagementController;
+use App\Http\Controllers\editeur\DashboardController as AdminDashboardController;
+use App\Http\Controllers\editeur\NumeroController as EditorIssueController;
+use App\Http\Controllers\editeur\UserController;
+use App\Http\Controllers\editeur\ArticleController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -97,13 +96,42 @@ Route::middleware(['auth'])->group(function () {
         });
     });
 
-    // Admin routes
-    Route::prefix('admin')->name('admin.')->group(function () {
+
+
+    // Editor routes
+    Route::prefix('editor')->name('editor.')->middleware(['auth'])->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
-        Route::resource('issues', IssueController::class);
-        Route::resource('users', UserManagementController::class);
-        Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics');
-        Route::resource('articles', ArticleManagementController::class);
+        
+        // Articles à valider
+        Route::prefix('articles')->name('articles.')->group(function () {
+            Route::get('/', [ArticleController::class, 'index'])->name('index');
+            Route::get('/{article}', [ArticleController::class, 'show'])->name('show');
+            Route::post('/{article}/toggle-status', [ArticleController::class, 'toggleStatus'])->name('toggle-status');
+            Route::post('/{article}/assign-to-numero', [ArticleController::class, 'assignToNumero'])->name('assign-to-numero');
+            Route::delete('/{article}', [ArticleController::class, 'destroy'])->name('destroy');
+        });
+        
+        // Gestion des numéros
+        Route::prefix('issues')->name('issues.')->group(function () {
+            Route::get('/', [EditorIssueController::class, 'index'])->name('index');
+            Route::get('/create', [EditorIssueController::class, 'create'])->name('create');
+            Route::post('/', [EditorIssueController::class, 'store'])->name('store');
+            Route::get('/{numero}/edit', [EditorIssueController::class, 'edit'])->name('edit');
+            Route::put('/{numero}', [EditorIssueController::class, 'update'])->name('update');
+            Route::delete('/{numero}', [EditorIssueController::class, 'destroy'])->name('destroy');
+            Route::post('/{numero}/publish', [EditorIssueController::class, 'publish'])->name('publish');
+            Route::post('/{numero}/unpublish', [EditorIssueController::class, 'unpublish'])->name('unpublish');
+            Route::post('/{numero}/toggle-visibility', [EditorIssueController::class, 'toggleVisibility'])->name('toggle-visibility');
+        });
+        
+        // Gestion des utilisateurs
+        Route::prefix('users')->name('users.')->group(function () {
+            Route::get('/', [UserController::class, 'index'])->name('index');
+            Route::post('/{user}/block', [UserController::class, 'block'])->name('block');
+            Route::post('/{user}/unblock', [UserController::class, 'unblock'])->name('unblock');
+            Route::post('/{user}/update-role', [UserController::class, 'updateRole'])->name('update-role');
+            Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
+        });
     });
 });
 
