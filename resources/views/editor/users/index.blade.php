@@ -34,8 +34,8 @@
                 <label for="status">Filtrer par statut</label>
                 <select name="status" id="status" class="form-control">
                     <option value="">Tous les statuts</option>
-                    <option value="actif" {{ request('status') == 'actif' ? 'selected' : '' }}>Actif</option>
-                    <option value="bloqué" {{ request('status') == 'bloqué' ? 'selected' : '' }}>Bloqué</option>
+                    <option value="Actif" {{ request('status') == 'Actif' ? 'selected' : '' }}>Actif</option>
+                    <option value="Inactif" {{ request('status') == 'Inactif' ? 'selected' : '' }}>Inactif</option>
                 </select>
             </div>
             <div class="form-actions">
@@ -82,7 +82,7 @@
                     </select>
                 </form>
 
-                @if($user->statut === 'actif')
+                @if($user->statut === 'Actif')
                     <form action="{{ route('editor.users.block', $user) }}" method="POST" class="inline">
                         @csrf
                         <button type="submit" class="btn-block">Bloquer</button>
