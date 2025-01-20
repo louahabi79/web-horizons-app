@@ -108,7 +108,7 @@ body {
 }
 
 .btn-primary:hover {
-    background: var(--secondary-color);
+    background: purple;
 }
 
 .dashboard-grid {
