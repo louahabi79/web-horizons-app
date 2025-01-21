@@ -9,37 +9,43 @@
 </head>
 <body>
     <div class="auth-container">
-        <div class="auth-card pending-card">
+        <div class="auth-card">
             <div class="auth-header">
                 <a href="/" class="logo">
-                    <span class="logo-icon">⚡</span>
-                    Tech Horizons
+                    ⚡ Tech Horizons
                 </a>
-                <div class="pending-icon">⏳</div>
-                <h1>Compte en attente</h1>
-                <p>Votre compte est en cours de validation par nos équipes</p>
+                <div class="pending-status">
+                    <div class="pending-icon">⏳</div>
+                    <h1 class="auth-title">Compte en attente</h1>
+                    <p class="auth-subtitle">Votre compte est en cours de validation</p>
+                </div>
             </div>
 
-            <div class="pending-content">
-                <div class="info-box">
-                    <h3>Que se passe-t-il ensuite ?</h3>
-                    <ul>
-                        <li>Notre équipe examine votre demande</li>
-                        <li>Vous recevrez un email de confirmation</li>
-                        <li>Vous pourrez alors accéder à votre espace membre</li>
-                    </ul>
-                </div>
+            <div class="info-box">
+                <h3>Que se passe-t-il maintenant ?</h3>
+                <ul>
+                    <li>Notre équipe examine votre demande d'inscription</li>
+                    <li>Vous recevrez un email dès que votre compte sera validé</li>
+                    <li>Le processus prend généralement moins de 24 heures</li>
+                </ul>
+            </div>
 
-                <div class="contact-info">
-                    <p>Des questions ? Contactez-nous à <a href="mailto:support@techhorizons.com">support@techhorizons.com</a></p>
-                </div>
+            <div class="contact-info">
+                <p>Une question ? Contactez-nous à <a href="mailto:support@gmail.com">support@gmail.com</a></p>
+            </div>
 
-                <form action="{{ route('logout') }}" method="POST" class="logout-form">
-                    @csrf
-                    <button type="submit" class="btn btn-outline">Se déconnecter</button>
-                </form>
+            <form action="{{ route('logout') }}" method="POST" class="logout-form">
+                @csrf
+                <button type="submit" class="btn-secondary">Se déconnecter</button>
+            </form>
+
+            <div class="home-link">
+                <a href="{{ route('home') }}">
+                    <span>←</span> Retour à l'accueil
+                </a>
             </div>
         </div>
     </div>
+
 </body>
-</html> 
+</html>

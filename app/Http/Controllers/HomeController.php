@@ -4,12 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Models\Numero;
+use App\Models\Theme;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public function index()
     {
+        // Récupérer les thèmes avec le nombre d'articles
+        $themes = Theme::withCount(['articles' => function($query) {
+            $query->where('statut', 'Publié');
+        }])->get();
+
         // Récupérer les articles des numéros publiés
         $latestArticles = Article::whereHas('numero', function($query) {
                 return $query->where('is_published', true);
@@ -20,7 +26,7 @@ class HomeController extends Controller
             ->take(3)
             ->get();
 
-        return view('home', compact('latestArticles'));
+        return view('home', compact('latestArticles', 'themes'));
     }
 
     public function showArticle(Article $article)

@@ -29,8 +29,8 @@
                             <button type="submit">Déconnexion</button>
                         </form>
                     @else
-                        <a href="{{ route('login') }}">Connexion</a>
-                        <a href="{{ route('register') }}">Inscription</a>
+                        <a href="{{ route('login') }}" style="background-color: purple; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Connexion</a>
+                        <a href="{{ route('register') }}" style="background-color: purple; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Inscription</a>
                     @endauth
                 </div>
             </div>
