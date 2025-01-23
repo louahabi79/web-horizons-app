@@ -2,12 +2,11 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Member\ContentController;
-use App\Http\Controllers\Member\DashboardController;
-use App\Http\Controllers\Member\MembershipController;
-use App\Http\Controllers\Member\ReadingHistoryController;
-use App\Http\Controllers\Member\SubmissionController;
-use App\Http\Controllers\Member\DiscussionController;
+
+use App\Http\Controllers\Subscriber\DashboardController;
+use App\Http\Controllers\Subscriber\ArticleController;
+use App\Http\Controllers\Subscriber\ReadingHistoryController;
+use App\Http\Controllers\Subscriber\SubscriptionController;
 
 use App\Http\Controllers\ThemeManager\DashboardController as ThemeManagerDashboardController;
 use App\Http\Controllers\ThemeManager\ContentController as ThemeManagerContentController;
@@ -17,7 +16,7 @@ use App\Http\Controllers\ThemeManager\ModeratorController;
 use App\Http\Controllers\editeur\DashboardController as AdminDashboardController;
 use App\Http\Controllers\editeur\NumeroController as EditorIssueController;
 use App\Http\Controllers\editeur\UserController;
-use App\Http\Controllers\editeur\ArticleController;
+// use App\Http\Controllers\editeur\ArticleController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -38,34 +37,31 @@ Route::middleware('guest')->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    // Member routes
-    Route::prefix('member')->name('member.')->group(function () {
+    // abonné routes
+    Route::prefix('subscriber')->name('subscriber.')->middleware(['auth'])->group(function () {
         // Dashboard
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         
-        // Articles/Content
-        Route::get('/articles', [ContentController::class, 'index'])->name('articles');
-        Route::get('/articles/{article}', [ContentController::class, 'show'])->name('articles.show');
-        Route::post('/articles/{article}/rate', [ContentController::class, 'rate'])->name('articles.rate');
+        // Articles
+        Route::get('/articles', [ArticleController::class, 'index'])->name('articles');
+        Route::get('/articles/{article}', [ArticleController::class, 'show'])->name('articles.show');
+        Route::post('/articles/{article}/rate', [ArticleController::class, 'rate'])->name('articles.rate');
         
-        // Submissions
-        Route::get('/submit', [SubmissionController::class, 'create'])->name('submit');
-        Route::post('/submit', [SubmissionController::class, 'store'])->name('submit.store');
-        Route::get('/submissions', [SubmissionController::class, 'index'])->name('submissions');
-        Route::delete('/submissions/{article}', [SubmissionController::class, 'delete'])->name('submissions.delete');
-        
-        // Discussions
-        Route::get('/discussions/{article}', [DiscussionController::class, 'show'])->name('discussions.show');
-        Route::post('/discussions/{article}', [DiscussionController::class, 'store'])->name('discussions.store');
-        
-        // Memberships
-        Route::get('/memberships', [MembershipController::class, 'index'])->name('memberships');
-        Route::post('/memberships/{theme}', [MembershipController::class, 'subscribe'])->name('memberships.subscribe');
-        Route::delete('/memberships/{theme}', [MembershipController::class, 'unsubscribe'])->name('memberships.unsubscribe');
-        
-        // Reading History
+        // Historique de lecture
         Route::get('/history', [ReadingHistoryController::class, 'index'])->name('history');
+        
+        // Abonnements aux thèmes
+        Route::get('/subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions');
+        Route::post('/subscriptions/{theme}', [SubscriptionController::class, 'subscribe'])->name('subscriptions.subscribe');
+        Route::delete('/subscriptions/{theme}', [SubscriptionController::class, 'unsubscribe'])->name('subscriptions.unsubscribe');
     });
+
+
+
+
+
+
+
 
     // Theme Manager routes
     Route::prefix('theme-manager')->name('theme-manager.')->middleware(['auth'])->group(function () {
@@ -110,7 +106,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/{article}/assign-to-numero', [ArticleController::class, 'assignToNumero'])->name('assign-to-numero');
             Route::delete('/{article}', [ArticleController::class, 'destroy'])->name('destroy');
         });
-        
+
         // Gestion des numéros
         Route::prefix('issues')->name('issues.')->group(function () {
             Route::get('/', [EditorIssueController::class, 'index'])->name('index');
@@ -123,7 +119,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/{numero}/unpublish', [EditorIssueController::class, 'unpublish'])->name('unpublish');
             Route::post('/{numero}/toggle-visibility', [EditorIssueController::class, 'toggleVisibility'])->name('toggle-visibility');
         });
-        
+
         // Gestion des utilisateurs
         Route::prefix('users')->name('users.')->group(function () {
             Route::get('/', [UserController::class, 'index'])->name('index');
