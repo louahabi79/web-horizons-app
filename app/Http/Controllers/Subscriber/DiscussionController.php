@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Member;
+namespace App\Http\Controllers\Subscriber;
 
 use App\Http\Controllers\Controller;
 use App\Models\Article;
@@ -16,7 +16,7 @@ class DiscussionController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(20);
 
-        return view('member.discussions.show', [
+        return view('subscriber.discussions.show', [
             'article' => $article,
             'messages' => $messages
         ]);

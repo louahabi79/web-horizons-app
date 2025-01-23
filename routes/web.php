@@ -7,6 +7,8 @@ use App\Http\Controllers\Subscriber\DashboardController;
 use App\Http\Controllers\Subscriber\ArticleController;
 use App\Http\Controllers\Subscriber\ReadingHistoryController;
 use App\Http\Controllers\Subscriber\SubscriptionController;
+use App\Http\Controllers\Subscriber\DiscussionController;
+use App\Http\Controllers\Subscriber\SubmissionController;
 
 use App\Http\Controllers\ThemeManager\DashboardController as ThemeManagerDashboardController;
 use App\Http\Controllers\ThemeManager\ContentController as ThemeManagerContentController;
@@ -46,6 +48,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/articles', [ArticleController::class, 'index'])->name('articles');
         Route::get('/articles/{article}', [ArticleController::class, 'show'])->name('articles.show');
         Route::post('/articles/{article}/rate', [ArticleController::class, 'rate'])->name('articles.rate');
+        Route::post('/articles/{article}/comment', [ArticleController::class, 'comment'])->name('articles.comment');
         
         // Historique de lecture
         Route::get('/history', [ReadingHistoryController::class, 'index'])->name('history');
@@ -54,6 +57,19 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions');
         Route::post('/subscriptions/{theme}', [SubscriptionController::class, 'subscribe'])->name('subscriptions.subscribe');
         Route::delete('/subscriptions/{theme}', [SubscriptionController::class, 'unsubscribe'])->name('subscriptions.unsubscribe');
+
+        // Discussions
+        Route::get('/discussions/{article}', [DiscussionController::class, 'show'])->name('discussions.show');
+        Route::post('/discussions/{article}', [DiscussionController::class, 'store'])->name('discussions.store');
+
+        // Routes pour les propositions d'articles
+        Route::prefix('submissions')->name('submissions.')->group(function () {
+            Route::get('/', [SubmissionController::class, 'index'])->name('index');
+            Route::get('/create', [SubmissionController::class, 'create'])->name('create');
+            Route::post('/', [SubmissionController::class, 'store'])->name('store');
+            Route::get('/{article}', [ArticleController::class, 'show'])->name('show');
+            Route::delete('/{article}', [SubmissionController::class, 'delete'])->name('destroy');
+        });
     });
 
 

@@ -4,6 +4,7 @@
 
 @section('styles')
 <link rel="stylesheet" href="{{ asset('css/subscriber/articles.css') }}">
+<link rel="stylesheet" href="{{ asset('css/subscriber/pagination.css') }}">
 @endsection
 
 @section('page-title', 'Articles')
@@ -58,7 +59,7 @@
                 
                 <div class="article-content">
                     <h3>{{ $article->titre }}</h3>
-                    <p>{{ Str::limit(strip_tags($article->contenu), 150) }}</p>
+                    <p>{{ Str::limit(strip_tags($article->contenu), 30) }}</p>
                     
                     <div class="article-meta">
                         <div class="author-info">
@@ -93,10 +94,10 @@
         @endforelse
     </div>
 
-    @if($articles->hasPages())
+    
         <div class="pagination-wrapper">
             {{ $articles->links('vendor.pagination.custom') }}
         </div>
-    @endif
+    
 </div>
 @endsection 

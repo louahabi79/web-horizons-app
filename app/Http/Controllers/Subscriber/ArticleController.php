@@ -66,4 +66,26 @@ class ArticleController extends Controller
             'similarArticles' => $similarArticles
         ]);
     }
+
+    public function rate(Request $request, Article $article)
+    {
+        $request->validate([
+            'note' => 'required|integer|between:1,5'
+        ]);
+
+        $user = Auth::user();
+        
+        $article->notes()->updateOrCreate(
+            ['user_id' => $user->id],
+            ['note' => $request->note]
+        );
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Note enregistrée',
+            'newAverage' => $article->averageRating()
+        ]);
+    }
+
+    
 } 

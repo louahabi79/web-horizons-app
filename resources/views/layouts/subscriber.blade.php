@@ -38,6 +38,10 @@
                     <i class="fas fa-book-open"></i>
                     <span>Articles</span>
                 </a>
+                <a href="{{ route('subscriber.submissions.index') }}" class="nav-item {{ request()->routeIs('subscriber.propositions*') ? 'active' : '' }}">
+                    <i class="fas fa-book-open"></i>
+                    <span>Proposition</span>
+                </a>
                 <a href="{{ route('subscriber.history') }}" class="nav-item {{ request()->routeIs('subscriber.history') ? 'active' : '' }}">
                     <i class="fas fa-history"></i>
                     <span>Historique</span>
