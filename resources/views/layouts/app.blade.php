@@ -23,7 +23,7 @@
                 </div>
                 <div class="nav-links">
                     @auth
-                        <a href="{{ route('member.dashboard') }}">Mon Espace</a>
+                        <a href="{{ route('subscriber.dashboard') }}">Mon Espace</a>
                         <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                             @csrf
                             <button type="submit">Déconnexion</button>
