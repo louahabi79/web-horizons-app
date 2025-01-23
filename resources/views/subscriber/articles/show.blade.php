@@ -22,7 +22,7 @@
                 </span>
                 <span class="date-badge">
                     <i class="fas fa-calendar"></i>
-                    {{ $article->date_publication->format('d/m/Y') }}
+                    {{ $article->date_publication }}
                 </span>
             </div>
 
