@@ -6,7 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Subscriber\DashboardController;
 use App\Http\Controllers\Subscriber\ArticleController;
 use App\Http\Controllers\Subscriber\ReadingHistoryController;
-use App\Http\Controllers\Subscriber\SubscriptionController;
+use App\Http\Controllers\Subscriber\MembershipController;
 use App\Http\Controllers\Subscriber\DiscussionController;
 use App\Http\Controllers\Subscriber\SubmissionController;
 
@@ -54,9 +54,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/history', [ReadingHistoryController::class, 'index'])->name('history');
         
         // Abonnements aux thèmes
-        Route::get('/subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions');
-        Route::post('/subscriptions/{theme}', [SubscriptionController::class, 'subscribe'])->name('subscriptions.subscribe');
-        Route::delete('/subscriptions/{theme}', [SubscriptionController::class, 'unsubscribe'])->name('subscriptions.unsubscribe');
+        Route::get('/subscriptions', [MembershipController::class, 'index'])->name('subscriptions');
+        Route::post('/subscriptions/{theme}', [MembershipController::class, 'subscribe'])->name('subscriptions.subscribe');
+        Route::delete('/subscriptions/{theme}', [MembershipController::class, 'unsubscribe'])->name('subscriptions.unsubscribe');
 
         // Discussions
         Route::get('/discussions/{article}', [DiscussionController::class, 'show'])->name('discussions.show');

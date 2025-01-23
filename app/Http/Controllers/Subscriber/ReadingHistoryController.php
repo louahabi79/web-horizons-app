@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Member;
+namespace App\Http\Controllers\Subscriber;
 
 use App\Http\Controllers\Controller;
 use App\Models\Theme;
@@ -42,13 +42,13 @@ class ReadingHistoryController extends Controller
 
         // Get paginated history
         $history = $query->orderBy('date_consultation', 'desc')
-            ->paginate(15)
+            ->paginate(10)
             ->withQueryString();
 
         // Get themes for filter dropdown
         $themes = Theme::all();
 
-        return view('member.history.index', [
+        return view('subscriber.history.index', [
             'history' => $history,
             'themes' => $themes
         ]);

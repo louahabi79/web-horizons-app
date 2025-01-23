@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Member;
+namespace App\Http\Controllers\Subscriber;
 
 use App\Http\Controllers\Controller;
 use App\Models\Theme;
@@ -17,7 +17,7 @@ class MembershipController extends Controller
             ->pluck('theme_id')
             ->toArray();
 
-        return view('member.memberships', [
+        return view('subscriber.memberships.index', [
             'themes' => $themes,
             'subscribedThemeIds' => $subscribedThemeIds
         ]);
