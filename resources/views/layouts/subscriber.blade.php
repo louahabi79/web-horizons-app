@@ -25,7 +25,7 @@
                 </div>
                 <div class="user-info">
                     <h3>{{ Auth::user()->prenom }} {{ Auth::user()->nom }}</h3>
-                    <span>Abonné Premium</span>
+                    <span>Abonné</span>
                 </div>
             </div>
 
@@ -42,13 +42,13 @@
                     <i class="fas fa-book-open"></i>
                     <span>Proposition</span>
                 </a>
-                <a href="{{ route('subscriber.history') }}" class="nav-item {{ request()->routeIs('subscriber.history') ? 'active' : '' }}">
-                    <i class="fas fa-history"></i>
-                    <span>Historique</span>
-                </a>
                 <a href="{{ route('subscriber.subscriptions') }}" class="nav-item {{ request()->routeIs('subscriber.subscriptions') ? 'active' : '' }}">
                     <i class="fas fa-star"></i>
                     <span>Abonnements</span>
+                </a>
+                <a href="{{ route('subscriber.history') }}" class="nav-item {{ request()->routeIs('subscriber.history') ? 'active' : '' }}">
+                    <i class="fas fa-history"></i>
+                    <span>Historique</span>
                 </a>
             </nav>
 

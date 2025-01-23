@@ -239,6 +239,50 @@ body {
     color: #DC2626;
 }
 
+/* Style pour le bouton de déconnexion */
+.btn-logout {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--danger-light);
+    border: none;
+    border-radius: 0.75rem;
+    color: var(--danger);
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+
+
+.btn-logout:active {
+    transform: translateY(0);
+}
+
+.btn-logout i {
+    font-size: 1.1rem;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    padding: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Version sombre */
+.dark-mode .btn-logout {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--danger);
+}
+
+.dark-mode .btn-logout:hover {
+    background: var(--danger);
+    color: var(--surface-color);
+}
+
 @media (max-width: 768px) {
     .sidebar {
         transform: translateX(-100%);
