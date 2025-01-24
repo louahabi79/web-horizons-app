@@ -19,7 +19,7 @@
                 <span class="stat-label">Abonnés</span>
             </div>
         </div>
-
+        <br>
         <div class="stat-card">
             <div class="stat-icon">📝</div>
             <div class="stat-info">
@@ -27,7 +27,7 @@
                 <span class="stat-label">Articles en attente</span>
             </div>
         </div>
-
+        <br>
         <div class="stat-card">
             <div class="stat-icon">✅</div>
             <div class="stat-info">
@@ -35,7 +35,7 @@
                 <span class="stat-label">Articles publiés</span>
             </div>
         </div>
-
+        <br>
         <div class="stat-card">
             <div class="stat-icon">👁️</div>
             <div class="stat-info">

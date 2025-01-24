@@ -233,3 +233,30 @@ body {
         display: none;
     }
 } 
+
+
+/* Style pour le bouton de déconnexion */
+.btn-logout {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--danger-light);
+    border: none;
+    border-radius: 0.75rem;
+    color: var(--danger);
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+
+
+.btn-logout:active {
+    transform: translateY(0);
+}
+
+.btn-logout i {
+    font-size: 1.1rem;
+}

@@ -44,6 +44,7 @@
                 </a>
                 
             </nav>
+            <br>
 
             <div class="sidebar-footer">
                 <form action="{{ route('logout') }}" method="POST">
