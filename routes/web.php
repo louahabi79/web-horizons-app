@@ -10,10 +10,15 @@ use App\Http\Controllers\Subscriber\MembershipController;
 use App\Http\Controllers\Subscriber\DiscussionController;
 use App\Http\Controllers\Subscriber\SubmissionController;
 
-use App\Http\Controllers\ThemeManager\DashboardController as ThemeManagerDashboardController;
-use App\Http\Controllers\ThemeManager\ContentController as ThemeManagerContentController;
-use App\Http\Controllers\ThemeManager\MembershipController as ThemeManagerMembershipController;
-use App\Http\Controllers\ThemeManager\ModeratorController;
+// use App\Http\Controllers\ThemeManager\DashboardController as ThemeManagerDashboardController;
+// use App\Http\Controllers\ThemeManager\ContentController as ThemeManagerContentController;
+// use App\Http\Controllers\ThemeManager\MembershipController as ThemeManagerMembershipController;
+// use App\Http\Controllers\ThemeManager\ModeratorController;
+use App\Http\Controllers\Responsable\ContentController as ResponsableContentController;
+use App\Http\Controllers\Responsable\DashboardController as ResponsableDashboardController;
+use App\Http\Controllers\Responsable\MembershipController as ResponsableMembershipController;
+use App\Http\Controllers\Responsable\ModeratorController as ResponsableDiscussionController;
+
 
 use App\Http\Controllers\editeur\DashboardController as AdminDashboardController;
 use App\Http\Controllers\editeur\NumeroController as EditorIssueController;
@@ -80,31 +85,31 @@ Route::middleware(['auth'])->group(function () {
 
 
     // Theme Manager routes
-    Route::prefix('theme-manager')->name('theme-manager.')->middleware(['auth'])->group(function () {
+    Route::prefix('responsable')->name('responsable.')->middleware(['auth'])->group(function () {
         // Dashboard
-        Route::get('/dashboard', [ThemeManagerDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [ResponsableDashboardController::class, 'index'])->name('dashboard');
         
         // Gestion du contenu/articles
         Route::prefix('content')->name('content.')->group(function () {
-            Route::get('/', [ThemeManagerContentController::class, 'index'])->name('index');
-            Route::get('/show/{article}', [ThemeManagerContentController::class, 'show'])->name('show');
-            Route::post('/accept/{article}', [ThemeManagerContentController::class, 'accept'])->name('accept');
-            Route::post('/reject/{article}', [ThemeManagerContentController::class, 'reject'])->name('reject');
-            Route::post('/propose/{article}', [ThemeManagerContentController::class, 'proposeForPublication'])->name('propose');
+            Route::get('/', [ResponsableContentController::class, 'index'])->name('index');
+            Route::get('/show/{article}', [ResponsableContentController::class, 'show'])->name('show');
+            Route::post('/accept/{article}', [ResponsableContentController::class, 'accept'])->name('accept');
+            Route::post('/reject/{article}', [ResponsableContentController::class, 'reject'])->name('reject');
+            Route::post('/propose/{article}', [ResponsableContentController::class, 'proposeForPublication'])->name('propose');
         });
         
         // Gestion des abonnés
         Route::prefix('members')->name('members.')->group(function () {
-            Route::get('/', [ThemeManagerMembershipController::class, 'index'])->name('index');
-            Route::get('/export', [ThemeManagerMembershipController::class, 'export'])->name('export');
-            Route::delete('/{user}', [ThemeManagerMembershipController::class, 'remove'])->name('remove');
+            Route::get('/', [ResponsableMembershipController::class, 'index'])->name('index');
+            Route::get('/export', [ResponsableMembershipController::class, 'export'])->name('export');
+            Route::delete('/{user}', [ResponsableMembershipController::class, 'remove'])->name('remove');
         });
         
         // Gestion de la modération
         Route::prefix('moderation')->name('moderation.')->group(function () {
-            Route::get('/', [ModeratorController::class, 'index'])->name('index');
-            Route::post('/comment/{article}', [ModeratorController::class, 'addComment'])->name('comment');
-            Route::delete('/message/{message}', [ModeratorController::class, 'deleteMessage'])->name('delete-message');
+            Route::get('/', [ResponsableDiscussionController::class, 'index'])->name('index');
+            Route::post('/comment/{article}', [ResponsableDiscussionController::class, 'addComment'])->name('comment');
+            Route::delete('/message/{message}', [ResponsableDiscussionController::class, 'deleteMessage'])->name('delete-message');
         });
     });
 

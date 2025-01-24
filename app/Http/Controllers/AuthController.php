@@ -58,8 +58,8 @@ class AuthController extends Controller
             // Redirection selon le rôle
             return match($user->role) {
                 'Éditeur' => redirect()->route('editor.dashboard'),
-                'Responsable de thème' => redirect()->route('theme-manager.dashboard'),
-                'Abonné' => redirect()->route('member.dashboard'),
+                'Responsable de thème' => redirect()->route('responsable.dashboard'),
+                'Abonné' => redirect()->route('subscriber.dashboard'),
                 default => redirect()->route('home'),
             };
         }

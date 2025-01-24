@@ -23,14 +23,18 @@
                 </div>
                 <div class="nav-links">
                     @auth
-                        <a href="{{ route('subscriber.dashboard') }}">Mon Espace</a>
-                        <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                        <a href="{{ match(auth()->user()->role) {
+                            'Éditeur' => route('editor.dashboard'),
+                            'Responsable de thème' => route('responsable.dashboard'),
+                            default => route('subscriber.dashboard')
+                        } }}" class="btn dashboard-btn">Dashboard</a>
+                        <form action="{{ route('logout') }}" method="POST" class="logout-form">
                             @csrf
-                            <button type="submit">Déconnexion</button>
+                            <button type="submit" class="btn logout-btn">Logout</button>
                         </form>
                     @else
-                        <a href="{{ route('login') }}" style="background-color: purple; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Connexion</a>
-                        <a href="{{ route('register') }}" style="background-color: purple; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">Inscription</a>
+                        <a href="{{route('login')}}" class="btn login-btn">Sign In</a>
+                        <a href="{{route('register')}}" class="btn signup-btn">Get Started</a>
                     @endauth
                 </div>
             </div>
