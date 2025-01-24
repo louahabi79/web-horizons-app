@@ -10,7 +10,8 @@ class Subscription extends Model
     protected $fillable = [
         'date_abonnement',
         'user_id',
-        'theme_id'
+        'theme_id',
+        
     ];
 
     // Subscription belongs to a user

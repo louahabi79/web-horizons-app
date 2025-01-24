@@ -42,10 +42,7 @@
                     <i class="fas fa-users"></i>
                     <span>Abonnés</span>
                 </a>
-                <a href="{{ route('responsable.moderation.index') }}" class="nav-item {{ request()->routeIs('responsable.moderation.*') ? 'active' : '' }}">
-                    <i class="fas fa-comments"></i>
-                    <span>Discussions</span>
-                </a>
+                
             </nav>
 
             <div class="sidebar-footer">

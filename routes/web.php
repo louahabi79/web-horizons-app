@@ -101,13 +101,12 @@ Route::middleware(['auth'])->group(function () {
         // Gestion des abonnés
         Route::prefix('members')->name('members.')->group(function () {
             Route::get('/', [ResponsableMembershipController::class, 'index'])->name('index');
-            Route::get('/export', [ResponsableMembershipController::class, 'export'])->name('export');
             Route::delete('/{user}', [ResponsableMembershipController::class, 'remove'])->name('remove');
         });
         
         // Gestion de la modération
         Route::prefix('moderation')->name('moderation.')->group(function () {
-            Route::get('/', [ResponsableDiscussionController::class, 'index'])->name('index');
+            // Route::get('/', [ResponsableDiscussionController::class, 'index'])->name('index');
             Route::post('/comment/{article}', [ResponsableDiscussionController::class, 'addComment'])->name('comment');
             Route::delete('/message/{message}', [ResponsableDiscussionController::class, 'deleteMessage'])->name('delete-message');
         });
