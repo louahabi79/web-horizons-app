@@ -9,8 +9,8 @@ class ArticleSeeder extends Seeder
     {
         Article::create([
             'user_id' => 1,
-            'titre' => 'Introduction to Laravel', // Titre
-            'contenu' => 'Laravel is a PHP framework...', // Content
+            'titre' => 'Introduction to php', // Titre
+            'contenu' => 'php is a programming language...', // Content
             'date_publication' => now(), // DatePublication
             'date_proposition' => now(), // DatePproposition
             'statut' => 'Publié', // Etat
@@ -22,8 +22,8 @@ class ArticleSeeder extends Seeder
 
         Article::create([
             'user_id' => 2,
-            'titre' => 'Advanced Laravel Techniques',
-            'contenu' => 'In this article, we will explore...',
+            'titre' => 'Advanced php Techniques',
+            'contenu' => ' we will explore php and its advanced techniques...',
             'date_publication' => now(),
             'date_proposition' => now(), // DatePproposition
             'statut' => 'Publié',

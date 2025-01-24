@@ -31,7 +31,7 @@ class UserController extends Controller
                       ->paginate(12)
                       ->withQueryString(); // Garde les paramètres de filtrage dans la pagination
 
-        return view('editor.users.index', compact('users', 'pendingUsers'));
+        return view('admin.users.index', compact('users', 'pendingUsers'));
     }
 
     public function pendingRequests()
@@ -40,7 +40,7 @@ class UserController extends Controller
                      ->orderBy('created_at', 'desc')
                      ->paginate(12);
 
-        return view('editor.users.pending', compact('users'));
+        return view('admin.users.pending', compact('users'));
     }
 
     public function approveUser(User $user)

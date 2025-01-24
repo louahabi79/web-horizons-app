@@ -21,12 +21,12 @@ class NumeroController extends Controller
         $numeros = Numero::with(['articles'])
             ->orderBy('numero_edition', 'desc')
             ->paginate(12);
-        return view('editor.issues.index', compact('numeros'));
+        return view('admin.issues.index', compact('numeros'));
     }
 
     public function create()
     {
-        return view('editor.issues.form');
+        return view('admin.issues.form');
     }
 
     public function store(Request $request)
@@ -49,13 +49,13 @@ class NumeroController extends Controller
         $numero = Numero::create($validated);
 
         return redirect()
-            ->route('editor.issues.index')
+            ->route('admin.issues.index')
             ->with('success', 'Numéro créé avec succès.');
     }
 
     public function edit(Numero $numero)
     {
-        return view('editor.issues.form', compact('numero'));
+        return view('admin.issues.form', compact('numero'));
     }
 
     public function update(Request $request, Numero $numero)
@@ -82,7 +82,7 @@ class NumeroController extends Controller
         $numero->update($validated);
 
         return redirect()
-            ->route('editor.issues.index')
+            ->route('admin.issues.index')
             ->with('success', 'Numéro mis à jour avec succès.');
     }
 
@@ -142,7 +142,7 @@ class NumeroController extends Controller
     public function manageArticles(Numero $numero)
     {
         $articles = $numero->articles()->with(['auteur', 'theme'])->paginate(10);
-        return view('editor.issues.articles', compact('numero', 'articles'));
+        return view('admin.issues.articles', compact('numero', 'articles'));
     }
 
     public function addArticle(Request $request, Numero $numero)

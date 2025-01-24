@@ -1,110 +1,97 @@
 @extends('layouts.editor')
 
-@section('title', 'Gestion des Articles - Éditeur')
+@section('title', 'Articles Proposés - Éditeur')
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('css/editor/articles.css') }}">
+<link href="{{ asset('css/editor/articles.css') }}" rel="stylesheet">
 @endsection
-
-@section('page-title', 'Gestion des Articles')
 
 @section('content')
 <div class="articles-container">
-    <div class="articles-sections">
-        <!-- Articles publiés -->
-        @if($articles['Publié'] ?? null)
-        <section class="articles-section">
-            <h2>Articles publiés</h2>
-            <div class="articles-grid">
-                @foreach($articles['Publié'] as $article)
-                    <div class="article-card">
-                        @if($article->image_couverture)
-                            <div class="article-image">
-                                <img src="{{ asset('storage/' . $article->image_couverture) }}" alt="{{ $article->titre }}">
-                            </div>
-                        @endif
-                        <div class="article-content">
-                            <div class="article-header">
-                                <h3>{{ $article->titre }}</h3>
-                                <span class="theme-badge">{{ $article->theme->nom_theme }}</span>
-                            </div>
-                            <div class="article-meta">
-                                <span>Par {{ $article->auteur->nom }}</span>
-                                <span>{{ $article->created_at->format('d/m/Y') }}</span>
-                            </div>
-                            <div class="article-actions">
-                                <a href="{{ route('editor.articles.show', $article) }}" class="btn-examine">
-                                    <span class="icon">👁️</span>
-                                    Examiner l'article
-                                </a>
-                                <div class="action-group">
-                                    <form action="{{ route('editor.articles.toggle-status', $article) }}" method="POST" class="inline">
-                                        @csrf
-                                        <button type="submit" class="btn-toggle">Désactiver</button>
-                                    </form>
-                                </div>
-                                
-                                @if(!$article->numero_id)
-                                <div class="action-group">
-                                    <form action="{{ route('editor.articles.assign-to-numero', $article) }}" method="POST">
-                                        @csrf
-                                        <select name="numero_id" required class="form-control">
-                                            <option value="">Assigner à un numéro</option>
-                                            @foreach($numeros as $numero)
-                                                <option value="{{ $numero->Id_numero }}">
-                                                    N°{{ $numero->numero_edition }} - {{ $numero->titre_numero }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <button type="submit" class="btn-assign">Assigner</button>
-                                    </form>
-                                </div>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
+    <div class="articles-header">
+        <h1>Articles Proposés</h1>
+        <div class="header-actions">
+            <div class="filters">
+                <select class="filter-select" name="status">
+                    <option value="">Tous les statuts</option>
+                    <option value="Proposé" {{ request('status') == 'Proposé' ? 'selected' : '' }}>Proposés</option>
+                    <option value="Publié" {{ request('status') == 'Publié' ? 'selected' : '' }}>Publiés</option>
+                    <option value="Désactivé" {{ request('status') == 'Désactivé' ? 'selected' : '' }}>Désactivés</option>
+                </select>
             </div>
-        </section>
-        @endif
+        </div>
+    </div>
 
-        <!-- Articles désactivés -->
-        @if($articles['Désactivé'] ?? null)
-        <section class="articles-section">
-            <h2>Articles désactivés</h2>
-            <div class="articles-grid">
-                @foreach($articles['Désactivé'] as $article)
-                    <div class="article-card disabled">
-                        @if($article->image_couverture)
-                            <div class="article-image">
-                                <img src="{{ asset('storage/' . $article->image_couverture) }}" alt="{{ $article->titre }}">
+    <div class="articles-grid">
+        @forelse($articles['Proposé'] ?? [] as $article)
+            <div class="article-card">
+                <div class="article-header">
+                    <div class="article-meta">
+                        <span class="status-badge status-proposé">Proposé</span>
+                        <span class="date">{{ $article->date_proposition_editeur->format('d/m/Y') }}</span>
+                    </div>
+                </div>
+
+                <div class="article-content">
+                    <h3 class="article-title">{{ $article->titre }}</h3>
+                    <p class="article-excerpt">{{ Str::limit($article->contenu, 150) }}</p>
+                    
+                    <div class="article-footer">
+                        <div class="author-info">
+                            <div class="author-avatar">
+                                {{ substr($article->auteur->prenom, 0, 1) }}{{ substr($article->auteur->nom, 0, 1) }}
                             </div>
-                        @endif
-                        <div class="article-content">
-                            <div class="article-header">
-                                <h3>{{ $article->titre }}</h3>
-                                <span class="theme-badge">{{ $article->theme->nom_theme }}</span>
-                            </div>
-                            <div class="article-meta">
-                                <span>Par {{ $article->auteur->nom }}</span>
-                                <span>{{ $article->created_at->format('d/m/Y') }}</span>
-                            </div>
-                            <div class="article-actions">
-                                <a href="{{ route('editor.articles.show', $article) }}" class="btn-examine">
-                                    <span class="icon">👁️</span>
-                                    Examiner l'article
-                                </a>
-                                <form action="{{ route('editor.articles.toggle-status', $article) }}" method="POST" class="inline">
-                                    @csrf
-                                    <button type="submit" class="btn-toggle">Activer</button>
-                                </form>
+                            <div class="author-details">
+                                <span class="author-name">{{ $article->auteur->nom }} {{ $article->auteur->prenom }}</span>
+                                <span class="theme-name">{{ $article->theme->nom }}</span>
                             </div>
                         </div>
                     </div>
-                @endforeach
+                </div>
+
+                <div class="article-actions">
+                    <a href="{{ route('editor.articles.show', $article) }}" class="btn-action">
+                        <i class="fas fa-eye"></i>
+                        Voir l'article
+                    </a>
+                    <form action="{{ route('editor.articles.assign-to-numero', $article) }}" method="POST" class="inline">
+                        @csrf
+                        <select name="numero_id" class="select-numero" required>
+                            <option value="">Sélectionner un numéro</option>
+                            @foreach($numeros as $numero)
+                                <option value="{{ $numero->Id_numero }}">
+                                    {{ $numero->titre_numero }} (#{{ $numero->numero_edition }})
+                                </option>
+                            @endforeach
+                        </select>
+                        <button type="submit" class="btn-action btn-primary">
+                            <i class="fas fa-plus"></i>
+                            Ajouter au numéro
+                        </button>
+                    </form>
+                </div>
             </div>
-        </section>
-        @endif
+        @empty
+            <div class="empty-state">
+                <i class="fas fa-newspaper"></i>
+                <h3>Aucun article proposé</h3>
+                <p>Il n'y a pas d'articles proposés pour le moment.</p>
+            </div>
+        @endforelse
+    </div>
+
+    <div class="section-divider">Articles Publiés</div>
+
+    <div class="articles-grid">
+        @forelse($articles['Publié'] ?? [] as $article)
+            <!-- Similar card structure with published status -->
+        @empty
+            <div class="empty-state">
+                <i class="fas fa-newspaper"></i>
+                <h3>Aucun article publié</h3>
+                <p>Il n'y a pas d'articles publiés pour le moment.</p>
+            </div>
+        @endforelse
     </div>
 </div>
 @endsection 

@@ -19,8 +19,8 @@ class ArticlesTableSeeder extends Seeder
             // Créer 2-3 articles publiés par thème
             for ($i = 1; $i <= rand(2, 3); $i++) {
                 Article::create([
-                    'titre' => "Article $i du thème {$theme->nom_theme}",
-                    'contenu' => "Contenu de l'article $i du thème {$theme->nom_theme}...",
+                    'titre' => "l'Article numero $i du thème {$theme->nom_theme}",
+                    'contenu' => "Contenu de l'article numero $i du thème {$theme->nom_theme}...",
                     'statut' => 'Publié',
                     'date_proposition' => now(),
                     'date_proposition_editeur' => now(),

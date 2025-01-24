@@ -23,7 +23,7 @@ use App\Http\Controllers\Responsable\ModeratorController as ResponsableDiscussio
 use App\Http\Controllers\editeur\DashboardController as AdminDashboardController;
 use App\Http\Controllers\editeur\NumeroController as EditorIssueController;
 use App\Http\Controllers\editeur\UserController;
-// use App\Http\Controllers\editeur\ArticleController;
+use App\Http\Controllers\editeur\ArticleController as EditorArticleController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -120,11 +120,11 @@ Route::middleware(['auth'])->group(function () {
         
         // Articles à valider
         Route::prefix('articles')->name('articles.')->group(function () {
-            Route::get('/', [ArticleController::class, 'index'])->name('index');
-            Route::get('/{article}', [ArticleController::class, 'show'])->name('show');
-            Route::post('/{article}/toggle-status', [ArticleController::class, 'toggleStatus'])->name('toggle-status');
-            Route::post('/{article}/assign-to-numero', [ArticleController::class, 'assignToNumero'])->name('assign-to-numero');
-            Route::delete('/{article}', [ArticleController::class, 'destroy'])->name('destroy');
+            Route::get('/', [EditorArticleController::class, 'index'])->name('index');
+            Route::get('/{article}', [EditorArticleController::class, 'show'])->name('show');
+            Route::post('/{article}/toggle-status', [EditorArticleController::class, 'toggleStatus'])->name('toggle-status');
+            Route::post('/{article}/assign-to-numero', [EditorArticleController::class, 'assignToNumero'])->name('assign-to-numero');
+            Route::delete('/{article}', [EditorArticleController::class, 'destroy'])->name('destroy');
         });
 
         // Gestion des numéros

@@ -3,83 +3,87 @@
 @section('title', 'Demandes en attente - Éditeur')
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('css/editor/users.css') }}">
-@endsection
-
-@section('page-title', 'Demandes d\'inscription en attente')
-
-@section('header-actions')
-<a href="{{ route('editor.users.index') }}" class="btn-back">
-    <span class="icon">←</span>
-    Retour à la liste
-</a>
+<link href="{{ asset('css/editor/users.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
 <div class="users-container">
-    <div class="users-grid">
-        @forelse($users as $user)
-        <div class="user-card pending">
-            <div class="user-header">
-                <div class="user-avatar">
-                    {{ substr($user->prenom, 0, 1) }}{{ substr($user->nom, 0, 1) }}
-                </div>
-                <div class="user-info">
-                    <h3>{{ $user->prenom }} {{ $user->nom }}</h3>
-                    <span class="user-email">{{ $user->email }}</span>
-                </div>
-                <div class="user-status pending">
-                    En attente
-                </div>
-            </div>
-
-            <div class="user-details">
-                <div class="detail-item">
-                    <span class="label">Demandé le</span>
-                    <span class="value">{{ $user->created_at->format('d/m/Y') }}</span>
-                </div>
-                <div class="detail-item">
-                    <span class="label">Rôle souhaité</span>
-                    <span class="value">{{ $user->role }}</span>
-                </div>
-            </div>
-
-            <div class="user-actions">
-                <form action="{{ route('editor.users.update-role', $user) }}" method="POST" class="role-form">
-                    @csrf
-                    <select name="role" class="form-control">
-                        <option value="Abonné" {{ $user->role == 'Abonné' ? 'selected' : '' }}>Abonné</option>
-                        <option value="Responsable de thème" {{ $user->role == 'Responsable de thème' ? 'selected' : '' }}>Responsable de thème</option>
-                    </select>
-                </form>
-
-                <div class="approval-actions">
-                    <form action="{{ route('editor.users.unblock', $user) }}" method="POST" class="inline">
-                        @csrf
-                        <button type="submit" class="btn-approve">Approuver</button>
-                    </form>
-
-                    <form action="{{ route('editor.users.destroy', $user) }}" 
-                          method="POST" 
-                          class="inline"
-                          onsubmit="return confirm('Êtes-vous sûr de vouloir rejeter cette demande ?')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn-reject">Rejeter</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        @empty
-        <div class="no-users">
-            <p>Aucune demande en attente</p>
-            <a href="{{ route('editor.users.index') }}" class="btn-back">Retour à la liste des utilisateurs</a>
-        </div>
-        @endforelse
+    <div class="users-header">
+        <h1>Demandes en attente</h1>
+        <a href="{{ route('editor.users.index') }}" class="btn-secondary">
+            <i class="fas fa-arrow-left"></i>
+            Retour
+        </a>
     </div>
 
-    <div class="pagination">
-        {{ $users->links() }}
+    <div class="users-table-container">
+        <table class="users-table">
+            <thead>
+                <tr>
+                    <th>Utilisateur</th>
+                    <th>Email</th>
+                    <th>Date de demande</th>
+                    <th>Rôle demandé</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($users as $user)
+                    <tr>
+                        <td>
+                            <div class="user-info">
+                                <div class="user-avatar">
+                                    {{ substr($user->prenom, 0, 1) }}{{ substr($user->nom, 0, 1) }}
+                                </div>
+                                <div class="user-details">
+                                    <span class="user-name">{{ $user->nom }} {{ $user->prenom }}</span>
+                                    <span class="user-username">@{{ $user->username }}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->created_at->format('d/m/Y') }}</td>
+                        <td>
+                            <span class="role-badge role-{{ strtolower(str_replace(' ', '-', $user->role_demande)) }}">
+                                {{ $user->role_demande }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="table-actions">
+                                <form action="{{ route('editor.users.approve', $user) }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit" class="btn-icon text-success" title="Approuver">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </form>
+
+                                <form action="{{ route('editor.users.reject', $user) }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit" class="btn-icon text-danger" title="Rejeter"
+                                            onclick="return confirm('Êtes-vous sûr de vouloir rejeter cette demande ?')">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="5">
+                            <div class="empty-state">
+                                <i class="fas fa-check-circle"></i>
+                                <h3>Aucune demande en attente</h3>
+                                <p>Toutes les demandes ont été traitées.</p>
+                            </div>
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+    <div class="pagination-wrapper">
+        {{ $users->links('vendor.pagination.custom') }}
     </div>
 </div>
 @endsection 

@@ -21,13 +21,13 @@ class ArticleController extends Controller
 
         $numeros = Numero::where('is_published', false)->get();
 
-        return view('editor.articles.index', compact('articles', 'numeros'));
+        return view('admin.articles.index', compact('articles', 'numeros'));
     }
 
     public function show(Article $article)
     {
         $article->load(['auteur', 'theme', 'numero','conversations.user']);
-        return view('editor.articles.show', compact('article'));
+        return view('admin.articles.show', compact('article'));
     }
 
     public function assignToNumero(Request $request, Article $article)
