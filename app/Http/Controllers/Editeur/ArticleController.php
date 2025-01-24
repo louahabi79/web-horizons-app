@@ -26,7 +26,7 @@ class ArticleController extends Controller
 
     public function show(Article $article)
     {
-        $article->load(['auteur', 'theme', 'numero','conversations.user']);
+        $article->load(['auteur', 'theme', 'numero', 'conversations.user']);
         return view('admin.articles.show', compact('article'));
     }
 
@@ -64,7 +64,7 @@ class ArticleController extends Controller
             ]);
             $message = 'Article activé avec succès.';
         }
-
+            
         return back()->with('success', $message);
     }
 
