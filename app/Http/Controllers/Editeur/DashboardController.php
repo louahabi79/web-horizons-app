@@ -21,6 +21,11 @@ class DashboardController extends Controller
 
     public function index()
     {
+        $articlesCount = Article::count();
+        $usersCount = User::count();
+        $numerosCount = Numero::count();
+        $isEmpty = $articlesCount === 0 && $usersCount === 0 && $numerosCount === 0;
+
         $stats = [
             'total_abonnes' => User::where('role', 'Abonné')
                                   ->where('statut', 'actif')
@@ -62,7 +67,7 @@ class DashboardController extends Controller
                 ->where('statut', 'Retenu')
                 ->whereNotNull('date_proposition_editeur')
                 ->latest('date_proposition_editeur')
-                ->take(5)
+                ->take(4)
                 ->get(),
             
             // Derniers utilisateurs inscrits
@@ -75,6 +80,6 @@ class DashboardController extends Controller
             'abonnements_mois' => Subscription::whereMonth('created_at', now()->month)->count(),
         ];
 
-        return view('admin.dashboard', compact('stats'));
+        return view('admin.dashboard', compact('stats', 'articlesCount', 'usersCount', 'numerosCount', 'isEmpty'));
     }
 } 

@@ -1,63 +1,69 @@
 @extends('layouts.editor')
 
-@section('title', 'Dashboard - Éditeur')
+@section('title', 'Tableau de bord - Éditeur')
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('css/editor/dashboard.css') }}">
+<link href="{{ asset('css/admin/dashboard.css') }}" rel="stylesheet">
 @endsection
 
 @section('page-title', 'Dashboard')
 
 @section('content')
-<div class="dashboard-grid">
-    <div class="stats-card">
-        <div class="stats-header">
-            <h3>Articles en attente</h3>
-            <span class="icon">📝</span>
-        </div>
-        <div class="stats-content">
-            <span class="stats-value">{{ $stats['articles_proposes'] }}</span>
-            <span class="stats-label">Articles à valider</span>
-        </div>
-        <a href="{{ route('editor.articles.index') }}" class="stats-link">Voir les articles</a>
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h1>Tableau de bord</h1>
     </div>
 
-    <div class="stats-card">
-        <div class="stats-header">
-            <h3>Numéros</h3>
-            <span class="icon">🎯</span>
+    <div class="dashboard-grid">
+        <!-- Exemple de carte -->
+        <div class="dashboard-card">
+            <h2 class="card-title">Articles Proposés</h2>
+            <p class="card-content">Vous avez <b> {{ $articlesCount }} </b> articles proposés en attente de validation.</p>
+            <div class="card-actions">
+                <a href="{{ route('editor.articles.index') }}" class="btn-action">Voir les articles</a>
+            </div>
         </div>
-        <div class="stats-content">
-            <span class="stats-value">{{ $stats['total_numeros'] }}</span>
-            <span class="stats-label">Numéros publiés</span>
+
+        <div class="dashboard-card">
+            <h2 class="card-title">Utilisateurs</h2>
+            <p class="card-content">Vous avez <b>{{ $usersCount }} </b> utilisateurs enregistrés.</p>
+            <div class="card-actions">
+                <a href="{{ route('editor.users.index') }}" class="btn-action">Gérer les utilisateurs</a>
+            </div>
         </div>
-        <a href="{{ route('editor.issues.index') }}" class="stats-link">Gérer les numéros</a>
+
+        <div class="dashboard-card">
+            <h2 class="card-title">Numéros</h2>
+            <p class="card-content">Vous avez <b>{{ $numerosCount }} </b> numéros disponibles.</p>
+            <div class="card-actions">
+                <a href="{{ route('editor.issues.index') }}" class="btn-action">Gérer les numéros</a>
+            </div>
+        </div>
     </div>
 
-    <div class="stats-card">
-        <div class="stats-header">
-            <h3>Articles publiés</h3>
-            <span class="icon">✅</span>
+    @if($isEmpty)
+        <div class="empty-state">
+            <i class="fas fa-chart-line"></i>
+            <h3>Aucune donnée disponible</h3>
+            <p>Commencez par ajouter des articles, des utilisateurs ou des numéros.</p>
         </div>
-        <div class="stats-content">
-            <span class="stats-value">{{ $stats['articles_publies'] }}</span>
-            <span class="stats-label">Total des publications</span>
-        </div>
-    </div>
+    @endif
 </div>
 
 <div class="recent-section">
     <div class="section-header">
         <h2>Articles récemment soumis</h2>
+        <br><br>
         <a href="{{ route('editor.articles.index') }}" class="btn-view-all">Voir tout</a>
     </div>
-
+    <br>
     <div class="articles-grid">
         @forelse($stats['derniers_articles_proposes'] as $article)
             <div class="article-card">
                 @if($article->image_couverture)
                     <div class="article-image">
-                        <img src="{{ asset('storage/' . $article->image_couverture) }}" alt="{{ $article->titre }}">
+                        <img src="{{ asset('storage/' . $article->image_couverture) }}" alt="{{ $article->titre }}"
+                        style="width: 100%; height: auto;">
                     </div>
                 @endif
                 <div class="article-content">
@@ -72,9 +78,11 @@
                         <span>Par {{ $article->auteur->nom }}</span>
                         <span>{{ $article->created_at->format('d/m/Y') }}</span>
                     </div>
-                    <a href="{{ route('editor.articles.show', $article) }}" class="btn-review">
-                        Examiner
-                    </a>
+                    <div class="article-actions">
+                        <a href="{{ route('editor.articles.show', $article) }}" class="btn-action">
+                            Examiner
+                        </a>
+                    </div>
                 </div>
             </div>
         @empty

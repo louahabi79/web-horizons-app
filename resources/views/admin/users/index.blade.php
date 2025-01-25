@@ -4,21 +4,25 @@
 
 @section('styles')
 <link rel="stylesheet" href="{{ asset('css/editor/users.css') }}">
+<link href="{{ asset('css/admin/users.css') }}" rel="stylesheet">
 @endsection
 
 @section('page-title', 'Gestion des Utilisateurs')
 
 @section('header-actions')
-@if($pendingUsers > 0)
-    <a href="{{ route('editor.users.pending') }}" class="btn-pending">
-        <span class="icon">🔔</span>
-        {{ $pendingUsers }} demande(s) en attente
-    </a>
-@endif
+
 @endsection
 
 @section('content')
 <div class="users-container">
+@if($pendingUsers > 0)
+    <a href="{{ route('editor.users.pending') }}" class="btn-pending" style="float:right">
+        <span class="icon">🔔</span>
+        {{ $pendingUsers }} demande(s) en attente
+    </a>
+@endif
+<br>
+
     <div class="filters-section">
         <form action="{{ route('editor.users.index') }}" method="GET" class="filters-form">
             <div class="form-group">

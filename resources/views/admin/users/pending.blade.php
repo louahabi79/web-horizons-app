@@ -3,7 +3,7 @@
 @section('title', 'Demandes en attente - Éditeur')
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('css/editor/users.css') }}">
+<link rel="stylesheet" href="{{ asset('css/admin/users.css') }}">
 @endsection
 
 @section('page-title', 'Demandes d\'inscription en attente')
@@ -17,6 +17,11 @@
 
 @section('content')
 <div class="users-container">
+    <a href="{{ route('editor.users.index') }}" class="btn-back">
+        <span class="icon">←</span>
+        Retour à la liste
+    </a>
+    <br><br>
     <div class="users-grid">
         @forelse($users as $user)
         <div class="user-card pending">

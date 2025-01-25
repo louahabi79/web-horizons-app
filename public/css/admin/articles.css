@@ -16,6 +16,12 @@
     border-radius: 0.5rem;
     overflow: hidden;
     padding: 1rem;
+    transition: transform 0.2s ease;
+}
+
+.article-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add hover effect */
 }
 
 .article-image {
@@ -27,8 +33,8 @@
 }
 
 .article-title {
-    font-size: 1.1rem;
-    font-weight: 600;
+    font-size: 1.2rem; /* Increase title size */
+    font-weight: bold;
     color: var(--text-primary);
     margin-bottom: 0.5rem;
 }
