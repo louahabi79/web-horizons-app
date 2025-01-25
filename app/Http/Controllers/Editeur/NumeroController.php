@@ -36,10 +36,16 @@ class NumeroController extends Controller
             'description' => 'nullable|string',
             'theme_central' => 'nullable|string|max:255',
             'numero_edition' => 'required|integer|unique:numeros,numero_edition',
-            'date_publication' => 'required|date',
+            'date_publication' => 'nullable|date',
             'visibilite' => 'required|in:Public,Privé',
             'image_couverture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
+
+        
+        // Set the current date and time for 'date_publication' if it's not provided
+        if (empty($validated['date_publication'])) {
+            $validated['date_publication'] = now(); // or use Carbon\Carbon::now()
+        }
 
         if ($request->hasFile('image_couverture')) {
             $path = $request->file('image_couverture')->store('numeros', 'public');
@@ -49,7 +55,7 @@ class NumeroController extends Controller
         $numero = Numero::create($validated);
 
         return redirect()
-            ->route('admin.issues.index')
+            ->route('editor.issues.index')
             ->with('success', 'Numéro créé avec succès.');
     }
 
@@ -65,10 +71,15 @@ class NumeroController extends Controller
             'description' => 'nullable|string',
             'theme_central' => 'nullable|string|max:255',
             'numero_edition' => 'required|integer|unique:numeros,numero_edition,' . $numero->Id_numero . ',Id_numero',
-            'date_publication' => 'required|date',
+            'date_publication' => 'nullable|date',
             'visibilite' => 'required|in:Public,Privé',
             'image_couverture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
+
+        // Set the current date and time for 'date_publication' if it's not provided
+        if (empty($validated['date_publication'])) {
+            $validated['date_publication'] = now(); // or use Carbon\Carbon::now()
+        }
 
         if ($request->hasFile('image_couverture')) {
             // Supprimer l'ancienne image si elle existe
@@ -82,7 +93,7 @@ class NumeroController extends Controller
         $numero->update($validated);
 
         return redirect()
-            ->route('admin.issues.index')
+            ->route('editor.issues.index')
             ->with('success', 'Numéro mis à jour avec succès.');
     }
 

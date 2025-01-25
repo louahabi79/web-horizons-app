@@ -3,101 +3,110 @@
 @section('title', 'Gestion des Numéros - Éditeur')
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('css/editor/issues.css') }}">
+<link rel="stylesheet" href="{{ asset('css/admin/issues.css') }}">
 @endsection
 
 @section('page-title', 'Gestion des Numéros')
 
 @section('header-actions')
-<a href="{{ route('editor.issues.create') }}" class="btn-create">
-    <span class="icon">➕</span>
-    Nouveau Numéro
+<a href="{{ route('editor.issues.create') }}" class="btn-primary">
+    <i class="fas fa-plus"></i>
+    Nouveau numéro
 </a>
 @endsection
 
 @section('content')
 <div class="issues-container">
+    <div class="issues-header">
+        <h1>Gestion des Numéros</h1>
+        <a href="{{ route('editor.issues.create') }}" class="btn-primary">
+            <i class="fas fa-plus"></i>
+            Nouveau numéro
+        </a>
+    </div>
+
     <div class="issues-grid">
         @forelse($numeros as $numero)
             <div class="issue-card">
-                <div class="issue-image">
+                <div class="issue-cover">
                     @if($numero->image_couverture)
-                        <img src="{{ asset('storage/' . $numero->image_couverture) }}" alt="{{ $numero->titre_numero }}">
+                        <img src="{{ asset('storage/' . $numero->image_couverture) }}" alt="Couverture {{ $numero->titre_numero }}">
                     @else
-                        <div class="placeholder-image">
-                            <span>{{ $numero->numero_edition }}</span>
+                        <div class="placeholder-cover">
+                            <i class="fas fa-book"></i>
                         </div>
                     @endif
-                    <div class="issue-status {{ $numero->is_published ? 'published' : '' }}">
-                        {{ $numero->is_published ? 'Publié' : 'Non publié' }}
-                    </div>
                 </div>
 
                 <div class="issue-content">
                     <div class="issue-header">
-                        <h3>{{ $numero->titre_numero }}</h3>
-                        <span class="edition-number">N°{{ $numero->numero_edition }}</span>
+                        <h3 class="issue-title">{{ $numero->titre_numero }}</h3>
+                        <span class="issue-number">#{{ $numero->numero_edition }}</span>
                     </div>
-
+                    
+                    <p class="issue-description">{{ Str::limit($numero->description, 120) }}</p>
+                    
                     <div class="issue-meta">
                         <div class="meta-item">
-                            <span class="label">Articles</span>
-                            <span class="value">{{ $numero->articles->count() }}</span>
+                            <i class="fas fa-calendar"></i>
+                            <span>{{ $numero->date_publication->format('d/m/Y') }}</span>
                         </div>
                         <div class="meta-item">
-                            <span class="label">Date de publication</span>
-                            <span class="value">{{ $numero->date_publication->format('d/m/Y') }}</span>
+                            <i class="fas fa-newspaper"></i>
+                            <span>{{ $numero->articles->count() }} articles</span>
                         </div>
                         <div class="meta-item">
-                            <span class="label">Visibilité</span>
-                            <span class="value">{{ $numero->visibilite }}</span>
-                        </div>
-                    </div>
-
-                    <div class="issue-actions">
-                        <div class="primary-actions">
-                            <a href="{{ route('editor.issues.edit', $numero) }}" class="btn-edit">
-                                Modifier
-                            </a>
-                            @if(!$numero->is_published)
-                                <form action="{{ route('editor.issues.publish', $numero) }}" method="POST" class="inline">
-                                    @csrf
-                                    <button type="submit" class="btn-publish">Publier</button>
-                                </form>
-                            @else
-                                <form action="{{ route('editor.issues.unpublish', $numero) }}" method="POST" class="inline">
-                                    @csrf
-                                    <button type="submit" class="btn-unpublish">Dépublier</button>
-                                </form>
-                            @endif
-                        </div>
-
-                        <div class="secondary-actions">
-                            <form action="{{ route('editor.issues.toggle-visibility', $numero) }}" method="POST" class="inline">
-                                @csrf
-                                <button type="submit" class="btn-visibility">
-                                    {{ $numero->visibilite === 'Public' ? 'Rendre privé' : 'Rendre public' }}
-                                </button>
-                            </form>
-
-                            @if($numero->articles->isEmpty())
-                                <form action="{{ route('editor.issues.destroy', $numero) }}" 
-                                      method="POST" 
-                                      class="inline"
-                                      onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce numéro ?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn-delete">Supprimer</button>
-                                </form>
-                            @endif
+                        <i class="fas {{ $numero->visibilite === 'Public' ? 'fa-globe' : ' fa-lock' }}"></i>
+                            <span>{{ $numero->visibilite }} </span>
                         </div>
                     </div>
                 </div>
+
+                <div class="issue-actions">
+                    <div style="display: flex; gap: 10px;">
+                        <a href="{{ route('editor.issues.edit', $numero) }}" class="btn-action">
+                            <i class="fas fa-edit"></i>
+                            Modifier
+                        </a>
+                        @if(!$numero->is_published)
+                            <form action="{{ route('editor.issues.publish', $numero) }}" method="POST" class="inline">
+                                @csrf
+                                <button type="submit" class="btn-publish">Publier</button>
+                            </form>
+                        @else
+                            <form action="{{ route('editor.issues.unpublish', $numero) }}" method="POST" class="inline">
+                                @csrf
+                                <button type="submit" class="btn-unpublish">Dépublier</button>
+                            </form>
+                        @endif
+                    </div>
+                    <form action="{{ route('editor.issues.toggle-visibility', $numero) }}" method="POST" class="inline">
+                        @csrf
+                        <button type="submit" class="btn-action {{ $numero->visibilite === 'Public' ? 'btn-warning' : 'btn-success' }}">
+                            <i class="fas {{ $numero->visibilite === 'Public' ? 'fa-lock' : 'fa-globe' }}"></i>
+                            {{ $numero->visibilite === 'Public' ? 'Rendre privé' : 'Rendre public' }}
+                        </button>
+                    </form>
+
+                    <form action="{{ route('editor.issues.destroy', $numero) }}" method="POST" class="inline" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce numéro ?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn-action btn-danger">
+                            <i class="fas fa-trash"></i>
+                            Supprimer
+                        </button>
+                    </form>
+                </div>
             </div>
         @empty
-            <div class="no-issues">
-                <p>Aucun numéro trouvé</p>
-                <a href="{{ route('editor.issues.create') }}" class="btn-create">Créer un numéro</a>
+            <div class="empty-state">
+                <i class="fas fa-book"></i>
+                <h3>Aucun numéro</h3>
+                <p>Commencez par créer votre premier numéro</p>
+                <a href="{{ route('editor.issues.create') }}" class="btn-primary">
+                    <i class="fas fa-plus"></i>
+                    Créer un numéro
+                </a>
             </div>
         @endforelse
     </div>
