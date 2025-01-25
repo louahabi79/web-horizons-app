@@ -89,6 +89,10 @@
 
             <div class="auth-footer">
                 <p>Déjà inscrit ? <a href="{{ route('login') }}">Se connecter</a></p>
+                <p class="auth-redirect">
+                         
+                         <a href="{{route('home')}}">return to home page</a>
+                     </p>
             </div>
         </div>
     </div>

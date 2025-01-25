@@ -83,11 +83,6 @@ body {
     font-weight: 500;
 }
 
-.nav-links a:hover, 
-.nav-links button:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    transform: translateY(-2px);
-}
 
 /* Footer styles */
 .main-footer {
@@ -155,4 +150,16 @@ body {
     .nav-links {
         display: none;
     }
+}
+
+
+.login-btn , .signup-btn,.dashboard-btn {
+    background-color: rgb(115, 30, 154);
+}
+.login-btn:hover , .signup-btn:hover,.dashboard-btn:hover {
+    background-color: rgb(62, 15, 84);
+}
+
+.logout-btn {
+    background-color: rgb(92, 91, 91);
 }
