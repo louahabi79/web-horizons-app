@@ -53,7 +53,7 @@
 
     @if($article->image_couverture)
         <div class="article-cover">
-            <img src="{{ asset('storage/' . $article->image_couverture) }}" alt="{{ $article->titre }}">
+            <img src="{{ asset('storage/articles/' . $article->image_couverture) }}" alt="{{ $article->titre }}">
         </div>
     @endif
 
@@ -108,7 +108,7 @@
                             <p>{{ Str::limit(strip_tags($similarArticle->contenu), 100) }}</p>
                             <a href="{{ route('subscriber.articles.show', $similarArticle) }}" class="btn-read">
                                 Lire l'article <i class="fas fa-arrow-right"></i>
-                            </a>
+                            </a>http://127.0.0.1:8000/storage/articles/robot.jpg
                         </div>
                     </div>
                 @endforeach

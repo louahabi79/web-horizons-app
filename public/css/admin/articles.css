@@ -27,7 +27,7 @@
 .article-image {
     width: 100%;
     height: 200px;
-    background: url('/images/iot-background.jpg') center/cover;
+    background: url("/images/iot-background.jpg") center/cover;
     border-radius: 0.5rem;
     margin-bottom: 1rem;
 }
@@ -138,4 +138,4 @@
     .articles-grid {
         grid-template-columns: 1fr;
     }
-} 
+}

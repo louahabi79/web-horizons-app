@@ -34,7 +34,7 @@
     align-items: center;
     gap: 0.5rem;
     background: var(--primary-light);
-    color: var(--primary-color);
+    color: white;
     padding: 0.5rem 1rem;
     border-radius: 2rem;
 }
@@ -74,8 +74,9 @@
     padding: 0.5rem;
 }
 
-.star-btn:hover, .star-btn.active {
-    color: #FFC107;
+.star-btn:hover,
+.star-btn.active {
+    color: #ffc107;
     transform: scale(1.2);
 }
 
@@ -168,11 +169,11 @@
 }
 
 .form-control.is-invalid {
-    border-color: #DC2626;
+    border-color: #dc2626;
 }
 
 .invalid-feedback {
-    color: #DC2626;
+    color: #dc2626;
     font-size: 0.875rem;
     margin-top: 0.25rem;
 }
@@ -255,4 +256,4 @@
     .message-card {
         padding: 1rem;
     }
-} 
+}

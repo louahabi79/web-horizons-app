@@ -114,7 +114,8 @@
     gap: 0.75rem;
 }
 
-.theme-badge, .date-badge {
+.theme-badge,
+.date-badge {
     background: rgba(0, 0, 0, 0.75);
     color: white;
     padding: 0.5rem 0.75rem;
@@ -265,4 +266,4 @@
         width: 100%;
         justify-content: space-around;
     }
-} 
+}

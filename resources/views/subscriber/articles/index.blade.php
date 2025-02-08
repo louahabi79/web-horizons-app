@@ -41,7 +41,7 @@
                 <div class="article-header">
                     @if($article->image_couverture)
                         <div class="article-image">
-                            <img src="{{ asset('storage/' . $article->image_couverture) }}" 
+                            <img src="{{ asset('storage/articles/' . $article->image_couverture) }}" 
                                  alt="{{ $article->titre }}">
                         </div>
                     @endif

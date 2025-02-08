@@ -35,9 +35,10 @@
     gap: 1rem;
 }
 
-.theme-badge, .date-badge {
+.theme-badge,
+.date-badge {
     background: var(--primary-light);
-    color: var(--primary-color);
+    color: white;
     padding: 0.5rem 1rem;
     border-radius: 2rem;
     font-size: 0.875rem;
@@ -144,7 +145,8 @@
     margin-bottom: 3rem;
 }
 
-.rating-section, .discussion-section {
+.rating-section,
+.discussion-section {
     background: var(--surface-color);
     padding: 2rem;
     border-radius: 1rem;
@@ -152,7 +154,8 @@
     text-align: center;
 }
 
-.rating-section h3, .discussion-section h3 {
+.rating-section h3,
+.discussion-section h3 {
     font-size: 1.25rem;
     color: var(--text-primary);
     margin-bottom: 1.5rem;
@@ -374,4 +377,4 @@
     .article-actions {
         grid-template-columns: 1fr;
     }
-} 
+}

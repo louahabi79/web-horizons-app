@@ -75,7 +75,7 @@
                         </div>
                     </div>
                     <div class="article-meta">
-                        <span>Par {{ $article->auteur->nom }}</span>
+                        <p>Par {{ $article->auteur->nom }}</p>
                         <span>{{ $article->created_at->format('d/m/Y') }}</span>
                     </div>
                     <div class="article-actions">

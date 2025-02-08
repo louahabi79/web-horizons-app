@@ -26,11 +26,9 @@ class AuthController extends Controller
         // Récupérer l'utilisateur par email
         $user = User::where('email', $request->email)->first();
 
-        // Debug pour voir le rôle de l'utilisateur
-        \Log::info('User role: ' . ($user->role ?? 'no user found'));
 
         // Vérifier si l'utilisateur existe et son statut
-        if (!$user) {
+        if (!$user) { 
             return back()->withErrors([
                 'email' => 'Les identifiants fournis ne correspondent pas à nos enregistrements.',
             ]);
@@ -42,7 +40,7 @@ class AuthController extends Controller
                 ->with('message', 'Votre compte est en attente de validation.');
         }
 
-        if ($user->statut === 'inactif') {
+        if ($user->statut === 'inactif') { 
             return back()->withErrors([
                 'email' => 'Votre compte a été désactivé. Veuillez contacter l\'administrateur.',
             ]);

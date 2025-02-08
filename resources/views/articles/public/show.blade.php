@@ -18,7 +18,7 @@
 
     @if($article->image_couverture)
         <div class="article-cover">
-            <img src="{{ asset('storage/' . $article->image_couverture) }}" 
+            <img src="{{ asset('storage/app/' . $article->image_couverture) }}" 
                  alt="Image de couverture de {{ $article->titre }}"
                  style="width: 100%; height: auto;">
         </div>

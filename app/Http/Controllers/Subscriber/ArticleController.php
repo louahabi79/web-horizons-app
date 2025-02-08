@@ -14,23 +14,26 @@ class ArticleController extends Controller
     {
         $user = Auth::user();
         $selectedTheme = $request->query('theme');
-        
+        $searchedArticle = $request->query('search');
+
         // Récupérer les thèmes auxquels l'utilisateur est abonné
         $subscribedThemes = $user->subscribedThemes;
-        
+
         // Construire la requête des articles
         $articlesQuery = Article::where('statut', 'Publié')
             ->whereIn('theme_id', $subscribedThemes->pluck('id'))
             ->with(['theme', 'auteur'])
             ->latest('date_publication');
-            
+
         // Filtrer par thème si sélectionné
         if ($selectedTheme) {
             $articlesQuery->where('theme_id', $selectedTheme);
+        } else if ($searchedArticle) {
+            $articlesQuery->where('titre', $searchedArticle);
         }
-        
+
         $articles = $articlesQuery->paginate(9);
-        
+
         return view('subscriber.articles.index', [
             'articles' => $articles,
             'subscribedThemes' => $subscribedThemes,
@@ -74,7 +77,7 @@ class ArticleController extends Controller
         ]);
 
         $user = Auth::user();
-        
+
         $article->notes()->updateOrCreate(
             ['user_id' => $user->id],
             ['note' => $request->note]
@@ -86,6 +89,4 @@ class ArticleController extends Controller
             'newAverage' => $article->averageRating()
         ]);
     }
-
-    
-} 
+}

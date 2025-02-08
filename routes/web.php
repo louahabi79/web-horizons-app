@@ -10,10 +10,7 @@ use App\Http\Controllers\Subscriber\MembershipController;
 use App\Http\Controllers\Subscriber\DiscussionController;
 use App\Http\Controllers\Subscriber\SubmissionController;
 
-// use App\Http\Controllers\ThemeManager\DashboardController as ThemeManagerDashboardController;
-// use App\Http\Controllers\ThemeManager\ContentController as ThemeManagerContentController;
-// use App\Http\Controllers\ThemeManager\MembershipController as ThemeManagerMembershipController;
-// use App\Http\Controllers\ThemeManager\ModeratorController;
+
 use App\Http\Controllers\Responsable\ContentController as ResponsableContentController;
 use App\Http\Controllers\Responsable\DashboardController as ResponsableDashboardController;
 use App\Http\Controllers\Responsable\MembershipController as ResponsableMembershipController;
@@ -48,16 +45,16 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('subscriber')->name('subscriber.')->middleware(['auth'])->group(function () {
         // Dashboard
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-        
+
         // Articles
         Route::get('/articles', [ArticleController::class, 'index'])->name('articles');
         Route::get('/articles/{article}', [ArticleController::class, 'show'])->name('articles.show');
         Route::post('/articles/{article}/rate', [ArticleController::class, 'rate'])->name('articles.rate');
         Route::post('/articles/{article}/comment', [ArticleController::class, 'comment'])->name('articles.comment');
-        
+
         // Historique de lecture
         Route::get('/history', [ReadingHistoryController::class, 'index'])->name('history');
-        
+
         // Abonnements aux thèmes
         Route::get('/subscriptions', [MembershipController::class, 'index'])->name('subscriptions');
         Route::post('/subscriptions/{theme}', [MembershipController::class, 'subscribe'])->name('subscriptions.subscribe');
@@ -79,16 +76,11 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-
-
-
-
-
     // Theme Manager routes
     Route::prefix('responsable')->name('responsable.')->middleware(['auth'])->group(function () {
         // Dashboard
         Route::get('/dashboard', [ResponsableDashboardController::class, 'index'])->name('dashboard');
-        
+
         // Gestion du contenu/articles
         Route::prefix('content')->name('content.')->group(function () {
             Route::get('/', [ResponsableContentController::class, 'index'])->name('index');
@@ -97,13 +89,13 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/reject/{article}', [ResponsableContentController::class, 'reject'])->name('reject');
             Route::post('/propose/{article}', [ResponsableContentController::class, 'proposeForPublication'])->name('propose');
         });
-        
+
         // Gestion des abonnés
         Route::prefix('members')->name('members.')->group(function () {
             Route::get('/', [ResponsableMembershipController::class, 'index'])->name('index');
             Route::delete('/{user}', [ResponsableMembershipController::class, 'remove'])->name('remove');
         });
-        
+
         // Gestion de la modération
         Route::prefix('moderation')->name('moderation.')->group(function () {
             // Route::get('/', [ResponsableDiscussionController::class, 'index'])->name('index');
@@ -117,7 +109,7 @@ Route::middleware(['auth'])->group(function () {
     // Editor routes
     Route::prefix('editor')->name('editor.')->middleware(['auth'])->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
-        
+
         // Articles à valider
         Route::prefix('articles')->name('articles.')->group(function () {
             Route::get('/', [EditorArticleController::class, 'index'])->name('index');
@@ -150,19 +142,6 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/{user}/unblock', [UserController::class, 'unblock'])->name('unblock');
             Route::post('/{user}/update-role', [UserController::class, 'updateRole'])->name('update-role');
             Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
-            
         });
     });
 });
-
-
-
-
-?>
-
-
-
-
-
-
-

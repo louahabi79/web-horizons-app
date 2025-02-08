@@ -12,22 +12,22 @@ class UsersTableSeeder extends Seeder
     {
         // Créer un éditeur
         User::create([
-            'nom' => 'admin global',
-            'email' => 'admin@gmail.com',
+            'nom' => 'editeur global',
+            'email' => 'editeur@gmail.com',
             'password' => Hash::make('12345678'),
             'role' => 'Éditeur',
             'date_inscription' => now(),
         ]);
         User::create([
-            'nom' => 'user user',
-            'email' => 'user@gmail.com',
+            'nom' => 'user 1',
+            'email' => 'abonne@gmail.com',
             'password' => Hash::make('12345678'),
             'role' => 'Abonné',
             'date_inscription' => now(),
         ]);
         User::create([
             'nom' => 'Responsable theme',
-            'email' => 'responsable@gmail.com',
+            'email' => 'Responsable1@gmail.com',
             'password' => Hash::make('12345678'),
             'role' => 'Responsable de thème',
             'statut' => 'actif',

@@ -24,20 +24,6 @@
                 </button>
             </form>
 
-            @if(!$article->numero_id && $article->statut === 'Publié')
-            <form action="{{ route('editor.articles.assign-to-numero', $article) }}" method="POST" class="inline">
-                @csrf
-                <select name="numero_id" required class="form-control">
-                    <option value="">Assigner à un numéro</option>
-                    @foreach($numeros as $numero)
-                        <option value="{{ $numero->Id_numero }}">
-                            N°{{ $numero->numero_edition }} - {{ $numero->titre_numero }}
-                        </option>
-                    @endforeach
-                </select>
-                <button type="submit" class="btn-assign">Assigner au numéro</button>
-            </form>
-            @endif
         </div>
     </div>
 

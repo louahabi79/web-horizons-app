@@ -14,7 +14,7 @@ class SubmissionController extends Controller
     public function index()
     {
         $user = Auth::user();
-        
+
         $submissions = $user->articles()
             ->with('theme')
             ->orderBy('date_proposition', 'desc')
@@ -45,6 +45,8 @@ class SubmissionController extends Controller
         $imagePath = null;
         if ($request->hasFile('image_couverture')) {
             $imagePath = $request->file('image_couverture')->store('articles', 'public');
+            $fullPath = storage_path("app/public/articles");
+            chmod($fullPath, 0775);
         }
 
         $article = Article::create([
@@ -61,8 +63,8 @@ class SubmissionController extends Controller
 
         return redirect()
             ->route('subscriber.submissions.index')
-            ->with('success', $request->input('action') === 'draft' 
-                ? 'Article enregistré comme brouillon' 
+            ->with('success', $request->input('action') === 'draft'
+                ? 'Article enregistré comme brouillon'
                 : 'Votre article a été soumis avec succès');
     }
 
@@ -86,4 +88,4 @@ class SubmissionController extends Controller
             'message' => 'Article supprimé avec succès'
         ]);
     }
-} 
+}
